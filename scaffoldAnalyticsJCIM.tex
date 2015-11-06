@@ -1,0 +1,173 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% This is a (brief) model paper using the achemso class
+%% The document class accepts keyval options, which should include
+%% the target journal and optionally the manuscript type.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[journal=jacsat,manuscript=article]{achemso}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Place any additional packages needed here.  Only include packages
+%% which are essential, to avoid problems later. Do NOT use any
+%% packages which require e-TeX (for example etoolbox): the e-TeX
+%% extensions are not currently available on the ACS conversion
+%% servers.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%\usepackage[version=3]{mhchem} % Formula subscripts using \ce{}
+\usepackage[T1]{fontenc}       % Use modern font encodings
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% If issues arise when submitting your manuscript, you may want to
+%% un-comment the next line.  This provides information on the
+%% version of every file you have used.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%\listfiles
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Place any additional macros here.  Please use \newcommand* where
+%% possible, and avoid layout-changing macros (which are not used
+%% when typesetting).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand*\mycommand[1]{\texttt{\emph{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Meta-data block
+%% ---------------
+%% Each author should be given as a separate \author command.
+%%
+%% Corresponding authors should have an e-mail given after the author
+%% name as an \email command. Phone and fax numbers can be given
+%% using \phone and \fax, respectively; this information is optional.
+%%
+%% The affiliation of authors is given after the authors; each
+%% \affiliation command applies to all preceding authors not already
+%% assigned an affiliation.
+%%
+%% The affiliation takes an option argument for the short name.  This
+%% will typically be something like "University of Somewhere".
+%%
+%% The \altaffiliation macro should be used for new address, etc.
+%% On the other hand, \alsoaffiliation is used on a per author basis
+%% when authors are associated with multiple institutions.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\author{Deepak Bandyopadhyay}
+\email{deepak.2.bandyopadhyay@gsk.com}
+\author{Constantine Kreatsoulas}
+\author{Pat G. Brady}
+\author{Joseph Boyer}
+\author{Zangdong He}
+\author{Genaro Scavello Jr.}
+\affiliation[GSK]{GlaxoSmithKline, 1250 S. Collegeville Rd, Collegeville, PA 19426}
+\author{Dac-Trung Nguyen}
+\author{Tyler Peryea}
+\author{Rajarshi Guha}
+\email{guhar@mail.nih.gov}
+\author{Ajit Jadhav}
+\email{ajadhav@mail.nih.gov}
+%\phone{+123 (0)123 4445556}
+%\fax{+123 (0)123 4445557}
+\affiliation[NCATS]{National Center for Advancing Translational Science, 9800 Medical Center Drive, Rockville, MD 20850}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The document title should be given as usual. Some journals require
+%% a running title from the author: this should be supplied as an
+%% optional argument to \title.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title[Scaffold Triage]
+  {Scaffold-Based Analytics: Enabling Hit-to-Lead Decisions by Visualizing Chemical Series Linked Across Large Datasets}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Some journals require a list of abbreviations or keywords to be
+%% supplied. These should be set up here, and will be printed after
+%% the title and author information, if needed.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\abbreviations{IR,NMR,UV}
+%\keywords{American Chemical Society, \LaTeX}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The manuscript does not need to include \maketitle, which is
+%% executed automatically.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The "tocentry" environment can be used to create an entry for the
+%% graphical table of contents. It is given here as some journals
+%% require that it is printed as part of the abstract page. It will
+%% be automatically moved as appropriate.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tocentry}
+
+Some journals require a graphical entry for the Table of Contents.
+This should be laid out ``print ready'' so that the sizing of the
+text is correct.
+
+Inside the \texttt{tocentry} environment, the font used is Helvetica
+8\,pt, as required by \emph{Journal of the American Chemical
+Society}.
+
+The surrounding frame is 9\,cm by 3.5\,cm, which is the maximum
+permitted for  \emph{Journal of the American Chemical Society}
+graphical table of content entries. The box will not resize if the
+content is too big: instead it will overflow the edge of the box.
+
+This box and the associated title will always be printed on a
+separate page at the end of the document.
+
+\end{tocentry}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The abstract environment will automatically gobble the contents
+%% if an abstract is not used by the target journal.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+  We present a method for visualizing and navigating large and diverse chemical spaces, such as screening datasets, along with their activities and properties. Our approach is to annotate the data with all possible scaffolds contained within each molecule using an exhaustive algorithm developed at NCATS.  We have developed a Spotfire visualization that is used to drive the hit triage process. Progression decisions can be made using aggregate scaffold parameters and data from multiple datasets merged at the scaffold level.  This visualization easily reveals overlaps that help prioritize hits, highlight tractable series and posit ways to combine aspects of multiple hits.  The SAR of a large and complex hit is automatically mapped into all constituent scaffolds making it possible to navigate, via any shared scaffold, to all related hits.  This scaffold ``walking'' helps address bias toward a handful of potent and ligand-efficient molecules at the expense of coverage of chemical space. The mapping also automates the laborious process of substructure searches within a dataset as structures are now linked to pre-processed search results.  We compare the NCATS scaffold generation method with published screening triage methods such as nearest-neighbor clustering, data-driven clustering and scaffold networks.  We believe that our Spotfire visualization used in combination with structure annotation provides  a novel view of large and diverse datasets. This allows teams to effortlessly navigate between structurally related molecules and enriches the population of leads considered and progressed in a manner complementary to established approaches.
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Start the main part of the manuscript here.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+
+This is a paragraph of text to be written to introduce the context behind 
+SAR-based triage and the applications thereof.  
+
+\subsection{Related Work}
+The notion of a scaffold is an old one in cheminformatics, and several authors \cite{ScaffoldRefs} have defined it in different ways. The Scaffold Tree\cite{Ertl2011ScaffoldTree} and Scaffold Network\cite{Varin2011ScafNet} define a hierarchical decomposition from more specialized larger scaffolds to more inclusive smaller scaffolds. While the Scaffold Tree splits each larger scaffold in exactly one way into two scaffolds with fewer rings, the Scaffold Network performs an exhaustive decomposition into all possible smaller scaffolds with fewer rings.  Since some subscaffolds are shared with neighboring scaffolds, this produces a network or graph rather than a tree. The Scaffold Network Generator program\cite{Matlock2013SNG} is a fast, easy-to-use public command line implementation of Scaffold Networks that can scale to millions of compounds via aggregation of scaffolds from split datasets and parallel execution. 
+
+To overcome the effect of small variations in heteroatoms (eg. O to S) mapping 
+otherwise similar molecules to different scaffolds, generalized or consolidated scaffold representations have been proposed, such as the Reduced Graph\cite{Barker2003RG}, the Bemis-Murcko scaffold\cite{BemisMurcko1996} and the topological or 2D pharmacophore\cite{Schneider1999ScafHopTP}. Bemis-Murcko like frameworks \cite{Harper2004DDclus} are generalized Bemis-Murcko scaffolds where atom types and/or bond orders may be retained.    
+
+Many methods for scaffold generation and aggregation have been proposed.  \citeauthor{Harper2004DDclus} use exhaustive enumeration to find all Bemis-Murcko like frameworks in each molecule, and then recursively retain those frameworks with highest aggregate activity and remove molecules that contain them until a threshold is met, yielding a set of disjoint frameworks.   Other methods have used multiple common substructure (MCS), first proposed for finding protein structural similarity\cite{Koch1997MCSprot}, for example \citeauthor{Quintus2009MCS} and the ChemAxon product LibraryMCS. 
+
+Multiple scaffolds if present in a dataset can be inferred from the scaffold tree decomposition\cite{ClarkLabute2008SAReport}. However in practice, the thresholds used by \citeauthor{ClarkLabute2008SAReport} miss common scaffolds in HTS-like diverse chemical compound sets. \citeauthor{Bandyopadhyay2011ACS} have used a common fragment decomposition plug-in for SAReport in order to export scaffolds for diverse datasets.   
+
+% clusters
+\section{Results and discussion}
+
+\subsection{References}
+
+
+\begin{acknowledgement}
+
+The GSK authors thank Subhas Chakravorty, Neysa Nevins, Ami Lakdawala Shah, Eric Manas, Todd Graybill, Stan Martens, Mike Ouellette, Tony Jurewicz and Rob Young for valuable feedback and suggestions while developing the method and visualizations.   
+
+\end{acknowledgement}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The same is true for Supporting Information, which should use the
+%% suppinfo environment.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{suppinfo}
+Supplementary material is available online for this article.
+\end{suppinfo}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The appropriate \bibliography command should be placed here.
+%% Notice that the class file automatically sets \bibliographystyle
+%% and also names the section correctly.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{bibliography}
+
+\end{document}
