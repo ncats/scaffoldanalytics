@@ -129,9 +129,11 @@ separate page at the end of the document.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
+The advantage and disadvantage of high throughput screening (HTS) campaigns is the large amount of data that is generated. While the value of large scale HTS has been debated\cite{Macarron:2011qv}, the massive datasets structure-activity datasets generate create a  challenge in identifying truly active compounds and their analogs and weeding out false positives. The process of reducing HTS datasets from hundreds of thousands of compounds to a few thousand or few hundred active series is termed triaging. Over the last twenty years many approaches to HTS triaging have been described which include similarity to known actives, ranges of physicochemical properties\cite{Cox:2012qy}, XXX.
 
-This is a paragraph of text to be written to introduce the context behind 
-SAR-based triage and the applications thereof.  
+One of the key challenges in the triage step is to identify structure-activity series - sets of compounds with similar or analogous structures that exhibit a spectrum of activity. Ideally, such a collection will also contain a number of inactive compounds as well. Identifying such subsets allows one to have some confidence in the presence of a structure-activity relationship amongst the active compounds which enables a more efficient exploration of the chemical space around the selected hits.
+
+The 
 
 \subsection{Related Work}
 The notion of a scaffold is an old one in cheminformatics, and several authors \cite{ScaffoldRefs} have defined it in different ways. The Scaffold Tree\cite{Ertl2011ScaffoldTree} and Scaffold Network\cite{Varin2011ScafNet} define a hierarchical decomposition from more specialized larger scaffolds to more inclusive smaller scaffolds. While the Scaffold Tree splits each larger scaffold in exactly one way into two scaffolds with fewer rings, the Scaffold Network performs an exhaustive decomposition into all possible smaller scaffolds with fewer rings.  Since some subscaffolds are shared with neighboring scaffolds, this produces a network or graph rather than a tree. The Scaffold Network Generator program\cite{Matlock2013SNG} is a fast, easy-to-use public command line implementation of Scaffold Networks that can scale to millions of compounds via aggregation of scaffolds from split datasets and parallel execution. 
