@@ -73,8 +73,8 @@
 %% a running title from the author: this should be supplied as an
 %% optional argument to \title.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title[Scaffold Triage]
-  {Scaffold-Based Analytics: Enabling Hit-to-Lead Decisions by Visualizing Chemical Series Linked Across Large Datasets}
+\title[Scaffold Triage] {Scaffold-Based Analytics: Enabling Hit-to-Lead
+  Decisions by Visualizing Chemical Series Linked Across Large Datasets}  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Some journals require a list of abbreviations or keywords to be
@@ -129,11 +129,11 @@ separate page at the end of the document.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-The advantage and disadvantage of high throughput screening (HTS) campaigns is the large amount of data that is generated. While the value of large scale HTS has been debated\cite{Macarron:2011qv}, the massive datasets structure-activity datasets generate create a  challenge in identifying truly active compounds and their analogs and weeding out false positives. The process of reducing HTS datasets from hundreds of thousands of compounds to a few thousand or few hundred active series is termed triaging. Over the last twenty years many approaches to HTS triaging have been described which include similarity to known actives, ranges of physicochemical properties\cite{Cox:2012qy}, XXX.
+The advantage and disadvantage of high throughput screening (HTS) campaigns is the large amount of data that is generated. While the value of large scale HTS has been debated\cite{Macarron:2011qv}, the massive datasets structure-activity datasets generate create a  challenge in identifying truly active compounds and their analogs and weeding out false positives. The process of reducing HTS datasets from hundreds of thousands of compounds to a few thousand or few hundred active series is termed triaging. Over the last twenty years many approaches to HTS triaging have been described which include activity based thresholds [REF], similarity to known actives, ranges of physicochemical properties\cite{Cox:2012qy} and removal of promiscuous or otherwise undesirable chemotypes \cite{Dahlin:2014fp}. See [REF] for a review of HTS triage approaches.
 
 One of the key challenges in the triage step is to identify structure-activity series - sets of compounds with similar or analogous structures that exhibit a spectrum of activity. Ideally, such a collection will also contain a number of inactive compounds as well. Identifying such subsets allows one to have some confidence in the presence of a structure-activity relationship amongst the active compounds which enables a more efficient exploration of the chemical space around the selected hits.
 
-The 
+Given that a SAR series is, ideally, defined in terms of a core structure along with various decorations, a natural first step in the triage process is 
 
 \subsection{Related Work}
 The notion of a scaffold is an old one in cheminformatics, and several authors \cite{ScaffoldRefs} have defined it in different ways. The Scaffold Tree\cite{Ertl2011ScaffoldTree} and Scaffold Network\cite{Varin2011ScafNet} define a hierarchical decomposition from more specialized larger scaffolds to more inclusive smaller scaffolds. While the Scaffold Tree splits each larger scaffold in exactly one way into two scaffolds with fewer rings, the Scaffold Network performs an exhaustive decomposition into all possible smaller scaffolds with fewer rings.  Since some subscaffolds are shared with neighboring scaffolds, this produces a network or graph rather than a tree. The Scaffold Network Generator program\cite{Matlock2013SNG} is a fast, easy-to-use public command line implementation of Scaffold Networks that can scale to millions of compounds via aggregation of scaffolds from split datasets and parallel execution. 
@@ -141,20 +141,23 @@ The notion of a scaffold is an old one in cheminformatics, and several authors \
 To overcome the effect of small variations in heteroatoms (eg. O to S) mapping 
 otherwise similar molecules to different scaffolds, generalized or consolidated scaffold representations have been proposed, such as the Reduced Graph\cite{Barker2003RG}, the Bemis-Murcko scaffold\cite{BemisMurcko1996} and the topological or 2D pharmacophore\cite{Schneider1999ScafHopTP}. Bemis-Murcko like frameworks \cite{Harper2004DDclus} are generalized Bemis-Murcko scaffolds where atom types and/or bond orders may be retained.    
 
-Many methods for scaffold generation and aggregation have been proposed.  \citeauthor{Harper2004DDclus} use exhaustive enumeration to find all Bemis-Murcko like frameworks in each molecule, and then recursively retain those frameworks with highest aggregate activity and remove molecules that contain them until a threshold is met, yielding a set of disjoint frameworks.   Other methods have used multiple common substructure (MCS), first proposed for finding protein structural similarity\cite{Koch1997MCSprot}, for example \citeauthor{Quintus2009MCS} and the ChemAxon product LibraryMCS. 
+Many methods for scaffold generation and aggregation have been proposed.  \citeauthor{Harper2004DDclus} use exhaustive enumeration to find all Bemis-Murcko like frameworks in each molecule, and then recursively retain those frameworks with highest aggregate activity and remove molecules that contain them until a threshold is met, yielding a set of disjoint frameworks.   Other methods have used multiple common substructure (MCS), first proposed for finding protein structural similarity\cite{Koch1997MCSprot}, for example \cite{Quintus2009MCS} and the ChemAxon product LibraryMCS. 
 
 Multiple scaffolds if present in a dataset can be inferred from the scaffold tree decomposition\cite{ClarkLabute2008SAReport}. However in practice, the thresholds used by \citeauthor{ClarkLabute2008SAReport} miss common scaffolds in HTS-like diverse chemical compound sets. \citeauthor{Bandyopadhyay2011ACS} have used a common fragment decomposition plug-in for SAReport in order to export scaffolds for diverse datasets.   
 
 % clusters
-\section{Results and discussion}
+\section{Results}
 
-\subsection{References}
+\section{Discussion}
+\label{sec:discussion}
+
 
 
 \begin{acknowledgement}
-
-The GSK authors thank Subhas Chakravorty, Neysa Nevins, Ami Lakdawala Shah, Eric Manas, Todd Graybill, Stan Martens, Mike Ouellette, Tony Jurewicz and Rob Young for valuable feedback and suggestions while developing the method and visualizations.   
-
+  The GSK authors thank Subhas Chakravorty, Neysa Nevins, Ami Lakdawala Shah,
+  Eric Manas, Todd Graybill, Stan Martens, Mike Ouellette, Tony Jurewicz and Rob
+  Young for valuable feedback and suggestions while developing the method and
+  visualizations.
 \end{acknowledgement}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
