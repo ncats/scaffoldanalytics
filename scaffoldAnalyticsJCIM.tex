@@ -132,7 +132,7 @@ separate page at the end of the document.
 The advantage and disadvantage of high throughput screening (HTS) campaigns is
 the large amount of data that is generated. While the value of large scale HTS
 has been debated\cite{Macarron:2011qv}, the massive structure-activity
-datasets generate create a challenge in identifying truly active compounds and
+datasets generated create a challenge in identifying truly active compounds and
 their analogs and weeding out false positives. The process of reducing HTS
 datasets from hundreds of thousands of compounds to a few thousand or few
 hundred active series is termed triaging. Over the last twenty years many
@@ -150,7 +150,7 @@ spectrum of activity. Ideally, such a collection will also contain a number of
 inactive compounds as well. Identifying such subsets allows one to have some
 confidence in the presence of a structure-activity relationship amongst the
 active compounds which enables a more efficient exploration of the chemical
-space around the selected hits.
+space around the selected hits. A good review of computational methods to extract SAR from screening datasets can be found in \citeauthor{Wawer2010review}. 
 
 Given that a SAR series is, ideally, defined in terms of a core structure along
 with various decorations, a natural first step in the triage process is to
@@ -215,7 +215,9 @@ tree decomposition\cite{ClarkLabute2008SAReport}. However in practice, the
 thresholds used by \citeauthor{ClarkLabute2008SAReport} miss common scaffolds in
 HTS-like diverse chemical compound sets. \citeauthor{Bandyopadhyay2011ACS} have
 used a common fragment decomposition plug-in for SAReport in order to export
-scaffolds for diverse datasets.
+scaffolds for diverse datasets.  This approach still assigns only one scaffold for each molecule, in the order selected by the user from a prioritized list.   
+
+Next, we describe several methods we have assembled as part of our workflow that enables multiple scaffolds to be assigned to each molecule and easy navigation between molecules related by these scaffolds. 
 
 \section{Methods}
 \label{sec:methods}
@@ -225,6 +227,8 @@ scaffolds for diverse datasets.
 \item Linking R-group tool to Spotfire
 \item Developing the Spotfire vis UI
 \end{itemize}
+
+
 
 \subsection{Datasets}
 \label{sec:datasets}
