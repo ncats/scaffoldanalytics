@@ -308,7 +308,7 @@ The ID Map file has two columns, mapping a Molecule ID from the primary dataset 
 
 Next, we describe how tabular scaffold output generated using the NCATS R-group tool and other comparable methods is integrated into Spotfire, our visualization tool of choice at GSK.
 
-\subsection{Data Table Generation}
+\subsection{Data Table Generation and Linking}
 
 \fref{detaildevil} shows how the data tables output by the scaffold generation methods we have considered are layered onto the primary data table in Spotfire. This primary data table is usually a direct import of tabular molecule and activity data generated at GSK or available from public datasets. What gets added is by and large similar, following the framework ``Molecule --> Scaffold --> Related Molecules'' shown in the figure. For each Molecule in the dataset, we connect it to every Scaffold/Framework/Cluster it contains, and then to every other molecule containing any of these Scaffolds/Frameworks/Clusters. Slight differences for each individual method are detailed below. 
 
@@ -326,6 +326,30 @@ Next, we describe how tabular scaffold output generated using the NCATS R-group 
 \item $RGdecomp(2).Scaffold\_ID = Scaffolds.Scaffold\_ID$
 \item $Scaffolds.Scaffold\_ID = RGdecomp.Scaffold\_ID$
 \end{itemize}   
+
+{\bf Scaffold-Network Generator} adds several additional layers of complexity to the preceding methods. The Molecule ID in the primary dataset is linked only to the Top-Level Scaffold ID in the ID Map file; there exists no reverse mapping from subscaffolds with fewer rings deep within the network to related Molecule IDs. Thus we create one by assuming one wants to explore at most three levels deeper than the top level scaffold, but not connect to other molecules that share only a single ring (rather than a larger system of two or more rings) with the parent molecule. Thus we add six (three in each direction) copies of the Scaffold Network table, two of the ID Map table, and two of the primary data table, connecting them using the following logic:
+\begin{itemize}
+\item In the three Forward instances of the Network table, the Scaffold to Subscaffold Mapping already exists. Modify it by truncating (assigning a null subscaffold) when the number of rings is 2 or 1. 
+\subitem Define a new column that maps a null subscaffold to the same scaffold, to be able to follow the link to downstream tables without diving deeper.
+\item In the three Reverse instances of the Network table, the Subscaffold to Superscaffold mapping needs to be defined by inverting the provided mapping. Thus:
+\subitem \textbf{When I'm able to open Spotfire I'll fill in the intricacies here to a reproducible level}
+\item The Table Relations are then set up as follows to link Molecules to Related Molecules in the scaffold network:    
+\subitem $Main.Molecule\_ID = ID\_Map(2).Molecule\_ID$
+\subitem $ID\_Map.Top\_Level\_Scaffold = NetworkDown(3).Scaffold$
+\subitem $NetworkDown(3).SubScaffold = NetworkDown(2).Scaffold$
+\subitem $NetworkDown(2).SubScaffold = NetworkDown.Scaffold$
+\subitem $NetworkDown.Scaffold = NetworkUp.SubScaffold$
+\subitem $NetworkUp.Scaffold = NetworkUp(2).SubScaffold$
+\subitem $NetworkUp(2).Scaffold = NetworkUp(3).SubScaffold$
+\subitem $NetworkUp(3).Scaffold = ID\_Map.Top\_Level\_Scaffold$
+\subitem $ID\_Map.Molecule\_ID = Related Molecules(Copy~of~Main).Molecule\_ID$ 
+\end{itemize}   
+
+We would like to emphasize that the above is one possible engineering solution we found for the problem of linking molecules to related molecules in Spotfire.  Several other solutions have been explored by our colleagues, which include: duplicating columns rather than tables; joining and merging all data into one giant table rather than maintaining multiple linked tables; linking up molecules directly to lists of other molecules in a preprocess that happens outside Spotfire (\eg in a script that integrates the data); and using various add-ins for Spotfire such as the SAR Toolkit{\bf RefBravi} and Discngine {\bf RefDiscngine}.
+ 
+\subsection{Visualization of Molecules, Scaffolds and Related Molecules}
+
+Here we aim to provide one possible minimal and semi-intuitive interface for exploring the network of molecules, the scaffolds they contain and related molecules that contain the same scaffolds. Other visualizations are definitely possible, and in previous iterations of this work we have explored both Box Plots and Cross Tables to summarize the properties of each scaffold beyond the summaries produced by the R-Group Tool -- for example, to explore minimum, maximum, median, most frequent or all values of a field for a particular scaffold.  
 
 
 
