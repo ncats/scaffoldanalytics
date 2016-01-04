@@ -349,11 +349,31 @@ We would like to emphasize that the above is one possible engineering solution w
  
 \subsection{Visualization of Molecules, Scaffolds and Related Molecules}
 
-Here we aim to provide one possible minimal and semi-intuitive interface for exploring the network of molecules, the scaffolds they contain and related molecules that contain the same scaffolds. Other visualizations are definitely possible, and in previous iterations of this work we have explored both Box Plots and Cross Tables to summarize the properties of each scaffold beyond the summaries produced by the R-Group Tool -- for example, to explore minimum, maximum, median, most frequent or all values of a field for a particular scaffold.  
+Here we aim to provide one possible minimal and semi-intuitive interface for exploring the network of molecules, the scaffolds they contain and related molecules that contain the same scaffolds. This minimal set consists of the following:
+\begin{itemize}
+\item {\bf Main Window}: Views defined that allow one to explore the Primary Data Table (with no scaffold information) in the most useful way for each dataset.  The the canonical example, key activity, selectivity, ligand efficiency and molecular properties may be highlighted on the X, Y, shape, size and color axes on a scatter plot. The main window is illustrated for the TCAMS dataset in \fref{spotviz}(a).
+\item {\bf Scaffolds and R-groups Tab}: This tab, currently specific to the NCATS R-group tool method for generating scaffolds, contains two visualizations, as illustrated for the TCAMS dataset in \fref{spotviz}(b):  
+\subitem The first is a scatter plot display of the Scaffolds table, most commonly with Complexity and Count on the axes and sized by aggregate activity of each scaffold.  Here scaffolds of lesser interest (for example with low complexity or count) can be identified and tagged to remove them from the analysis. Conversely, scaffolds of high interest, for example with many active members or high aggregate ligand efficiency, may be tagged into separate categories.
+\subitem The second plot is an R-group table, \ie a Table view of the {RG}decomp table limited to data records that have been marked, \ie molecules that lie in scaffolds currently marked. The table is sorted first by scaffold and then by primary activity, and molecular fields such as Scaffold SMILES, Molecule SMILES and R-groups $R\_1..R\_n$ are rendered using an appropriate depiction package - at GSK this is {JChem}.  This table may be exported to Excel as an on-the-fly R-group table of the scaffolds of interest.
+\item {\bf Related Molecules Tab}: The purpose of this tab is to implement the Scaffold Walking navigation described briefly earlier.  The setup is described for the NCATS R-group Tool decomposition, though this tab applies to and can be set up analogously for any of the other decompositions. The tab consists of two visualizations, illustrated for the TCAMS dataset in \fref{spotviz}(c-d):
+\subitem The first one is a miniature version of the Main tab, allowing the user to select molecules of interest without flipping over to the Main tab. Doing so drives one of the following two visualizations.
+\subitem {\bf Scaffold Trellis}: Visualization on the {RG}decomp table with data limited by the Marking, to only show molecules from the scaffolds the current molecule contains, \ie Related Molecules.  This scatter plot is trellised by Scaffold ID and ideally displays the same properties on the axes as the Main visualization above it.  The trellis allows us to break up the SAR for each constituent scaffold individually, identifying promising scaffolds and substituting unproductive ones as we will describe in the Discussion. The trellis visualization suffers from one redundancy that may be seen in \fref{spotviz}(c): the same molecule occurs in multiple trellis panels and the only way to link them is by X and Y coordinates, by observing groups of points that are laid out similarly across multiple trellis panels.  Though some of our users still prefer this approach, we now describe a newer solution that better leverages Spotfire's capabilities. 
+\subitem {\bf Scaffold Pies}: Visualization on the {RG}decomp table with data limited by the Marking, to display Related Molecules as explained above. Instead of using a trellis, the Marker shape is changed to Pies, with Colors (which map to pie sectors) by Scaffold ID, and sectors sized by the Count of molecules in each scaffold.  The setup is illustrated in \fref{spotviz}(d). This plot shows only one point per related molecule but one sector for each scaffold it shares with the parent molecule.  As we'll see later in the Results, this lets the user quickly and visually home in on key substructures that are important or unimportant for activity. 
+\end{itemize}
 
+Other visualizations are definitely possible, and in previous iterations of this work we have explored both Box Plots and Cross Tables to summarize the properties of each scaffold beyond the summaries produced by the R-Group Tool -- for example, to explore minimum, maximum, median, most frequent or all values of a field for a particular scaffold.  
 
+In the Supplementary Material we describe some of these alternate visualizations and also describe several Spotfire tricks that are instrumental in making our visualization useful to the chemist or biologist user. 
+
+\subsection{Prioritization of Scaffolds} 
+\textbf{Is there anything already developed that we can bring in here, either original or citing older work?}
+
+\subsection{Statistical Comparison of Scaffold Generation Methods}
+\textbf{I plan to have our GSK Statisticians Joe and Zangdong write or edit this section}
 
 \section{Results}
+\label{sec:results}
+Here we illustrate some of our key findings and use cases on a few datasets. 
 
 \section{Discussion}
 \label{sec:discussion}
