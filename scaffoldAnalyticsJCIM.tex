@@ -148,12 +148,11 @@ approaches\cite{Varin2010CSE,Pu:2012wf}, ranges of physicochemical
 properties\cite{Cox:2012qy}, crowdsourcing\cite{Peng:2013qp} and removal of
 promiscuous or otherwise undesirable chemotypes \cite{Dahlin:2014fp}. See
 \citeauthor{Shun:2011sy} and \citeauthor{Langer:2009mw} for a review of HTS
-triage approaches.
+triage approaches.  
 
 One of the key challenges in the triage step is to identify structure-activity
 series - sets of compounds with similar or analogous structures that exhibit a
-spectrum of activity. Ideally, such a collection will also contain a number of
-inactive compounds as well. Identifying such subsets allows one to have some
+spectrum of activity, including lack of activity. Identifying such subsets allows one to have some
 confidence in the presence of a structure-activity relationship amongst the
 active compounds which enables a more efficient exploration of the chemical
 space around the selected hits. A good review of computational methods to extract SAR from screening datasets can be found in \citeauthor{Wawer2010review}. 
@@ -166,20 +165,23 @@ else using one of the many methods to decompose structures into fragments such
 as the Bemis-Murcko\cite{BemisMurcko1999,BemisMurcko1996} or RECAP
 methods\cite{Lewell:1998aa}. These methods lead to a large number of
 fragments ranging from trivial ones such as a benzene ring to very complex
-multiring structures. Thus a key step involves identifying the relevant set of
+multiring structures. Thus a key step involves identifying the \emph{relevant} set of
 scaffolds and their associated compounds. This can be challenging since a given
 compound can contain multiple scaffolds.
 
 In this work we present a HTS triage workflow based on navigating the
-scaffold-activity landscape of a screening collection. The workflow includes
+scaffold-activity landscape of a screening collection using a fuzzy clustering method to group compounds 
+based on scaffold membership. The workflow includes
 methods to visualize the activity landscape as well as methods to explore
 different regions of chemical space via shared scaffolds. We also highlight the
 efficiency gains obtained by using pre-computed scaffold associations rather
 than performing substructure searches. \textbf{Is there a scaffold
   ranking/prioritization procedure that should/could be described?}
+\textbf{We don't have a really well defined/consistent method}
 
 \subsection{Related Work}
-As noted above there are many ways to generate scaffolds. A key is to identify a
+While there are many ways to generate a set of scaffolds from a
+compound collection, a key step is to identify a
 relevant subset of them or else aggregate them in a way that leads to a useful
 clustering of active and inactive compounds. While the term ``useful'' is rather
 subjective, it is easy to identify cases that are \emph{not} useful. Thus, 5- or
@@ -206,7 +208,7 @@ frameworks with highest aggregate activity and remove molecules that contain
 them until a threshold is met, yielding a set of disjoint frameworks.  Other
 methods have used multiple common substructure (MCS), first proposed for finding
 protein structural similarity\cite{Koch1997MCSprot}, for example
-\cite{Quintus2009MCS} and the ChemAxon product LibraryMCS.
+\cite{Quintus2009MCS} and the ChemAxon product LibraryMCS. 
 
 To overcome the effect of small variations in heteroatoms (eg. O to S) mapping
 otherwise similar molecules to different scaffolds, generalized or consolidated
@@ -223,7 +225,7 @@ HTS-like diverse chemical compound sets. \citeauthor{Bandyopadhyay2011ACS} have
 used a common fragment decomposition plug-in for SAReport in order to find and
 export scaffolds for diverse datasets, such as the GSK Natural Products Set\cite{Coma2014}.  This approach assigns at most one scaffold for each molecule, based on the order they are selected by the user from a prioritized list.   
 
-Assigning each molecule to a single group partitions the dataset into disparate, non-overlapping groups.  This is also the way most fingerprint-based agglomerative clustering methods such as sphere exclusion, single and complete linkage clustering\textbf{Add Clustering Review} work. To see a figurative example where assigning a single group is limiting, consider trying to add the platypus to a clustering of known animals. We could pick up on its duck-like bill and add it to the cluster of ducks; or on its fur and overall shape and cluster it with the seals; or its flippers may be used to classify it as a penguin. Of course, the platypus has all these features but doesn't map to any one of these groups exclusively, so in practice we would call it a singleton and not connect it with any of the other clusters. Such a result can be observed in real chemical datasets as well -- for example, the complete-linkage clustering of the TCAMS dataset\cite{Gamo2010,Calderon2011} has nearly a fourth of the 2000 clusters containing just one element\ref{fig:CLcluster}.        
+Assigning each molecule to a single group partitions the dataset into disparate, non-overlapping groups.  This is also the way most fingerprint-based agglomerative clustering methods such as sphere exclusion, single and complete linkage clustering\textbf{Add Clustering Review} work. To see a figurative example where assigning a single group is limiting, consider trying to add the platypus to a clustering of known animals. We could pick up on its duck-like bill and add it to the cluster of ducks; or on its fur and overall shape and cluster it with the seals; or its flippers may be used to classify it as a penguin. Of course, the platypus has all these features but doesn't map to any one of these groups exclusively, so in practice we would call it a singleton and not connect it with any of the other clusters. Such a result can be observed in real chemical datasets as well -- for example, the complete-linkage clustering of the TCAMS dataset\cite{Gamo2010,Calderon2011} has nearly 25\% of the 2000 clusters containing just one compound\ref{fig:CLcluster}.        
 
 In contrast to these partitioning clusters, the methods described herein rely on fuzzy clustering, where a molecule may be in several clusters or contain several scaffolds. Fuzzy clusters have been rarely used in cheminformatics (for example \cite{Holliday2004}, \cite{Richmond2015Galois}), perhaps because they are hard to visualize and navigate.  In this work we provide an intuitive visual framework that we believe can help end users easily navigate a diverse chemical dataset describd by a fuzzy clustering of multiple overlapping scaffolds per molecule.    
 
@@ -234,8 +236,6 @@ The datasets used to illustrate and visualize our methods were picked to represe
 The in-house kinase dataset shown, by contrast, is perhaps less diverse but chosen to illustrate the power of this approach in joining and merging datasets from multiple screens, combining their SAR to design hybrid molecules, and making inferences about unknown activity in one screen based on known activity in another screen.
 
 These two and our other datasets are tabulated in \tref{dataset}, with references provided where available.
-
-\textbf{I can provide no shortage of further GSK datasets, but they cannot be disclosed or shared and in general are painful to deal with for IP reasons. Let's try to find other good public datasets that rgrouptool8 or its updated version actually works on. I'd downloaded a bunch of Bajorath datasets for the ACS talk but didn't find anything more suitable than TCAMS}
 
 Next, we describe several methods we have assembled as part of our workflow that enable multiple scaffolds to be assigned to each molecule and easy navigation between molecules related by these scaffolds. 
 
@@ -248,14 +248,14 @@ Next, we describe several methods we have assembled as part of our workflow that
 %\end{itemize}
 \subsection{Dataset Preprocessing}
 \label{sec:prepro}
-The typical dataset under consideration is available as a comma-separated text file (CSV), whereas most of the scaffold decomposition methods described expect MDL SD-files. To convert CSV to SDF, we have created a simple Pipeline Pilot workflow(\textbf{need to make available via supplementary material?}), and this task can also be done within molecular modeling programs such as MOE and toolkits such as ChemAxon's {JChem}.  Prior to SDF conversion, activity or property columns that are not to be aggregated at the scaffold level should be deleted from the CSV file, in order to speed up the analysis and aggregation.  There are some further quirks to pre-processing datasets for the NCATS R-group tool that will be described in the Supplementary Material.\textbf{follow through}  
+The typical dataset under consideration is available as a comma-separated text file (CSV), whereas most of the scaffold decomposition methods described expect MDL SD-files. To convert CSV to SDF, we have created a simple Pipeline Pilot workflow(\textbf{need to make available via supplementary material?}).  Prior to SDF conversion, activity or property columns that are not to be aggregated at the scaffold level should be deleted from the CSV file, in order to speed up the analysis and aggregation.  There are some further quirks to pre-processing datasets for the NCATS R-group tool that will be described in the Supplementary Material.\textbf{follow through}  
 
 \subsection{Partitioning Method: Complete Linkage Clustering}
-We retain the default method used at GSK to visualize groups of molecules in our visualizations just for comparison purposes. This method produces an output file in which the unique cluster ID (CLink) and number of other molecules in the same cluster (N\_Clink) are added as additional fields to the original dataset.   
+We retain the default method used at GSK to visualize groups of molecules in our visualizations just for comparison purposes. This method produces an output file in which the unique cluster ID (CLink) and number of other molecules in the same cluster (N\_Clink) are added as additional fields to the original dataset.   \textbf{I don't see a description of the fuzzy clustering method}
 
 \subsection{Fragmentation Method: NCATS R-Group Tool}
 \label{sec:rgtool}
-The NCATS R-group analysis tool (\url{https://tripod.nih.gov/?p=46}) was developed to automatically and exhaustively generate R-group tables from a dataset using all scaffolds, defined as chemical substructures shared by two or more molecules. The scaffolds are defined as molecular fragments generated by exhaustive enumeration of all possible combinations of the Smallest Set of Smallest Rings (SSSR), as described at~\url{https://tripod.nih.gov/?p=160}. For a molecule with k SSSR, the maximum possible number of such scaffolds is $2^k - 1$; however the actual number is usually much lower due to symmetry and additional constraints (\eg reactivity, synthetic accessibility).      
+The NCATS R-group analysis tool (\url{https://tripod.nih.gov/?p=46}) was developed to automatically and exhaustively generate R-group tables from a dataset using all scaffolds, defined as chemical substructures shared by two or more molecules. The scaffolds are defined as molecular fragments generated by exhaustive enumeration of all possible combinations of the Smallest Set of Smallest Rings (SSSR), as described at~\url{https://tripod.nih.gov/?p=160}. For a molecule with $k$ SSSR, the maximum possible number of such scaffolds is $2^k - 1$; however the actual number is usually much lower due to symmetry and additional constraints (\eg reactivity, synthetic accessibility).      
 
 As an example, in \fref{scafmethod}(b) we see the five scaffolds that were generated from the molecule shown in \fref{scafmethod}(a) from the TCAMS dataset.
 
@@ -289,7 +289,7 @@ The R-group Tool described above uses the NCATS implementation of Molecular Fram
 
 The input for the GSK frameworks code is a comma separated text file with molecules encoded in a SMILES field.  The code was modified by adding scripts to export the fuzzy clusters in a tabular format rather than prioritize them into mutually exclusive scaffolds as in \citeauthor{Harper2004DDclus}. This step produces a file similar to the R-group decomposition format described for the NCATS R-group tool in \sref{rgtool}: framework ID, framework SMILES, molecule ID, SMILES and replicated property/activity columns.  There are no R-group columns simply because this is not a default computation in the GSK frameworks code; R-group decomposition can be added in future. Similarly there is no separate table where activities and properties are summarized at the framework level, though this can be added too.
 
-The GSK frameworks found within the same molecule from TCAMS are shown in \fref{scafmethod}(b).  The reader will observe several differences from the R-group tool: there are more scaffolds found, some clipped in the middle of a linker rather than at a ring, and some redundancy between multiple scaffolds. We will see when discussing the Results that comprehensive coverage of fragments within each molecule can be both good and bad.   
+The GSK frameworks found within the same molecule from TCAMS are shown in \fref{scafmethod}(b).  The reader will observe several differences from the R-group tool: there are more scaffolds found, some clipped in the middle of a linker rather than at a ring, and some redundancy between multiple scaffolds. We will see in Section \ref{sec:results} that comprehensive coverage of fragments within each molecule can be both good and bad.   
 
 Further details on how to set up and run the GSK frameworks code are provided in the Supplementary Material. 
 
@@ -390,10 +390,40 @@ Here we illustrate some of our key findings and use cases on a few datasets.
   independent step from the scaffold identification process
 \item Ranking scaffolds is a key step in prioritizing hits in a scaffold-based
   approach. Still a subjective issue and many ways to do it. Not clear that
-  there is a single optimal way
-\item Privileged scaffolds - sometimes could go in looking for them, but usually
-  one identifies such privileged scaffolds in a retrospective fashion, across
-  multiple HTS campaigns. Relevance / importance to scaffold based triage?
+  there is a single optimal way. Discussion points could include
+  \begin{itemize}
+  \item Size and complexity - depending on the application (and
+    dataset) smaller scaffolds maybe more relevant or useful than
+    larger scaffolds. Scaffold key approach \cite{Ertl:2014eu}
+    quantifies this aspect. In some scenarios, the dataset may consist
+    of small scaffolds in general (\eg fragment screening
+    libraries). Complexity may also play a role in the practicality of
+    using a scaffold - highly complex scaffolds may not be easily
+    synthesizable or purchasable.
+  \item Promiscuity of the scaffold (does it show up in many active
+    compounds across different assays?) itself or do the scaffold
+    members, in aggregate, show high degree of promiscuity?
+  \item Do the members of a scaffold represent a SAR (``SARability'')?
+    Could be characterized quantitatively, but such approaches would
+    be hampered by the size of the member set. Larger scaffolds will
+    tend to have fewer members.  Alternatively, characterize the
+    activity landscape of the scaffold member set - overly smooth or
+    overly rough landscapes are not useful. But still tricky to decide
+    what a sufficiently smooth (or rough) landscape is.
+  \item Alternatively, in absence of SAR, does a given scaffold show
+    an enrichment of activity (or just actives) compared to other
+    scaffolds (after having taken parent-relationships in to account -
+    similar to GO enrichment analyses).
+  \end{itemize}
+\item Privileged scaffolds - sometimes could go in looking for them,
+  but usually one identifies such privileged scaffolds in a
+  retrospective fashion, across multiple HTS campaigns. Relevance /
+  importance to scaffold based triage?
+\item The last point also suggests that intuition and experience play
+  an important role and also present a possible source of bias. A
+  chemist with a ``favorite'' scaffold may (unconciously) tend to
+  ignore other scaffolds. To combat such human biases, data driven
+  summaries and navigation are vital
 \end{itemize}
 
 \begin{acknowledgement}
