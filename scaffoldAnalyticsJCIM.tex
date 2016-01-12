@@ -35,6 +35,7 @@
 \newcommand*\sref[1]{Section~\ref{sec:#1}}
 \newcommand*\eg{e.g.~}
 \newcommand*\ie{i.e.~}
+%\newcommand*\citeauthoryear[1]{{\citeauthor{#1}~(\citeyear{#1})}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Meta-data block
@@ -208,7 +209,7 @@ frameworks with highest aggregate activity and remove molecules that contain
 them until a threshold is met, yielding a set of disjoint frameworks.  Other
 methods have used multiple common substructure (MCS), first proposed for finding
 protein structural similarity\cite{Koch1997MCSprot}, for example
-\cite{Quintus2009MCS} and the ChemAxon product LibraryMCS. 
+\citeauthor{Quintus2009MCS} and the ChemAxon product LibraryMCS. 
 
 To overcome the effect of small variations in heteroatoms (eg. O to S) mapping
 otherwise similar molecules to different scaffolds, generalized or consolidated
@@ -301,7 +302,7 @@ The Scaffold table as exported has the following key columns:
 
 \subsection{Fragmentation Method: GSK Frameworks}
 \label{sec:gskframe}
-The R-group Tool described above uses the NCATS implementation of Molecular Frameworks to generate scaffolds. GSK's implementation of Molecular Frameworks is subtly different, and its use has been described in \cite{Harper2004DDclus}. The two types of framework we retain for this study are Bemis-Murcko-like (\cite{BemisMurcko1996} with atom and bond orders retained) and RECAP\cite{Lewell:1998aa}. Other fragmentation methods described by \citeauthor{Harper2004DDclus} such as reduced graphs and classic Bemis-Murcko scaffolds (without atom types and bond orders) were skipped for the purposes of comparison; however there is no reason these could not be included in the framework we are proposing.    
+The R-group Tool described above uses the NCATS implementation of Molecular Frameworks to generate scaffolds. GSK's implementation of Molecular Frameworks is subtly different, and its use has been described in \citeauthor{Harper2004DDclus}. The two types of framework we retain for this study are Bemis-Murcko-like (\cite{BemisMurcko1996} with atom and bond orders retained) and RECAP\cite{Lewell:1998aa}. Other fragmentation methods described by \citeauthor{Harper2004DDclus} such as reduced graphs and classic Bemis-Murcko scaffolds (without atom types and bond orders) were skipped for the purposes of comparison; however there is no reason these could not be included in the framework we are proposing.    
 
 The input for the GSK frameworks code is a comma separated text file with molecules encoded in a SMILES field.  The code was modified by adding scripts to export the fuzzy clusters in a tabular format rather than prioritize them into mutually exclusive scaffolds as in \citeauthor{Harper2004DDclus}. This step produces a file similar to the R-group decomposition format described for the NCATS R-group tool in \sref{rgtool}: framework ID, framework SMILES, molecule ID, SMILES and replicated property/activity columns.  There are no R-group columns simply because this is not a default computation in the GSK frameworks code; R-group decomposition can be added in future. Similarly there is no separate table where activities and properties are summarized at the framework level, though this can be added too.
 
