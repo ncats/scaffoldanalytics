@@ -176,9 +176,7 @@ based on scaffold membership. The workflow includes
 methods to visualize the activity landscape as well as methods to explore
 different regions of chemical space via shared scaffolds. We also highlight the
 efficiency gains obtained by using pre-computed scaffold associations rather
-than performing substructure searches. \textbf{Is there a scaffold
-  ranking/prioritization procedure that should/could be described?}
-\textbf{We don't have a really well defined/consistent method}
+than performing substructure searches.
 
 \subsection{Related Work}
 While there are many ways to generate a set of scaffolds from a
@@ -256,10 +254,10 @@ Next, we describe several methods we have assembled as part of our workflow that
 %\end{itemize}
 \subsection{Dataset Preprocessing}
 \label{sec:prepro}
-The typical dataset under consideration is available as a comma-separated text file (CSV), whereas most of the scaffold decomposition methods described expect MDL SD-files. To convert CSV to SDF, we have created a simple Pipeline Pilot workflow(\textbf{need to make available via supplementary material?}).  Prior to SDF conversion, activity or property columns that are not to be aggregated at the scaffold level should be deleted from the CSV file, in order to speed up the analysis and aggregation.  There are some further quirks to pre-processing datasets for the NCATS R-group tool that will be described in the Supplementary Material.\textbf{follow through}  
+The typical dataset under consideration is available as a comma-separated text file (CSV), whereas most of the scaffold decomposition methods described expect MDL SD-files. To convert CSV to SDF while preserving non-molecule fields as SDF properties, we have created a simple Pipeline Pilot workflow, but this can also be done via standard cheminformatics toolkits such as JChem or RDKit. Prior to SDF conversion, activity or property columns that are not to be aggregated at the scaffold level should be deleted from the CSV file, in order to speed up the analysis and aggregation.  There are some further quirks to pre-processing datasets for the NCATS R-group tool that will be described in the Supplementary Material.\textbf{follow through}  
 
 \subsection{Partitioning Method: Complete Linkage Clustering}
-We retain the default method used at GSK to visualize groups of molecules in our visualizations just for comparison purposes. This method produces an output file in which the unique cluster ID (CLink) and number of other molecules in the same cluster (N\_Clink) are added as additional fields to the original dataset.   \textbf{I don't see a description of the fuzzy clustering method}
+We retain the default method used at GSK to visualize groups of molecules in our visualizations just for comparison purposes. This method produces an output file in which the unique cluster ID (CLink) and number of other molecules in the same cluster (N\_Clink) are added as additional fields to the original dataset.  Complete linkage chemical clustering is described further in serveral references such as \citeauthor{Jain2010,Downs2003}.
 
 \subsection{Fragmentation Method: NCATS R-Group Tool}
 \label{sec:rgtool}
@@ -310,8 +308,6 @@ The GSK frameworks found within the same molecule from TCAMS are shown in \fref{
 
 Further details on how to set up and run the GSK frameworks code are provided in the Supplementary Material. 
 
-\textbf{Try to include also/instead the variant of GSK Frameworks used by Nicola Richmond and Discngine in \cite{Richmond2015Galois}}
-
 \subsection{Fragmentation Method: Scaffold Network Generator}
 \label{sec:SNG}
 Scaffold Network Generator \cite{Matlock2013SNG} as mentioned in the Introduction is a parallelizable and robust code to generate a hierarchical Scaffold Network from any chemical dataset. The operation of this tool is described on the web at \url{https://bitbucket.org/swamidass/scaffold-network-generator/wiki/Home}. SNG takes as input either a SMILES or an MDL SD-file, and we specify options to generate the Network and ID Map files as two tabular outputs.
@@ -356,7 +352,8 @@ Next, we describe how tabular scaffold output generated using the NCATS R-group 
 \item In the three Forward instances of the Network table, the Scaffold to Subscaffold Mapping already exists. Modify it by truncating (assigning a null subscaffold) when the number of rings is 2 or 1. 
 \subitem Define a new column that maps a null subscaffold to the same scaffold, to be able to follow the link to downstream tables without diving deeper.
 \item In the three Reverse instances of the Network table, the Subscaffold to Superscaffold mapping needs to be defined by inverting the provided mapping. Thus:
-\subitem \textbf{When I'm able to open Spotfire I'll fill in the intricacies here to a reproducible level}
+  \subitem We define in each network table a duplicate scaffold ID field, dupID, so that one instance of the ID can be used to map in either direction without introducing a cycle.
+  \subitem The mapping from scaffolds in one table ($A$) to superscaffolds in one table higher ($B$) is then recast as one from scaffolds in $B$ to subscaffolds in $A$, using a different set of IDs from the upward links.   
 \item The Table Relations are then set up as follows to link Molecules to Related Molecules in the scaffold network:    
 \subitem $Main.Molecule\_ID = ID\_Map(2).Molecule\_ID$
 \subitem $ID\_Map.Top\_Level\_Scaffold = NetworkDown(3).Scaffold$
@@ -389,13 +386,11 @@ Other visualizations are definitely possible, and in previous iterations of this
 
 In the Supplementary Material we describe some of these alternate visualizations and also describe several Spotfire tricks that are instrumental in making our visualization useful to the chemist or biologist user. 
 
-\subsection{Prioritization of Scaffolds} 
-\label{sec:scafprio}
-\textbf{Is there anything already developed that we can bring in here, either original or citing older work?}
-
 \subsection{Statistical Comparison of Scaffold Generation Methods}
 \label{sec:statmethod}
-\textbf{I plan to have our GSK Statisticians Joe and Zangdong write or edit this section}
+\textbf{Joe/Zangdong: this is a first cut based on our slides, please edit}
+\cite{} 
+Our goal in this section is to define the statistical methods 
 
 \section{Results}
 \label{sec:results}
