@@ -388,9 +388,39 @@ In the Supplementary Material we describe some of these alternate visualizations
 
 \subsection{Statistical Comparison of Scaffold Generation Methods}
 \label{sec:statmethod}
-\textbf{Joe/Zangdong: this is a first cut based on our slides, please edit}
-\cite{} 
-Our goal in this section is to define the statistical methods 
+Our goal in this section is to define the statistical methods that we have applied in characterizing various methods for classifying molecules using multiple non-overlapping scaffolds, as opposed to partitioning the set of molecules into non-overlapping categories (clusters). The similarities and differences between non-overlapping ontologies have been analyzed in the literature, and one example is the method of \citeauthor{Torres2009}, who provide a similarity measure between outputs of two partitioning clustering methods (not to be confused with the similarity measure between items that is used to define the clustering). They use Jaccard's similarity coefficient $S_{ij}$, defined as the ratio of intersection size to union size of two groups $i$ and $j$ in the ontology -- similar in spirit to the Tanimoto coefficient used to define Chemical fingerprint similarity.  This coefficient, computed pairwise and summed, yields a simple similarity measure between two clusterings $X$ and $Y$ with $m$ and $n$ members, respectively:
+\begin{equation}
+Sim(X,Y) = \Sigma_{i \le m, j \le n}{S_{ij} / max(m,n)}
+\end{equation}
+
+We adapt this method for SAR analysis using overlapping scaffolds, where the question on the minds of chemists is twofold: what are the fragments in active/desirable molecules, and which other molecules share these fragments? Now if there are two methods $A$ and $B$ of fragmenting compounds, we can evaluate for any molecule how many other molecules share fragments from $A$ or from $B$, and thus can be found using ontologies $A$ alone, $B$ alone, $A$ and $B$, or $A$ excluding $B$.  Using these methods we can evaluate the overall similarity of methods $A$ and $B$, and also independently score the usefulness of $A$ and $B$.
+
+For any compound $C$, define the ``A-neighborhood of C'', $C_A$ as the set of compounds that share fragments from $A$ with compound $C$. Similarly define the B-neighborhood $C_B$ as the set of compounds that share fragments from $B$. The Common Proportion ($CP$) for compound $C$ is then defined as the fraction of compounds found by combining both methods that would have been found by either method alone:
+\begin{equation}
+CP(C) = \| C_A \cap C_B \| / \| C_A \cup C_B \|
+\end{equation}
+
+Similar statistics can be defined to rank the usefulness of an individual ontology given others. The Proportion of Information $PI(A)$ calculates the proportion of compounds reachable from $A$ and $B$ that would be reachable from $A$ alone:
+
+\begin{equation}
+PI_C(A) = \| C_A \| / \| C_A \cup C_B \|
+\end{equation}
+
+In constrast, the Proportion of Information Unique to $A, PIU(A)$ uses the set difference to get at the question: if I have $B$, do I still need $A$? 
+
+\begin{equation}
+ PIU_C(A) = \| C_A \setminus C_B \| / \| C_A \cup C_B \| = 1 - PI_c(B)
+ \end{equation}
+  
+These statistics can be averaged over all compounds in a dataset to yield the Average Common Proportion (ACP), Average Proportion of Information (API), and Average Proportion of Information Unique to A (APIU).  Other statistics can also be applied to the distribution of $CP$, $PI$ or $PIU$ to characterize the dataset and overlapping scaffolds used to characterize it.
+
+Our methods extend the similarity score of \citeauthor{Torres2009} to overlapping clusters by using a set of non-overlapping clusters derived from them, defined as follows:
+\begin{itemize}
+\item Replace the original clusters by new clusters, one for each item in any cluster (in this case, any compound in the dataset).
+\item The cluster for Compound $C$ contains all compounds that appear with Compound $C$ in any cluster, \ie $C_A$.   
+  
+\end{itemize}
+
 
 \section{Results}
 \label{sec:results}
@@ -401,7 +431,8 @@ Here we illustrate some of our key findings and use cases on a few datasets.
 To conclude, we have observed how scaffold-based analytics allows us to make decisions based on the aggregate (average, SD, median, min, max, ...) properties of molecules in scaffolds. An entire scaffold may be rejected or prioritized at a time instead of keeping track of individual molecules. It is important to note that rejecting a scaffold does not reject all molecules containing that scaffold - otherwise rejecting the benzene ring would remove a large percentage of valid leads. Also at any time we are able to drill down into the data for individual compounds in interesting scaffolds, whether in an R-group table or a custom plot, and incorporate that into our prioritization.   
 
 \subsection{Use Case: Dataset Fusion and Hybridization}
-\textbf{Since the current use case is on the GSK Kinase X dataset, this part will have to be approved by GSK legal before placing specific results here. Or we can substitute it.} 
+\textbf{Since the current use case is on the GSK Kinase X dataset, this part will have to be approved by GSK legal before placing specific results here. Or we can substitute it.}
+  
 To summarize, disparate datasets with no common activity fields (or if preferred, activity fields normalized to a common scale) can be combined and merged at the scaffold level to derive insights such as:
 \begin{itemize}
 \item Are there regions of chemical space that are unique to one dataset and should be explored further to enrich the chemical diversity available?
@@ -430,7 +461,7 @@ As an example, consider Molecule 1 (PubChem CID: 536182) in \fref{scafwalk1}, as
 
 Molecule 2 in \fref{scafwalk2} is another case where we might want to optimize the physical and chemical properties of the molecule without sacrificing activity or increasing promiscuity. Since solubility has been shown to go down with number of aromatic rings independent of lipophilicity\cite{Hill2010}, walks that remove one or more of the three fused rings might be productive. By exploring the Related Molecules, we observe the SAR for three scaffolds: quinazolines (\#305, brown), indazoloquinazolines (\#574, blue) and indazoles (\#3822, pink). We observe from the plot a few more molecules containing all three scaffolds (tricolored pies, \ie exact analogs of the parent molecule); all of these are less active than the parent. The indazoles when they occur alone (pink circles) are far less active than the parent, suggesting they do ot contribute significantly to activity and may be substituted. Lastly the quinazolines (brown) include several analogs that are more active and also less promiscuous than the parent. Drilling down into these structures, we observe several that contain only two aromatic rings (\ie no more are either fused or attached); these provide novel, active and ligand-efficient templates on which to build new analogs with enhanced solubility or other properties. Suggestions for which analogs to make can often be obtained by examining the SAR -- for example, disparate aliphatic and aromatic analogs at two adjacent positions on the quanazoline phenyl are active, which suggests hybridizing them or designing further analogs substituted at these positions.
 
-Another intriguing result is seen by observing a new tricyclic series that shares the quanazoline but adds an indole instead of indazole as the third fused ring. This alternative tricyclic template, while it may not confer solubility advantages, opens up a new area of chemical space. By iteratively seeking the Related Molecules for this new hit as shown in \fref{scafwalk3}, we observed that most of the active quinazoline analogs have this new tricyclic scaffold (\#1824, tan wedges in tricolored pies) and relatively few contain only quinazolines (\#305, brown circles). Also, indoles by themselves (\#1188, blue circles) do not much better than indazoles, so this is a new synergistic effect discovered by scaffold walking from the original hit.            
+Another intriguing result is seen by observing a new tricyclic series that shares the quinazoline but adds an indole instead of indazole as the third fused ring. This alternative tricyclic template, while it may not confer solubility advantages, opens up a new area of chemical space. By iteratively seeking the Related Molecules for this new hit as shown in \fref{scafwalk3}, we observed that most of the active quinazoline analogs have this new tricyclic scaffold (\#1824, tan wedges in tricolored pies) and relatively few contain only quinazolines (\#305, brown circles). Also, indoles by themselves (\#1188, blue circles) do not much better than indazoles, so this is a new synergistic effect discovered by scaffold walking from the original hit.            
 
 \begin{figure}
 \includegraphics[width=6in]{fig/mol3_RGtool_scafpie_iter.png}
