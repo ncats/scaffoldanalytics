@@ -17,6 +17,8 @@
 \usepackage[T1]{fontenc}       % Use modern font encodings
 \usepackage{hyperref}
 
+\usepackage{xcolor}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% If issues arise when submitting your manuscript, you may want to
 %% un-comment the next line.  This provides information on the
@@ -24,7 +26,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%\listfiles
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 %% Place any additional macros here.  Please use \newcommand* where
 %% possible, and avoid layout-changing macros (which are not used
 %% when typesetting).
@@ -128,7 +130,36 @@ separate page at the end of the document.
 %% if an abstract is not used by the target journal.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
-  We present a method for visualizing and navigating large and diverse chemical spaces, such as screening datasets, along with their activities and properties. Our approach is to annotate the data with all possible scaffolds contained within each molecule using an exhaustive algorithm developed at NCATS.  We have developed a Spotfire visualization that is used to drive the hit triage process. Progression decisions can be made using aggregate scaffold parameters and data from multiple datasets merged at the scaffold level.  This visualization easily reveals overlaps that help prioritize hits, highlight tractable series and posit ways to combine aspects of multiple hits.  The SAR of a large and complex hit is automatically mapped into all constituent scaffolds making it possible to navigate, via any shared scaffold, to all related hits.  This scaffold ``walking'' helps address bias toward a handful of potent and ligand-efficient molecules at the expense of coverage of chemical space. The mapping also automates the laborious process of substructure searches within a dataset as structures are now linked to pre-processed search results.  We compare the NCATS scaffold generation method with published screening triage methods such as nearest-neighbor clustering, data-driven clustering and scaffold networks.  We believe that our Spotfire visualization used in combination with structure annotation provides  a novel view of large and diverse datasets. This allows teams to effortlessly navigate between structurally related molecules and enriches the population of leads considered and progressed in a manner complementary to established approaches.
+  We present a method for visualizing and navigating large and diverse
+  chemical spaces, such as screening datasets, along with their
+  activities and properties. Our approach is to annotate the data with
+  all possible scaffolds contained within each molecule using an
+  exhaustive algorithm developed at NCATS.  We have developed a
+  Spotfire visualization, coupled to a fuzzy clustering approach, that
+  is used to drive the hit triage process. Progression decisions can
+  be made using aggregate scaffold parameters and data from multiple
+  datasets merged at the scaffold level.  This visualization easily
+  reveals overlaps that help prioritize hits, highlight tractable
+  series and posit ways to combine aspects of multiple hits.  The SAR
+  of a large and complex hit is automatically mapped into all
+  constituent scaffolds making it possible to navigate, via any shared
+  scaffold, to all related hits.  This scaffold ``walking'' helps
+  address bias toward a handful of potent and ligand-efficient
+  molecules at the expense of coverage of chemical space. The mapping
+  also automates the laborious process of substructure searches within
+  a dataset as structures are now linked to pre-processed search
+  results.  We compare the NCATS scaffold generation method with
+  published screening triage methods such as nearest-neighbor
+  clustering, data-driven clustering and scaffold
+  networks. \textbf{\textcolor{red}{Can you add a line here that
+      summarizes how this method turns out better than these
+      pre-existing methods?}}  The workflow of a Spotfire
+  visualization used in combination with fuzzy clustering and
+  structure annotation provides a novel view of large and diverse
+  datasets. This allows teams to effortlessly navigate between
+  structurally related molecules and enriches the population of leads
+  considered and progressed in a manner complementary to established
+  approaches.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -136,20 +167,22 @@ separate page at the end of the document.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-The advantage and disadvantage of high throughput screening (HTS) campaigns is
-the large amount of data that is generated. While the value of large scale HTS
-has been debated\cite{Macarron:2011qv}, the massive structure-activity
-datasets generated create a challenge in identifying truly active compounds and
-their analogs and weeding out false positives. The process of reducing HTS
-datasets from hundreds of thousands of compounds to a few thousand or few
-hundred active series is termed triaging. Over the last twenty years many
-approaches to HTS triaging have been described which include activity based
-thresholds [REF], similarity to known actives, enrichment based
+The advantage and disadvantage of high throughput screening (HTS)
+campaigns is the large amount of data that is generated. While the
+value of large scale HTS has been debated\cite{Macarron:2011qv}, the
+massive structure-activity datasets generated create a challenge in
+identifying truly active compounds and their analogs and weeding out
+false positives. The process of reducing HTS datasets from hundreds of
+thousands of compounds to a few thousand or hundred active series is
+termed triaging. Over the last twenty years many approaches to HTS
+triaging have been described which include activity based
+thresholds\cite{Mulrooney:2013aa}, similarity to known
+actives\cite{Shanmugasundaram:2005aa}, enrichment based
 approaches\cite{Varin2010CSE,Pu:2012wf}, ranges of physicochemical
-properties\cite{Cox:2012qy}, crowdsourcing\cite{Peng:2013qp} and removal of
-promiscuous or otherwise undesirable chemotypes \cite{Dahlin:2014fp}. See
-\citeauthor{Shun:2011sy} and \citeauthor{Langer:2009mw} for a review of HTS
-triage approaches.  
+properties\cite{Cox:2012qy}, crowdsourcing\cite{Peng:2013qp} and
+removal of promiscuous or otherwise undesirable chemotypes
+\cite{Dahlin:2014fp}. See \citeauthor{Shun:2011sy} and
+\citeauthor{Langer:2009mw} for a review of HTS triage approaches.
 
 One of the key challenges in the triage step is to identify structure-activity
 series - sets of compounds with similar or analogous structures that exhibit a
@@ -168,7 +201,8 @@ methods\cite{Lewell:1998aa}. These methods lead to a large number of
 fragments ranging from trivial ones such as a benzene ring to very complex
 multiring structures. Thus a key step involves identifying the \emph{relevant} set of
 scaffolds and their associated compounds. This can be challenging since a given
-compound can contain multiple scaffolds.
+compound can contain multiple scaffolds and which scaffolds are
+deemed relevant can be a subjective decision\cite{Hu:2016aa}.
 
 In this work we present a HTS triage workflow based on navigating the
 scaffold-activity landscape of a screening collection using a fuzzy clustering method to group compounds 
@@ -176,7 +210,7 @@ based on scaffold membership. The workflow includes
 methods to visualize the activity landscape as well as methods to explore
 different regions of chemical space via shared scaffolds. We also highlight the
 efficiency gains obtained by using pre-computed scaffold associations rather
-than performing substructure searches.
+than performing substructure searches on the fly.
 
 \subsection{Related Work}
 While there are many ways to generate a set of scaffolds from a
@@ -217,33 +251,72 @@ the topological or 2D pharmacophore\cite{Schneider1999ScafHopTP}. Bemis-Murcko
 like frameworks \cite{Harper2004DDclus} are generalized Bemis-Murcko scaffolds
 where atom types and/or bond orders may be retained.
 
-Multiple scaffolds if present in a dataset can be inferred from the scaffold
-tree decomposition\cite{ClarkLabute2008SAReport}. However in practice, the
-thresholds used by \citeauthor{ClarkLabute2008SAReport} miss common scaffolds in
-HTS-like diverse chemical compound sets. \citeauthor{Bandyopadhyay2011ACS} have
-used a common fragment decomposition plug-in for SAReport in order to find and
-export scaffolds for diverse datasets, such as the GSK Natural Products Set\cite{Coma2014}.  This approach assigns at most one scaffold for each molecule, based on the order they are selected by the user from a prioritized list.   
+Multiple scaffolds if present in a dataset can be inferred from the
+scaffold tree decomposition\cite{ClarkLabute2008SAReport}. However in
+practice, the thresholds used by \citeauthor{ClarkLabute2008SAReport}
+miss common scaffolds in HTS-like diverse chemical compound
+sets. \citeauthor{Bandyopadhyay2011ACS} have used a common fragment
+decomposition plug-in for SAReport in order to find and export
+scaffolds for diverse datasets, such as the GSK Natural Products
+Set\cite{Coma2014}.  This approach assigns at most one scaffold for
+each molecule, based on the order they are selected by the user from a
+prioritized list.
 
 \begin{figure}
-(a)\includegraphics[width=5.5in]{fig/platypus.png}\\
-(b)\includegraphics[width=4in]{fig/singletons.png}
-\caption{(a) Trying to cluster a platypus. (b) Singletons in a complete-linkage clustering of the TCAMS dataset }
+\includegraphics[width=5.5in]{fig/singletons.png}
+\caption{Singletons in a complete-linkage clustering of the TCAMS dataset.}
 \label{fig:platypus}
 \end{figure}
 
-Assigning each molecule to a single group partitions the dataset into disparate, non-overlapping groups.  This is also the way most fingerprint-based agglomerative clustering methods such as sphere exclusion, single and complete linkage clustering work\cite{Downs2003}. To see a figurative example where assigning a single group is limiting, consider trying to add the platypus to a clustering of known animals, as in \fref{platypus}(a). We could pick up on its duck-like bill and add it to the cluster of ducks; or on its fur and overall shape and cluster it with the seals; or its flippers may be used to classify it as a penguin. Of course, the platypus has all these features but doesn't map to any one of these groups exclusively, so in practice we would call it a singleton and not connect it with any of the other clusters. Such a result can be observed in real chemical datasets as well -- for example, the complete-linkage clustering of the TCAMS dataset\cite{Gamo2010,Calderon2011} has nearly 25\% of the 2000 clusters containing just one compound, as shown in \fref{platypus}(b).        
+Assigning each molecule to a single group partitions the dataset into
+disparate, non-overlapping groups (also termed a hard clustering).
+This is also the way most fingerprint-based agglomerative clustering
+methods such as sphere exclusion, single and complete linkage
+clustering work\cite{Downs2003}. On the other hand, it may be the case
+that a molecule could well be assigned simultaneously to multiple
+clusters, depending on the structural features present. Traditional
+hard clustering methods will not allow this and as a result will tend
+to assign such molecules to their own cluster, thus identifying them
+as singletons, Such a result can be observed in real chemical datasets
+as well -- for example, the complete-linkage clustering of the TCAMS
+dataset\cite{Gamo2010,Calderon2011} has nearly 25\% of the 2000
+clusters containing just one compound, as shown in \fref{platypus}.
 
-In contrast to these partitioning clusters, the methods described herein rely on fuzzy clustering, where a molecule may be in several clusters or contain several scaffolds. Fuzzy clusters have been rarely used in cheminformatics (for example \cite{Holliday2004}, \cite{Richmond2015Galois}), perhaps because they are hard to visualize and navigate.  In this work we provide an intuitive visual framework that we believe can help end users easily navigate a diverse chemical dataset describd by a fuzzy clustering of multiple overlapping scaffolds per molecule.    
+In contrast to these partitioning clusters, the methods described
+herein rely on fuzzy clustering, where a molecule may be assigned to
+multiple clusters. Fuzzy clusters have been rarely used in
+cheminformatics (for example \cite{Holliday2004,Richmond2015Galois}),
+perhaps because they are hard to visualize and navigate.  In this work
+we provide an intuitive visual framework that we believe can help end
+users easily navigate a diverse chemical dataset describd by a fuzzy
+clustering of multiple overlapping scaffolds per molecule.
 
 \subsection{Datasets}
 \label{sec:datasets}
-The datasets used to illustrate and visualize our methods were picked to represent the kinds of screening datasets we expect the method to be used on in practice. For example, the TCAMS dataset\cite{Gamo2010} consists of 13.5k diverse hits from an antimalarial screen at GSK, along with pIC50 against a susceptible strain of the malarial parasite (3D7), percentage inhibition against a resistant strain (DD2), G2 hepatotoxicity, a few physical chemical properties (\eg molecular weight, aromatic ring count, cLogP), and Inhibition Frequency Index (IFI, a measure of promiscuity defined as the percentage of screens in which a molecule inhibits over 50\%, \cite{Chakravorty2013IFI}).   
+The datasets used to illustrate and visualize our methods were picked
+to represent the kinds of screening datasets we expect the method to
+be used on in practice. For example, the TCAMS dataset\cite{Gamo2010}
+consists of 13.5k diverse hits from an antimalarial screen at GSK,
+along with pIC50 against a susceptible strain of the malarial parasite
+(3D7), percentage inhibition against a resistant strain (DD2), Hep G2
+hepatotoxicity, a few physical chemical properties (\eg molecular
+weight, aromatic ring count, cLogP), and Inhibition Frequency Index
+(IFI, a measure of promiscuity defined as the percentage of screens in
+which a molecule inhibits over 50\%, \cite{Chakravorty2013IFI}).
 
-The in-house kinase dataset shown, by contrast, is perhaps less diverse but chosen to illustrate the power of this approach in joining and merging datasets from multiple screens, combining their SAR to design hybrid molecules, and making inferences about unknown activity in one screen based on known activity in another screen.
+The in-house kinase dataset shown, by contrast, is perhaps less
+diverse but chosen to illustrate the power of this approach in joining
+and merging datasets from multiple screens, combining their SAR to
+design hybrid molecules, and making inferences about unknown activity
+in one screen based on known activity in another screen.
 
-These two and our other datasets are tabulated in \tref{dataset}, with references provided where available.
+These two and our other datasets are tabulated in \tref{dataset}, with
+references provided where available.
 
-Next, we describe several methods we have assembled as part of our workflow that enable multiple scaffolds to be assigned to each molecule and easy navigation between molecules related by these scaffolds. 
+Next, we describe several methods we have assembled as part of our
+workflow that enable multiple scaffolds to be assigned to each
+molecule and easy navigation between molecules related by these
+scaffolds.
 
 
 %\begin{itemize}
@@ -254,16 +327,45 @@ Next, we describe several methods we have assembled as part of our workflow that
 %\end{itemize}
 \subsection{Dataset Preprocessing}
 \label{sec:prepro}
-The typical dataset under consideration is available as a comma-separated text file (CSV), whereas most of the scaffold decomposition methods described expect MDL SD-files. To convert CSV to SDF while preserving non-molecule fields as SDF properties, we have created a simple Pipeline Pilot workflow, but this can also be done via standard cheminformatics toolkits such as JChem or RDKit. Prior to SDF conversion, activity or property columns that are not to be aggregated at the scaffold level should be deleted from the CSV file, in order to speed up the analysis and aggregation.  There are some further quirks to pre-processing datasets for the NCATS R-group tool that will be described in the Supplementary Material.\textbf{follow through}  
+The typical dataset under consideration is available as a
+comma-separated text file (CSV), whereas most of the scaffold
+decomposition methods described expect MDL SD-files. To convert CSV to
+SDF while preserving non-molecule fields as SDF properties, we have
+created a simple Pipeline Pilot workflow, but this can also be done
+via standard cheminformatics toolkits such as JChem or RDKit. Prior to
+SDF conversion, activity or property columns that are not to be
+aggregated at the scaffold level should be deleted from the CSV file,
+in order to speed up the analysis and aggregation.  There are some
+further quirks to pre-processing datasets for the NCATS R-group tool
+that will be described in the Supplementary
+Material.\textbf{\textcolor{red}{follow through. Did you get this?}}
 
 \subsection{Partitioning Method: Complete Linkage Clustering}
-We retain the default method used at GSK to visualize groups of molecules in our visualizations just for comparison purposes. This method produces an output file in which the unique cluster ID (CLink) and number of other molecules in the same cluster (N\_Clink) are added as additional fields to the original dataset.  Complete linkage chemical clustering is described further in serveral references such as \citeauthor{Jain2010,Downs2003}.
+We retain the default method used at GSK to visualize groups of
+molecules in our visualizations just for comparison purposes. This
+method produces an output file in which the unique cluster ID (CLink)
+and number of other molecules in the same cluster (N\_Clink) are added
+as additional fields to the original dataset.  Complete linkage
+chemical clustering is described further in serveral references such
+as \citeauthor{Jain2010,Downs2003}.
 
 \subsection{Fragmentation Method: NCATS R-Group Tool}
 \label{sec:rgtool}
-The NCATS R-group analysis tool (\url{https://tripod.nih.gov/?p=46}) was developed to automatically and exhaustively generate R-group tables from a dataset using all scaffolds, defined as chemical substructures shared by two or more molecules. The scaffolds are defined as molecular fragments generated by exhaustive enumeration of all possible combinations of the Smallest Set of Smallest Rings (SSSR), as described at~\url{https://tripod.nih.gov/?p=160}. For a molecule with $k$ SSSR, the maximum possible number of such scaffolds is $2^k - 1$; however the actual number is usually much lower due to symmetry and additional constraints (\eg reactivity, synthetic accessibility).      
+The NCATS R-group analysis tool (\url{https://tripod.nih.gov/?p=46})
+was developed to automatically and exhaustively generate R-group
+tables from a dataset using all scaffolds, defined as chemical
+substructures shared by two or more molecules. The scaffolds are
+defined as molecular fragments generated by exhaustive enumeration of
+all possible combinations of the Smallest Set of Smallest Rings
+(SSSR), as described at~\url{https://tripod.nih.gov/?p=160}. For a
+molecule with $k$ SSSR, the maximum possible number of such scaffolds
+is $2^k - 1$; however the actual number is usually much lower due to
+symmetry and additional constraints (\eg reactivity, synthetic
+accessibility).
 
-As an example, in \fref{scafmethod}(b) we see the five scaffolds that were generated from the molecule shown in \fref{scafmethod}(a) from the TCAMS dataset.
+As an example, in \fref{scafmethod}(b) we see the five scaffolds that
+were generated from the molecule shown in \fref{scafmethod}(a) from
+the TCAMS dataset.
 
 \begin{figure}
 (a)\includegraphics[width=2.5in]{fig/tcam1_mol.png}\\
@@ -274,45 +376,216 @@ As an example, in \fref{scafmethod}(b) we see the five scaffolds that were gener
 \label{fig:scafmethod}
 \end{figure}
 
-\textbf{NCATS folks, please clarify and fill in any other relevant details}.
+\textbf{\textcolor{red}{NCATS folks, please clarify and fill in any other relevant details}}.
 
-The NCATS R-group tool provides a Java-based UI for exploring the scaffolds found within a dataset and their individual R-group tables. The original tool released in 2010 has since been superseded by the NCATS Scaffold Hopper~\url{https://tripod.nih.gov/?p=483}.  In this work we've used a special version of the NCATS R-group tool that has scaffold export functionality, which can be downloaded from~\url{http://tripod.nih.gov/ws/rgroupbeta/rgrouptool8.jar}. We typically launch the GUI from Linux using the -Xmx16G switch to pre-reserve 16 gigabytes of RAM, which enables datasets of upto ~40k compounds with a handful of numeric activity columns to be analyzed without running out of memory. We export out both the R-group Decomposition (as tab-separated Text file) and also Scaffolds (in the same format). The format of these two files is described briefly below.
+The original NCATS R-group tool focused on scaffold decomposition and
+the subsequent generation of R-group tables for each scaffold. Since
+then it has been extended to support scaffold hopping as well as
+providing contextual data (\eg literature references, activity
+summaries) and network visualizations of scaffold relationships. In
+this study we employ the latest version (available from
+~\url{http://tripod.nih.gov/ws/rgroupbeta/rgrouptool10.jar}). When
+running from the command-line, ensuring 16G of memory (via
+\texttt{-Xmx16G}) enables datasets of upto ~40k compounds with a
+handful of numeric activity columns to be analyzed without running out
+of memory. The scaffolds along with R-group tables for each scaffold
+can be exported in a JSON format, briefly described below. (We also
+provide an exemplar JSON export as SI). \textbf{\textcolor{red}{Remember to
+    include JSON export file as SI, along with the input sdf that was
+    used to generate it. Also the discussion below may be better
+    placed in SI}}.
 
-The R-group decomposition as exported has the following key columns:
+\begin{verbatim}
+[  
+   {  
+      "scaffold":"[*]C1=CC(NC2=[N]([*])C([*])=NC([*])=C2[*])=CC([*])=C1[*] |$_R1;;;;;;;_R7;;_R6;;;_R5;;_R4;;;_R3;;_R2$,c:5,9,12,15,18,t:1|",
+      "Scaffold Score":3.634708598797373,
+      "Complexity":210,
+      "Count":6,
+      "rgroupLabels":[  
+         "R1",
+         "R2",
+         "R3",
+         "R4",
+         "R5",
+         "R6",
+         "R7"
+      ],
+      "members":[  
+         {  
+            "id":"524451",
+            "smiles":"Cc1cc(Nc2ccc3CCCc3c2)n4ncnc4n1",
+            "rgroups":[  
+               {  
+                  "R2":"C1C[C:2]=[C:3]C1 |c:2|"
+               },
+               {  
+                  "R3":"C1C[C:2]=[C:3]C1 |c:2|"
+               },
+               {  
+                  "R5":"C*"
+               },
+               {  
+                  "R6":"N1C=N[C:6]=[N:7]1 |c:1,3|"
+               },
+               {  
+                  "R7":"N1C=N[C:6]=[N:7]1 |c:1,3|"
+               }
+            ]
+         },
+         {  
+            "id":"524460",
+            "smiles":"Cc1cc(Nc2cccc(c2)C(F)(F)F)nc(N)n1",
+            "rgroups":[  
+               {  
+                  "R3":"FC(F)(F)*"
+               },
+               {  
+                  "R5":"C*"
+               },
+               {  
+                  "R6":"N*"
+               }
+            ]
+         },
+         {  
+            "id":"524540",
+            "smiles":"Clc1cc(Cl)cc(Nc2ccnc(Nc3cc(Cl)cc(Cl)c3)n2)c1",
+            "rgroups":[  
+               {  
+                  "R1":"Cl*"
+               },
+               {  
+                  "R3":"Cl*"
+               },
+               {  
+                  "R6":"ClC1=CC(N*)=CC(Cl)=C1 |c:5,8,t:1|"
+               }
+            ]
+         },
+         {  
+            "id":"524611",
+            "smiles":"CCc1nc2nc(C)cc(Nc3ccc(F)c(Cl)c3)n2n1",
+            "rgroups":[  
+               {  
+                  "R1":"Cl*"
+               },
+               {  
+                  "R2":"F*"
+               },
+               {  
+                  "R5":"C*"
+               },
+               {  
+                  "R6":"CCC1=N[C:6]=[N:7]N1 |c:4,t:2|"
+               },
+               {  
+                  "R7":"CCC1=N[C:6]=[N:7]N1 |c:4,t:2|"
+               }
+            ]
+         },
+         {  
+            "id":"524781",
+            "smiles":"Cc1cc(Nc2ccccc2)nc(NCCOc3ccccc3)n1",
+            "rgroups":[  
+               {  
+                  "R5":"C*"
+               },
+               {  
+                  "R6":"*NCCOC1=CC=CC=C1 |c:7,9,t:5|"
+               }
+            ]
+         },
+         {  
+            "id":"524940",
+            "smiles":"NC(=O)Nc1ccc2c(Nc3ccc(OCc4ccccc4)cc3)ncnc2c1",
+            "rgroups":[  
+               {  
+                  "R2":"*OCC1=CC=CC=C1 |c:5,7,t:3|"
+               },
+               {  
+                  "R4":"NC(=O)NC1=C[C:5]=[C:4]C=C1 |c:6,8,t:4|"
+               },
+               {  
+                  "R5":"NC(=O)NC1=C[C:5]=[C:4]C=C1 |c:6,8,t:4|"
+               }
+            ]
+         }
+      ]
+   }
+]
+\end{verbatim}
+
+Briefly, the data is exported as a list of scaffolds. Each entry
+contains the following fields:
+
 \begin{itemize}
-\item {\it Scaffold\_ID}: Numeric Scaffold Identifier.
-\item {\it Scaffold SMILES}: Scaffold structure with attached R-group atoms.
-\item {\it ID}: Numeric or text molecule identifier (name). Each molecule is repeated once for each scaffold that it occurs in.
-\item {\it SMILES}: Molecule structure 
-\item {\it $R_1..R_n$}: R-group SMILES, with \*-atoms at attachment points.
-\item {\it Activity/Property columns}: Reproduced from original data for each molecule.
+\item {\it scaffold}: Scaffold structure with attached R-group atoms
+  (in ChemAxon cxsmiles format)
+\item {\it Scaffold Score}: \textbf{\textcolor{red}{What is the
+      definition of this?}}
+\item {\it Complexity}: A number that captures increasing size and
+  complexity of scaffolds - increases with number of rings, non-ring
+  atoms, chiral atoms and ring adjacencies.Complexity can be used to
+  prune away scaffolds that are too simple, by setting a cutoff such
+  as 100.  \textbf{\textcolor{red}{What is the definition of this?}}
+\item {\it Count}: Number of input molecules that contain this
+  scaffold
+\item {\it rgroupLabels}: A list of labels used to refer to the
+  individual R-groups
+\item {\it members}: A list of molecules that contain this scaffold,
+  along with the specific R-groups that are present
 \end{itemize}
 
-The Scaffold table as exported has the following key columns:
-\begin{itemize}
-\item {\it Structure}: Scaffold SMILES without R-groups attached. 
-\item {\it $Scaffold\_ID$}: Numeric scaffold identifier. Each scaffold occurs only once, and data columns are aggregated for all molecules containing the scaffold.
-\item {\it Complexity}: A number that captures increasing size and complexity of scaffolds - increases with number of rings, non-ring atoms, chiral atoms and ring adjacencies. \textbf{Trung or anyone else, would you like to provide more detail on this and the following scaffold metrics?}. Complexity can be used to prune away scaffolds that are too simple, by setting a cutoff such as 100.  
-\item {\it Count}: Number of molecules that share this scaffold
-\item {\it Score}: \textbf{Do we want to discuss and define this here?}
-\item {\it Activity/Property $\pm$ Standard Deviation}: This is exported as a single aggregate column per property $Prop$, with two values separated by the $\pm$ sign. A Pipeline Pilot protocol was written to split out each such column into two separate columns, $Prop$ and $Prop\_SD$, which is made available via the Online Supplementary Material. 
-\end{itemize}
+Apart from the fields described above, the scaffold entry may contain
+other fields whose names correspond to property fields in the input SD
+file. The values for these fields are aggregated across all molecules
+containing the scaffold and are reported as $\textrm{mean} \pm \textrm{sd}$.
 
 \subsection{Fragmentation Method: GSK Frameworks}
 \label{sec:gskframe}
 The R-group Tool described above uses the NCATS implementation of Molecular Frameworks to generate scaffolds. GSK's implementation of Molecular Frameworks is subtly different, and its use has been described in \citeauthor{Harper2004DDclus}. The two types of framework we retain for this study are Bemis-Murcko-like (\cite{BemisMurcko1996} with atom and bond orders retained) and RECAP\cite{Lewell:1998aa}. Other fragmentation methods described by \citeauthor{Harper2004DDclus} such as reduced graphs and classic Bemis-Murcko scaffolds (without atom types and bond orders) were skipped for the purposes of comparison; however there is no reason these could not be included in the framework we are proposing.    
 
-The input for the GSK frameworks code is a comma separated text file with molecules encoded in a SMILES field.  The code was modified by adding scripts to export the fuzzy clusters in a tabular format rather than prioritize them into mutually exclusive scaffolds as in \citeauthor{Harper2004DDclus}. This step produces a file similar to the R-group decomposition format described for the NCATS R-group tool in \sref{rgtool}: framework ID, framework SMILES, molecule ID, SMILES and replicated property/activity columns.  There are no R-group columns simply because this is not a default computation in the GSK frameworks code; R-group decomposition can be added in future. Similarly there is no separate table where activities and properties are summarized at the framework level, though this can be added too.
+The input for the GSK frameworks code is a comma separated text file
+with molecules encoded in a SMILES field.  The code was modified by
+adding scripts to export the fuzzy clusters in a tabular format rather
+than prioritize them into mutually exclusive scaffolds as in
+\citeauthor{Harper2004DDclus}. This step produces a file similar to
+the R-group decomposition format described for the NCATS R-group tool
+in \sref{rgtool}: framework ID, framework SMILES, molecule ID, SMILES
+and replicated property/activity columns.  There are no R-group
+columns simply because this is not a default computation in the GSK
+frameworks code.
 
-The GSK frameworks found within the same molecule from TCAMS are shown in \fref{scafmethod}(c).  The reader will observe several differences from the R-group tool: there are more scaffolds found, some clipped in the middle of a linker rather than at a ring, and some redundancy between multiple scaffolds. We will see in Section \ref{sec:results} that comprehensive coverage of fragments within each molecule can be both good and bad.   
+The GSK frameworks found within the same molecule from TCAMS are shown
+in \fref{scafmethod}(c).  The reader will observe several differences
+from the R-group tool: there are more scaffolds found, some clipped in
+the middle of a linker rather than at a ring, and some redundancy
+between multiple scaffolds. We will see in Section \ref{sec:results}
+that comprehensive coverage of fragments within each molecule can be
+both good and bad.
 
-Further details on how to set up and run the GSK frameworks code are provided in the Supplementary Material. 
+Further details on how to set up and run the GSK frameworks code are
+provided in the Supplementary Material.
 
 \subsection{Fragmentation Method: Scaffold Network Generator}
 \label{sec:SNG}
-Scaffold Network Generator \cite{Matlock2013SNG} as mentioned in the Introduction is a parallelizable and robust code to generate a hierarchical Scaffold Network from any chemical dataset. The operation of this tool is described on the web at \url{https://bitbucket.org/swamidass/scaffold-network-generator/wiki/Home}. SNG takes as input either a SMILES or an MDL SD-file, and we specify options to generate the Network and ID Map files as two tabular outputs.
+The Scaffold Network Generator (SNG) \cite{Matlock2013SNG} is a
+parallelizable and robust code to generate a hierarchical Scaffold
+Network from any chemical dataset. The operation of this tool is
+described on the web at
+\url{https://bitbucket.org/swamidass/scaffold-network-generator/wiki/Home}. SNG
+takes as input either a SMILES or an MDL SD-file, and we specify
+options to generate the Network and ID Map files as two tabular
+outputs.
 
-The Network file lists each Scaffold with numeric ID, SMILES, Number of Rings (which serves as the level in the hierarchy) and Subscaffolds presented as a comma-separated numeric list. We wrote a script to split the subscaffold list among multiple lines with the other fields duplicated, since this format is more amenable to Spotfire integration as described in a later section.  This script is made available in the Supplementary Material.    
+The Network file lists each Scaffold with numeric ID, SMILES, Number
+of Rings (which serves as the level in the hierarchy) and Subscaffolds
+presented as a comma-separated numeric list. We wrote a script to
+split the subscaffold list among multiple lines with the other fields
+duplicated, since this format is more amenable to Spotfire integration
+as described in a later section.  This script is made available in the
+Supplementary Material.
 
 The ID Map file has two columns, mapping a Molecule ID from the primary dataset to the Top-Level Scaffold (i.e. Murcko scaffold) obtained by stripping all pendant groups but no rings. Using the ID Map file followed by multiple iterations of the Network file one can elucidate the entire Scaffold Network starting from each query molecule, as described in a subsequent section.  As an example the scaffold network generated for a molecule from TCAMS is show in \fref{scafmethod}(d), as for the previous two methods.
 
@@ -320,7 +593,9 @@ The ID Map file has two columns, mapping a Molecule ID from the primary dataset 
 \section{Methods: Data Integration and Visualization in Spotfire}
 \label{sec:methods2}
 
-Next, we describe how tabular scaffold output generated using the NCATS R-group tool and other comparable methods is integrated into Spotfire, our visualization tool of choice at GSK.
+Next, we describe how tabular scaffold output generated using the
+NCATS R-group tool and other comparable methods is integrated into
+Spotfire, our visualization tool of choice at GSK.
 
 \subsection{Data Table Generation and Linking}
 
@@ -347,23 +622,45 @@ Next, we describe how tabular scaffold output generated using the NCATS R-group 
 \item $Scaffolds.Scaffold\_ID = RGdecomp.Scaffold\_ID$
 \end{itemize}   
 
-{\bf Scaffold-Network Generator} adds several additional layers of complexity to the preceding methods. The Molecule ID in the primary dataset is linked only to the Top-Level Scaffold ID in the ID Map file; there exists no reverse mapping from subscaffolds with fewer rings deep within the network to related Molecule IDs. Thus we create one by assuming one wants to explore at most three levels deeper than the top level scaffold, but not connect to other molecules that share only a single ring (rather than a larger system of two or more rings) with the parent molecule. Thus we add six (three in each direction) copies of the Scaffold Network table, two of the ID Map table, and two of the primary data table, connecting them using the following logic:
+{\bf Scaffold-Network Generator} adds several additional layers of
+complexity to the preceding methods. The Molecule ID in the primary
+dataset is linked only to the Top-Level Scaffold ID in the ID Map
+file; there exists no reverse mapping from subscaffolds with fewer
+rings deep within the network to related Molecule IDs. Thus we create
+one by assuming one wants to explore at most three levels deeper than
+the top level scaffold, but not connect to other molecules that share
+only a single ring (rather than a larger system of two or more rings)
+with the parent molecule. Thus we add six (three in each direction)
+copies of the Scaffold Network table, two of the ID Map table, and two
+of the primary data table, connecting them using the following logic:
 \begin{itemize}
-\item In the three Forward instances of the Network table, the Scaffold to Subscaffold Mapping already exists. Modify it by truncating (assigning a null subscaffold) when the number of rings is 2 or 1. 
-\subitem Define a new column that maps a null subscaffold to the same scaffold, to be able to follow the link to downstream tables without diving deeper.
-\item In the three Reverse instances of the Network table, the Subscaffold to Superscaffold mapping needs to be defined by inverting the provided mapping. Thus:
-  \subitem We define in each network table a duplicate scaffold ID field, dupID, so that one instance of the ID can be used to map in either direction without introducing a cycle.
-  \subitem The mapping from scaffolds in one table ($A$) to superscaffolds in one table higher ($B$) is then recast as one from scaffolds in $B$ to subscaffolds in $A$, using a different set of IDs from the upward links.   
-\item The Table Relations are then set up as follows to link Molecules to Related Molecules in the scaffold network:    
-\subitem $Main.Molecule\_ID = ID\_Map(2).Molecule\_ID$
-\subitem $ID\_Map.Top\_Level\_Scaffold = NetworkDown(3).Scaffold$
-\subitem $NetworkDown(3).SubScaffold = NetworkDown(2).Scaffold$
-\subitem $NetworkDown(2).SubScaffold = NetworkDown.Scaffold$
-\subitem $NetworkDown.Scaffold = NetworkUp.SubScaffold$
-\subitem $NetworkUp.Scaffold = NetworkUp(2).SubScaffold$
-\subitem $NetworkUp(2).Scaffold = NetworkUp(3).SubScaffold$
-\subitem $NetworkUp(3).Scaffold = ID\_Map.Top\_Level\_Scaffold$
-\subitem $ID\_Map.Molecule\_ID = Related Molecules(Copy~of~Main).Molecule\_ID$ 
+\item In the three Forward instances of the Network table, the
+  Scaffold to Subscaffold Mapping already exists. Modify it by
+  truncating (assigning a null subscaffold) when the number of rings
+  is 2 or 1.  \subitem Define a new column that maps a null
+  subscaffold to the same scaffold, to be able to follow the link to
+  downstream tables without diving deeper.
+\item In the three Reverse instances of the Network table, the
+  Subscaffold to Superscaffold mapping needs to be defined by
+  inverting the provided mapping. Thus: \subitem We define in each
+  network table a duplicate scaffold ID field, dupID, so that one
+  instance of the ID can be used to map in either direction without
+  introducing a cycle.  \subitem The mapping from scaffolds in one
+  table ($A$) to superscaffolds in one table higher ($B$) is then
+  recast as one from scaffolds in $B$ to subscaffolds in $A$, using a
+  different set of IDs from the upward links.
+\item The Table Relations are then set up as follows to link Molecules
+  to Related Molecules in the scaffold network: \subitem
+  $Main.Molecule\_ID = ID\_Map(2).Molecule\_ID$ \subitem
+  $ID\_Map.Top\_Level\_Scaffold = NetworkDown(3).Scaffold$ \subitem
+  $NetworkDown(3).SubScaffold = NetworkDown(2).Scaffold$ \subitem
+  $NetworkDown(2).SubScaffold = NetworkDown.Scaffold$ \subitem
+  $NetworkDown.Scaffold = NetworkUp.SubScaffold$ \subitem
+  $NetworkUp.Scaffold = NetworkUp(2).SubScaffold$ \subitem
+  $NetworkUp(2).Scaffold = NetworkUp(3).SubScaffold$ \subitem
+  $NetworkUp(3).Scaffold = ID\_Map.Top\_Level\_Scaffold$ \subitem
+  $ID\_Map.Molecule\_ID = Related
+  Molecules(Copy~of~Main).Molecule\_ID$
 \end{itemize}   
 
 We would like to emphasize that the above is one possible engineering solution we found for the problem of linking molecules to related molecules in Spotfire.  Several other solutions have been explored by our colleagues, which include: duplicating columns rather than tables; joining and merging all data into one giant table rather than maintaining multiple linked tables; linking up molecules directly to lists of other molecules in a preprocess that happens outside Spotfire (\eg in a script that integrates the data); and using various add-ins for Spotfire such as the SAR Toolkit{\bf RefBravi} and Discngine {\bf RefDiscngine}.
@@ -388,7 +685,22 @@ In the Supplementary Material we describe some of these alternate visualizations
 
 \subsection{Statistical Comparison of Scaffold Generation Methods}
 \label{sec:statmethod}
-Our goal in this section is to define the statistical methods that we have applied in characterizing various methods for classifying molecules using multiple non-overlapping scaffolds, as opposed to partitioning the set of molecules into non-overlapping categories (clusters). The similarities and differences between non-overlapping ontologies have been analyzed in the literature, and one example is the method of \citeauthor{Torres2009}, who provide a similarity measure between outputs of two partitioning clustering methods (not to be confused with the similarity measure between items that is used to define the clustering). They use Jaccard's similarity coefficient $S_{ij}$, defined as the ratio of intersection size to union size of two groups $i$ and $j$ in the ontology -- similar in spirit to the Tanimoto coefficient used to define Chemical fingerprint similarity.  This coefficient, computed pairwise and summed, yields a simple similarity measure between two clusterings $X$ and $Y$ with $m$ and $n$ members, respectively:
+Our goal in this section is to define the statistical methods that we
+have applied in characterizing various methods for classifying
+molecules using multiple non-overlapping scaffolds, as opposed to
+partitioning the set of molecules into non-overlapping categories
+(clusters). The similarities and differences between non-overlapping
+ontologies have been analyzed in the literature, and one example is
+the method of \citeauthor{Torres2009}, who provide a similarity
+measure between outputs of two partitioning clustering methods (not to
+be confused with the similarity measure between items that is used to
+define the clustering). They use Jaccard's similarity coefficient
+$S_{ij}$, defined as the ratio of intersection size to union size of
+two groups $i$ and $j$ in the ontology -- similar in spirit to the
+Tanimoto coefficient used to define Chemical fingerprint similarity.
+This coefficient, computed pairwise and summed, yields a simple
+similarity measure between two clusterings $X$ and $Y$ with $m$ and
+$n$ members, respectively:
 \begin{equation}
 Sim(X,Y) = \Sigma_{i \le m, j \le n}{S_{ij} / max(m,n)}
 \end{equation}
@@ -396,6 +708,7 @@ Sim(X,Y) = \Sigma_{i \le m, j \le n}{S_{ij} / max(m,n)}
 We adapt this method for SAR analysis using overlapping scaffolds, where the question on the minds of chemists is twofold: what are the fragments in active/desirable molecules, and which other molecules share these fragments? Now if there are two methods $A$ and $B$ of fragmenting compounds, we can evaluate for any molecule how many other molecules share fragments from $A$ or from $B$, and thus can be found using ontologies $A$ alone, $B$ alone, $A$ and $B$, or $A$ excluding $B$.  Using these methods we can evaluate the overall similarity of methods $A$ and $B$, and also independently score the usefulness of $A$ and $B$.
 
 For any compound $C$ and ontology $A$, define the structure group of $C$ under $A$, $C_A$ as the set of compounds that share fragments from $A$ with compound $C$. Similarly define the structure group of $C$ under $B$, $C_B$ as the set of compounds that share fragments from $B$. The Common Proportion ($CP$) for compound $C$ is then defined as the fraction of compounds found by combining both methods that would have been found by either method alone:
+
 \begin{equation}
 CP(C) = \| C_A \cap C_B \| / \| C_A \cup C_B \|
 \end{equation}
@@ -414,12 +727,15 @@ In constrast, the Proportion of Information Unique to $A, PIU(A)$ uses the set d
   
 These statistics can be averaged over all compounds in a dataset to yield the Average Common Proportion (ACP), Average Proportion of Information (API), and Average Proportion of Information Unique to A (APIU).  Other statistics can also be applied to the distribution of $CP$, $PI$ or $PIU$ to characterize the dataset and overlapping scaffolds used to characterize it.
 
-Our methods extend the similarity score of \citeauthor{Torres2009} to overlapping clusters by using a set of non-overlapping clusters derived from them, defined as follows:
+Our methods extend the similarity score of \citeauthor{Torres2009} to
+overlapping clusters by using a set of non-overlapping clusters
+derived from them, defined as follows:
 \begin{itemize}
-\item Replace the original clusters by new clusters, one for each item in any cluster (in this case, any compound in the dataset).
-\item The cluster for Compound $C$ contains all compounds that appear with Compound $C$ in any cluster, \ie $C_A$.   
-  
-\end{itemize} 
+\item Replace the original clusters by new clusters, one for each item
+  in any cluster (in this case, any compound in the dataset).
+\item The cluster for Compound $C$ contains all compounds that appear
+  with Compound $C$ in any cluster, \ie $C_A$.
+\end{itemize}
 
 \section{Results}
 \label{sec:results}
