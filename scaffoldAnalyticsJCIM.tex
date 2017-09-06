@@ -395,7 +395,7 @@ current work we employed the TSV format which is briefly described.
 The scaffold file lists the scaffolds, one to a row with the following
 key columns:
 \begin{itemize}
-\item {\it $Scaffold\_ID$}: Numeric scaffold identifier. Each scaffold occurs only once, and data columns are aggregated for all molecules containing the scaffold.
+\item {\it ScaffoldID}: Numeric scaffold identifier. Each scaffold occurs only once, and data columns are aggregated for all molecules containing the scaffold.
 \item {\it Structure}: Scaffold SMILES without R-groups attached. 
 \item{\it RgroupLabels}: A comma separated list of R-group labels for
   all R-groups associated with the scaffold
@@ -407,12 +407,12 @@ The remaining columns are aggregated property columns. Thus for ecah
 property of the input molecules, we compute the mean and standard
 deviation of that property for all molecules containing the
 scaffold. These values are reported in columns labeled \texttt{X} and
-\texttt{X_sd}, where \texttt{X} is the property name.
+\texttt{$X_{sd}$}, where \texttt{X} is the property name.
 
 The corresponding R-group decomposition file contains the following columns:
 \begin{itemize}
 \item {\it ScaffoldID}: Numeric scaffold identifier (corresponding to
-  the {\it ScaffoldID} column in the scaffold file
+  the {\it ScaffoldID} column in the scaffold file)
 \item {\it MolID}: Numeric or text molecule identifier (name). Each molecule is repeated once for each scaffold that it occurs in.\
 \item {\it Structure}: Molecule structure
 \item {\it $R_1..R_n$}: R-group SMILES, with \*-atoms at attachment
