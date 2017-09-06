@@ -725,7 +725,13 @@ In constrast, the Proportion of Information Unique to $A, PIU(A)$ uses the set d
  PIU_C(A) = \| C_A \setminus C_B \| / \| C_A \cup C_B \| = 1 - PI_c(B)
  \end{equation}
   
-These statistics can be averaged over all compounds in a dataset to yield the Average Common Proportion (ACP), Average Proportion of Information (API), and Average Proportion of Information Unique to A (APIU).  Other statistics can also be applied to the distribution of $CP$, $PI$ or $PIU$ to characterize the dataset and overlapping scaffolds used to characterize it.
+When comparing one fragmentation method against another, we often see that one method utilizes a vastly greater number of shared fragments than the other in order to connect compound $C$ to a very similarly sized structure group. To capture this tendency and reward methods that connect molecules to related ones efficiently rather than exhaustively, we define a Fragment Efficiency measure as follows. Let $frag_A(C)$ be the set of fragments of compound $C$ in ontology $A$ that connects $C$ to its structure group $C_A$. Similarly define $frag_B(C)$ for ontology $B$. Then: 
+\begin{equation}
+FragEff_A(C) = \| C_a \| / \| frag_A(C) \|
+\end{equation}
+
+
+These statistics can be averaged over all compounds in a dataset to yield the Average Common Proportion (ACP), Average Proportion of Information (API), Average Proportion of Information Unique to A (APIU) or Average Fragment Efficiency (AFE).  Other statistics can also be applied to the distribution of $CP$, $PI$ or $PIU$ to characterize the dataset and overlapping scaffolds used to characterize it.
 
 Our methods extend the similarity score of \citeauthor{Torres2009} to
 overlapping clusters by using a set of non-overlapping clusters
@@ -736,6 +742,7 @@ derived from them, defined as follows:
 \item The cluster for Compound $C$ contains all compounds that appear
   with Compound $C$ in any cluster, \ie $C_A$.
 \end{itemize}
+
 
 \section{Results}
 \label{sec:results}
@@ -825,11 +832,13 @@ Recall the concepts of structure group and common proportion defined in \sref{st
   (a)\includegraphics[width=1in]{fig/mol_6scaf.png}
   (b)\includegraphics[width=1in]{fig/howmany_scaf.png}
   (c) \includegraphics[width=3in]{fig/structure_group_C.png}
-  \caption{(a) Compound $C$, chosen here as PubChem ID 536182 from previous figures, has 6 fragments derived using the NCATS R-group tool. (b) Distribution of number of fragments, out of nearly 6000 total, found in each molecule. (c) Scaffold pie plot showing the structure group of $C$, restricted here to only compounds that share two or more substructures with $C$. This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.
+  \caption{(a) Compound $C$, chosen here as PubChem ID 536182 from previous figures, has 6 fragments derived using the NCATS R-group tool. (b) Distribution of number of fragments, out of nearly 6000 total, found in each molecule. (c) Scaffold pie plot showing the structure group of $C$, restricted here to only compounds that share two or more substructures with $C$. This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.}
     \label{fig:strucgroup}
 \end{figure}
 
-Comparing the averaged statistics, 
+We compare the Common Proportion, Proportion of Information Unique (PIU) and Fragment Efficiency (FragEff) statistics for the GSK Frameworks (method ``A'') and the NCATS R-group tool (method ``B'') for all the 13.5k compounds in TCAMS in \fref{statcompare}.  This figure has PIU of methods $A$ and $B$ on the axes, is sized by ratio of Fragment Efficiencies for all 13.5k molecules.   
+
+
 
 \begin{figure}
 \includegraphics[width=6in]{fig/statcompare_frames_RGtool.png}
@@ -837,8 +846,9 @@ Comparing the averaged statistics,
 \label{fig:statcompare}
 \end{figure}
  
-\textbf{Joe and Zangdong to again provide brief methodology recap.}
-Comparing the GSK Frameworks and NCATS R-Group Tool for the TCAMS dataset using the above mentioned statistical metrics, we show the aggregate statistics over the entire dataset in \tref{statcomparetable} and the PIU (proportion of information unique to each method) and ratio of Fragment Efficiencies for all 13.5k molecules in \fref{statcompare}. We can make a few observations from this data and plot:
+Comparing the GSK Frameworks and NCATS R-Group Tool for the TCAMS dataset using the above mentioned statistical metrics, we show the aggregate statistics over the entire dataset in \tref{statcomparetable}.
+
+We can make a few observations from this data and plot:
 \begin{enumerate} 
 \item The two methods allow one to access different sets of molecules starting from any molecule in TCAMS - the average overlap in their coverage is 40\%.
 \item On the average, one can link to about twice as many molecules with the GSK frameworks; however, this is because on the average there are 6 times more frameworks than NCATS scaffolds, so the fragment efficiency is actually 3 times greater for NCATS scaffolds. One could also argue that many of the framework-only links (eg. variously decorated benzene rings) are not useful.
