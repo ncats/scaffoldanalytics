@@ -687,7 +687,7 @@ In the Supplementary Material we describe some of these alternate visualizations
 \label{sec:statmethod}
 Our goal in this section is to define the statistical methods that we
 have applied in characterizing various methods for classifying
-molecules using multiple non-overlapping scaffolds, as opposed to
+molecules using multiple overlapping scaffolds, as opposed to
 partitioning the set of molecules into non-overlapping categories
 (clusters). The similarities and differences between non-overlapping
 ontologies have been analyzed in the literature, and one example is
@@ -734,7 +734,7 @@ FragEff_A(C) = \| C_a \| / \| frag_A(C) \|
 These statistics can be averaged over all compounds in a dataset to yield the Average Common Proportion (ACP), Average Proportion of Information (API), Average Proportion of Information Unique to A (APIU) or Average Fragment Efficiency (AFE).  Other statistics can also be applied to the distribution of $CP$, $PI$ or $PIU$ to characterize the dataset and overlapping scaffolds used to characterize it.
 
 Our methods extend the similarity score of \citeauthor{Torres2009} to
-overlapping clusters by using a set of non-overlapping clusters
+overlapping clusters by using a set of clusters
 derived from them, defined as follows:
 \begin{itemize}
 \item Replace the original clusters by new clusters, one for each item
@@ -836,6 +836,29 @@ Recall the concepts of structure group and common proportion defined in \sref{st
     \label{fig:strucgroup}
 \end{figure}
 
+
+Comparing the GSK Frameworks and NCATS R-Group Tool for the TCAMS dataset using the above mentioned statistical metrics, we show the aggregate statistics over the entire dataset in \tref{statcomparetable}.
+
+\begin{table}\ref{table:statcomparetable}
+  \begin{tabular}{c|ccc|c}
+    %\input{chemblntd_gsk_DDclus_RGtool_stat_measures.txt}
+    {\bf Column} & {\bf P10} & {\bf Median} & {\bf P90} & {\bf Avg} \\
+    {\bf $C_A$} & 420.00 & 1849.00 & 3203.50 & 1845.54 \\
+    {\bf $C_B$} & 83.50 & 888.00 & 2151.00 & 1047.93 \\
+    {\bf CP} & 0.05 & 0.43 & 0.76 & 0.41 \\
+    {\bf $PI_A$} & 0.76 & 0.96 & 1.00 & 0.91 \\
+    {\bf $PI_B$} & 0.09 & 0.53 & 0.87 & 0.50 \\
+    {\bf $PIU_A$} & 0.13 & 0.47 & 0.91 & 0.50 \\
+    {\bf $PIU_B$} & 0.00 & 0.04 & 0.24 & 0.09 \\
+    {\bf $Frag_A$} & 10.00 & 32.00 & 74.00 & 38.96 \\
+    {\bf $Frag_B$} & 2.00 & 5.00 & 11.00 & 5.93 \\
+    {\bf $FragEff_A$} & 15.60 & 52.12 & 140.23 & 69.72 \\
+    {\bf $FragEff_B$} & 21.25 & 150.80 & 454.00 & 211.80
+  \end{tabular}
+  \caption{Statistics computed for 10th/90th percentile, median and average value for structure group size ($Ca$/$Cb$), common proportion, propotional information unique to A and B, number of fragments in and fragment efficiency of method A (GSK frameworks) and B (NCATS R-group tool).}
+\end{table}
+
+
 We compare the Common Proportion, Proportion of Information Unique (PIU) and Fragment Efficiency (FragEff) statistics for the GSK Frameworks (method ``A'') and the NCATS R-group tool (method ``B'') for all the 13.5k compounds in TCAMS in \fref{statcompare}.  This figure has PIU of methods $A$ and $B$ on the axes, is sized by ratio of Fragment Efficiencies for all 13.5k molecules.   
 
 
@@ -846,8 +869,6 @@ We compare the Common Proportion, Proportion of Information Unique (PIU) and Fra
 \label{fig:statcompare}
 \end{figure}
  
-Comparing the GSK Frameworks and NCATS R-Group Tool for the TCAMS dataset using the above mentioned statistical metrics, we show the aggregate statistics over the entire dataset in \tref{statcomparetable}.
-
 We can make a few observations from this data and plot:
 \begin{enumerate} 
 \item The two methods allow one to access different sets of molecules starting from any molecule in TCAMS - the average overlap in their coverage is 40\%.
