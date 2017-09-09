@@ -384,163 +384,40 @@ then it has been extended to support scaffold hopping as well as
 providing contextual data (\eg literature references, activity
 summaries) and network visualizations of scaffold relationships. In
 this study we employ the latest version (available from
-~\url{http://tripod.nih.gov/ws/rgroupbeta/rgrouptool10.jar}). When
+~\url{http://tripod.nih.gov/ws/rgroupbeta/rgrouptool11.jar}). When
 running from the command-line, ensuring 16G of memory (via
 \texttt{-Xmx16G}) enables datasets of upto ~40k compounds with a
 handful of numeric activity columns to be analyzed without running out
 of memory. The scaffolds along with R-group tables for each scaffold
-can be exported in a JSON format, briefly described below. (We also
-provide an exemplar JSON export as SI). \textbf{\textcolor{red}{Remember to
-    include JSON export file as SI, along with the input sdf that was
-    used to generate it. Also the discussion below may be better
-    placed in SI}}.
+can be exported in a set of TSV files or a single JSON file. In the
+current work we employed the TSV format which is briefly described.
 
-\begin{verbatim}
-[  
-   {  
-      "scaffold":"[*]C1=CC(NC2=[N]([*])C([*])=NC([*])=C2[*])=CC([*])=C1[*] |$_R1;;;;;;;_R7;;_R6;;;_R5;;_R4;;;_R3;;_R2$,c:5,9,12,15,18,t:1|",
-      "Scaffold Score":3.634708598797373,
-      "Complexity":210,
-      "Count":6,
-      "rgroupLabels":[  
-         "R1",
-         "R2",
-         "R3",
-         "R4",
-         "R5",
-         "R6",
-         "R7"
-      ],
-      "members":[  
-         {  
-            "id":"524451",
-            "smiles":"Cc1cc(Nc2ccc3CCCc3c2)n4ncnc4n1",
-            "rgroups":[  
-               {  
-                  "R2":"C1C[C:2]=[C:3]C1 |c:2|"
-               },
-               {  
-                  "R3":"C1C[C:2]=[C:3]C1 |c:2|"
-               },
-               {  
-                  "R5":"C*"
-               },
-               {  
-                  "R6":"N1C=N[C:6]=[N:7]1 |c:1,3|"
-               },
-               {  
-                  "R7":"N1C=N[C:6]=[N:7]1 |c:1,3|"
-               }
-            ]
-         },
-         {  
-            "id":"524460",
-            "smiles":"Cc1cc(Nc2cccc(c2)C(F)(F)F)nc(N)n1",
-            "rgroups":[  
-               {  
-                  "R3":"FC(F)(F)*"
-               },
-               {  
-                  "R5":"C*"
-               },
-               {  
-                  "R6":"N*"
-               }
-            ]
-         },
-         {  
-            "id":"524540",
-            "smiles":"Clc1cc(Cl)cc(Nc2ccnc(Nc3cc(Cl)cc(Cl)c3)n2)c1",
-            "rgroups":[  
-               {  
-                  "R1":"Cl*"
-               },
-               {  
-                  "R3":"Cl*"
-               },
-               {  
-                  "R6":"ClC1=CC(N*)=CC(Cl)=C1 |c:5,8,t:1|"
-               }
-            ]
-         },
-         {  
-            "id":"524611",
-            "smiles":"CCc1nc2nc(C)cc(Nc3ccc(F)c(Cl)c3)n2n1",
-            "rgroups":[  
-               {  
-                  "R1":"Cl*"
-               },
-               {  
-                  "R2":"F*"
-               },
-               {  
-                  "R5":"C*"
-               },
-               {  
-                  "R6":"CCC1=N[C:6]=[N:7]N1 |c:4,t:2|"
-               },
-               {  
-                  "R7":"CCC1=N[C:6]=[N:7]N1 |c:4,t:2|"
-               }
-            ]
-         },
-         {  
-            "id":"524781",
-            "smiles":"Cc1cc(Nc2ccccc2)nc(NCCOc3ccccc3)n1",
-            "rgroups":[  
-               {  
-                  "R5":"C*"
-               },
-               {  
-                  "R6":"*NCCOC1=CC=CC=C1 |c:7,9,t:5|"
-               }
-            ]
-         },
-         {  
-            "id":"524940",
-            "smiles":"NC(=O)Nc1ccc2c(Nc3ccc(OCc4ccccc4)cc3)ncnc2c1",
-            "rgroups":[  
-               {  
-                  "R2":"*OCC1=CC=CC=C1 |c:5,7,t:3|"
-               },
-               {  
-                  "R4":"NC(=O)NC1=C[C:5]=[C:4]C=C1 |c:6,8,t:4|"
-               },
-               {  
-                  "R5":"NC(=O)NC1=C[C:5]=[C:4]C=C1 |c:6,8,t:4|"
-               }
-            ]
-         }
-      ]
-   }
-]
-\end{verbatim}
-
-Briefly, the data is exported as a list of scaffolds. Each entry
-contains the following fields:
-
+The scaffold file lists the scaffolds, one to a row with the following
+key columns:
 \begin{itemize}
-\item {\it scaffold}: Scaffold structure with attached R-group atoms
-  (in ChemAxon cxsmiles format)
-\item {\it Scaffold Score}: \textbf{\textcolor{red}{What is the
-      definition of this?}}
-\item {\it Complexity}: A number that captures increasing size and
-  complexity of scaffolds - increases with number of rings, non-ring
-  atoms, chiral atoms and ring adjacencies.Complexity can be used to
-  prune away scaffolds that are too simple, by setting a cutoff such
-  as 100.  \textbf{\textcolor{red}{What is the definition of this?}}
-\item {\it Count}: Number of input molecules that contain this
-  scaffold
-\item {\it rgroupLabels}: A list of labels used to refer to the
-  individual R-groups
-\item {\it members}: A list of molecules that contain this scaffold,
-  along with the specific R-groups that are present
+\item {\it ScaffoldID}: Numeric scaffold identifier. Each scaffold occurs only once, and data columns are aggregated for all molecules containing the scaffold.
+\item {\it Structure}: Scaffold SMILES without R-groups attached. 
+\item{\it RgroupLabels}: A comma separated list of R-group labels for
+  all R-groups associated with the scaffold
+\item {\it Scaffold Score}: \textbf{Do we want to discuss and define this here?}
+\item {\it Complexity}: A number that captures increasing size and complexity of scaffolds - increases with number of rings, non-ring atoms, chiral atoms and ring adjacencies. \textbf{Trung or anyone else, would you like to provide more detail on this and the following scaffold metrics?}. Complexity can be used to prune away scaffolds that are too simple, by setting a cutoff such as 100.  
+\item {\it Count}: Number of molecules that share this scaffold
 \end{itemize}
+The remaining columns are aggregated property columns. Thus for ecah
+property of the input molecules, we compute the mean and standard
+deviation of that property for all molecules containing the
+scaffold. These values are reported in columns labeled \texttt{X} and
+\texttt{$X_{sd}$}, where \texttt{X} is the property name.
 
-Apart from the fields described above, the scaffold entry may contain
-other fields whose names correspond to property fields in the input SD
-file. The values for these fields are aggregated across all molecules
-containing the scaffold and are reported as $\textrm{mean} \pm \textrm{sd}$.
+The corresponding R-group decomposition file contains the following columns:
+\begin{itemize}
+\item {\it ScaffoldID}: Numeric scaffold identifier (corresponding to
+  the {\it ScaffoldID} column in the scaffold file)
+\item {\it MolID}: Numeric or text molecule identifier (name). Each molecule is repeated once for each scaffold that it occurs in.\
+\item {\it Structure}: Molecule structure
+\item {\it $R_1..R_n$}: R-group SMILES, with \*-atoms at attachment
+  points. By default we limit to $n = 21$
+\end{itemize}
 
 \subsection{Fragmentation Method: GSK Frameworks}
 \label{sec:gskframe}
