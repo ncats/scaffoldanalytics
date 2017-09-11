@@ -310,8 +310,8 @@ and merging datasets from multiple screens, combining their SAR to
 design hybrid molecules, and making inferences about unknown activity
 in one screen based on known activity in another screen.
 
-These two and our other datasets are tabulated in \tref{dataset}, with
-references provided where available.
+%These two and our other datasets are tabulated in \tref{dataset}, with
+%references provided where available.
 
 Next, we describe several methods we have assembled as part of our
 workflow that enable multiple scaffolds to be assigned to each
@@ -599,24 +599,24 @@ We adapt this method for SAR analysis using overlapping scaffolds, where the que
 For any compound $C$ and ontology $A$, define the structure group of $C$ under $A$, $C_A$ as the set of compounds that share fragments from $A$ with compound $C$. Similarly define the structure group of $C$ under $B$, $C_B$ as the set of compounds that share fragments from $B$. The Common Proportion ($CP$) for compound $C$ is then defined as the fraction of compounds found by combining both methods that would have been found by either method alone:
 
 \begin{equation}
-CP(C) = \| C_A \cap C_B \| / \| C_A \cup C_B \|
+CP_{A,B}(C) = \| C_A \cap C_B \| / \| C_A \cup C_B \|
 \end{equation}
 
-Similar statistics can be defined to rank the usefulness of an individual ontology given others. The Proportion of Information $PI(A)$ calculates the proportion of compounds reachable from $A$ and $B$ that would be reachable from $A$ alone:
+Similar statistics can be defined to rank the usefulness of an individual ontology given others. The Proportion of Information $PI_A$ calculates the proportion of compounds reachable from $A$ and $B$ that would be reachable from $A$ alone:
 
 \begin{equation}
-PI_C(A) = \| C_A \| / \| C_A \cup C_B \|
+PI_A(C) = \| C_A \| / \| C_A \cup C_B \|
 \end{equation}
 
-In constrast, the Proportion of Information Unique to $A, PIU(A)$ uses the set difference to get at the question: if I have $B$, do I still need $A$? 
+In constrast, the Proportion of Information Unique to $A, PIU_A$ uses the set difference between $C_A$ and $C_B$ to get at the question: if I have $B$, do I still need $A$? 
 
 \begin{equation}
- PIU_C(A) = \| C_A \setminus C_B \| / \| C_A \cup C_B \| = 1 - PI_c(B)
+ PIU_A(C) = \| C_A \setminus C_B \| / \| C_A \cup C_B \| = 1 - PI_c(B)
  \end{equation}
   
 When comparing one fragmentation method against another, we often see that one method utilizes a vastly greater number of shared fragments than the other in order to connect compound $C$ to a very similarly sized structure group. To capture this tendency and reward methods that connect molecules to related ones efficiently rather than exhaustively, we define a Fragment Efficiency measure as follows. Let $frag_A(C)$ be the set of fragments of compound $C$ in ontology $A$ that connects $C$ to its structure group $C_A$. Similarly define $frag_B(C)$ for ontology $B$. Then: 
 \begin{equation}
-FragEff_A(C) = \| C_a \| / \| frag_A(C) \|
+FragEff_A(C) = \| C_A \| / \| frag_A(C) \|
 \end{equation}
 
 
@@ -714,27 +714,36 @@ Using the Scaffold Network to visualize Related Molecules, one is able to deconv
 
 To summarize, all three multiple-scaffold decomposition methods considered in this study, \ie NCATS R-group Tool, GSK Frameworks  and Scaffold Network Generator give comparable insights when exploring the TCAMS dataset, with some differences stemming from individual substructures that are considered shared scaffolds or not by the individual methods.  We now explore these overlaps, similarities and differences in the aggregate using the statistical methods described earlier in \sref{statmethod}.
 
-\subsection{Statistical Comparison of Scaffold-Generation Methods}\ref{statcomp}
+\subsection{Statistical Comparison of Scaffold-Generation Methods}\label{sec:statcomp}
 
 Recall the concepts of structure group and common proportion defined in \sref{statmethod}.  Let us now apply these to analyze and compare the scaffold generation methods GSK Frameworks ($A$) and NCATS R-group tool ($B$). As an illustration, \fref{strucgroup} (a)-(c) shows the structure group of the compound $C$ with PubChem ID 536182. 
 \begin{figure}
-  (a)\includegraphics[width=1in]{fig/mol_6scaf.png}
-  (b)\includegraphics[width=1in]{fig/howmany_scaf.png}
-  (c) \includegraphics[width=3in]{fig/structure_group_C.png}
+\centering
+  \begin{minipage}[b][0.2\textheight][s]{0.3\textwidth}
+  \centering
+  (a)\includegraphics[width=1.5in]{fig/mol_6scaf.png}
+  (b)\includegraphics[width=1.5in]{fig/howmany_scaf.png}
+  \end{minipage}
+  (c)\includegraphics[width=3.5in]{fig/structure_group_C.png}
   \caption{(a) Compound $C$, chosen here as PubChem ID 536182 from previous figures, has 6 fragments derived using the NCATS R-group tool. (b) Distribution of number of fragments, out of nearly 6000 total, found in each molecule. (c) Scaffold pie plot showing the structure group of $C$, restricted here to only compounds that share two or more substructures with $C$. This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.}
     \label{fig:strucgroup}
 \end{figure}
 
 
-Comparing the GSK Frameworks and NCATS R-Group Tool for the TCAMS dataset using the above mentioned statistical metrics, we show the aggregate statistics over the entire dataset in \tref{statcomparetable}.
+Comparing the GSK Frameworks and NCATS R-Group Tool for the TCAMS dataset using the above mentioned statistical metrics, we show the aggregate statistics over the entire dataset in \fref{statcomparetable}.  
 
-\begin{table}\ref{table:statcomparetable}
-  \begin{tabular}{c|ccc|c}
-    %\input{chemblntd_gsk_DDclus_RGtool_stat_measures.txt}
+\begin{figure}
+  \begin{minipage}[c]{\linewidth}
+\vspace{0pt}
+\centering
+\scalebox{.8}{
+(a)\begin{tabular}{|c|ccc|c|}
+    \hline
     {\bf Column} & {\bf P10} & {\bf Median} & {\bf P90} & {\bf Avg} \\
+    \hline    
     {\bf $C_A$} & 420.00 & 1849.00 & 3203.50 & 1845.54 \\
     {\bf $C_B$} & 83.50 & 888.00 & 2151.00 & 1047.93 \\
-    {\bf CP} & 0.05 & 0.43 & 0.76 & 0.41 \\
+    {\bf $CP$} & 0.05 & 0.43 & 0.76 & 0.41 \\
     {\bf $PI_A$} & 0.76 & 0.96 & 1.00 & 0.91 \\
     {\bf $PI_B$} & 0.09 & 0.53 & 0.87 & 0.50 \\
     {\bf $PIU_A$} & 0.13 & 0.47 & 0.91 & 0.50 \\
@@ -742,10 +751,15 @@ Comparing the GSK Frameworks and NCATS R-Group Tool for the TCAMS dataset using 
     {\bf $Frag_A$} & 10.00 & 32.00 & 74.00 & 38.96 \\
     {\bf $Frag_B$} & 2.00 & 5.00 & 11.00 & 5.93 \\
     {\bf $FragEff_A$} & 15.60 & 52.12 & 140.23 & 69.72 \\
-    {\bf $FragEff_B$} & 21.25 & 150.80 & 454.00 & 211.80
+    {\bf $FragEff_B$} & 21.25 & 150.80 & 454.00 & 211.80 \\
+    \hline
   \end{tabular}
+ }
+(b)\includegraphics[width=2in]{fig/CP_TCAMS_GSKFW_RGT.png}
+  \end{minipage}
   \caption{Statistics computed for 10th/90th percentile, median and average value for structure group size ($Ca$/$Cb$), common proportion, propotional information unique to A and B, number of fragments in and fragment efficiency of method A (GSK frameworks) and B (NCATS R-group tool).}
-\end{table}
+\label{fig:statcomparetable}
+\end{figure}
 
 
 We compare the Common Proportion, Proportion of Information Unique (PIU) and Fragment Efficiency (FragEff) statistics for the GSK Frameworks (method ``A'') and the NCATS R-group tool (method ``B'') for all the 13.5k compounds in TCAMS in \fref{statcompare}.  This figure has PIU of methods $A$ and $B$ on the axes, is sized by ratio of Fragment Efficiencies for all 13.5k molecules.   
@@ -761,9 +775,23 @@ We compare the Common Proportion, Proportion of Information Unique (PIU) and Fra
 We can make a few observations from this data and plot:
 \begin{enumerate} 
 \item The two methods allow one to access different sets of molecules starting from any molecule in TCAMS - the average overlap in their coverage is 40\%.
-\item On the average, one can link to about twice as many molecules with the GSK frameworks; however, this is because on the average there are 6 times more frameworks than NCATS scaffolds, so the fragment efficiency is actually 3 times greater for NCATS scaffolds. One could also argue that many of the framework-only links (eg. variously decorated benzene rings) are not useful.
+\item On the average, one can link to about twice as many molecules with the GSK frameworks; however, this is because on the average there are 6 times more frameworks than NCATS scaffolds, so the fragment efficiency is actually 3 times greater for NCATS scaffolds. One could also argue that many of the framework-only links (\eg variously decorated benzene rings) are not useful.
 \item The outliers are interesting. At one end, compounds in a rare tautomer are unified with the dominant one by the NCATS tool (high fragment efficiency), but left as singletons by the frameworks (low fragment efficiency). And compounds whose only link with other molecules would be a benzene ring or similar low complexity scaffold remain singletons with the R-group tool (lower fragment efficiency).
 \end{enumerate}
+
+We have also explored the Common Proportion measure to get at the overlap between structure and activity, \ie to investigate the statistical basis of SAR based on overlapping scaffolds. To do this, we define an Activity Group of compound $C$, $C_{act}$ as a set of compounds with activity bordering that of $C$ (in this case pIC50 in the 3D7 antimalarial assay). The activity group of each compound $C$ is defined to be the same size as the structure group, denoted $C_A$ or $C_B$ above, and generalized here as $C_{str}$.  This is done arbitrarily for ease of statistical calculations, being cognizant that it may soimetimes lead to issues such as breaking a large list of compounds with the same activity arbitrarily, especially when picking a small list of activity neighbors for compounds with a small structure group.
+
+The structure-activity common proportion, $CP_{str,act}(C)$ then measures the overlap between the structure neighbors of $C$, \ie compounds sharing any scaffold with $C$, and its activity neighbors, \ie compounds in a similar activity range.
+\begin{equation}
+CP_{str,act}(C) = \| C_{str} \cap C_{act} \| / \| C_{str} \cup C_{act} \|
+\end{equation}
+
+For comparing groups of different sizes we use the normalized Common Proportion, dividing by the expected overlap of the same activity group with a structure group determined purely by chance.  With the structure group being the same size as the activity group, this is the probability that if we pick $ \| C_{act} - 1\|$ compounds at random they will lie in $C_{act}$, \ie $(\| C_{act} - 1\|)/(N - 1)$. The subtraction by 1 accounts for the fact that the compound itself always lies in its own structure and activity neighborhoods. So then:
+
+\begin{equation}
+NormCP_{str,act}(C) = CP_{str,act}(C) / (Expected CP for Random Str) 
+\end{equation}
+
 
 
 \section{Discussion}
