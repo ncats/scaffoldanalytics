@@ -35,8 +35,8 @@
 \newcommand*\fref[1]{Figure~\ref{fig:#1}}
 \newcommand*\tref[1]{Table~\ref{table:#1}}
 \newcommand*\sref[1]{Section~\ref{sec:#1}}
-\newcommand*\eg{e.g.~}
-\newcommand*\ie{i.e.~}
+\newcommand*\eg{e.g.,~}
+\newcommand*\ie{i.e.,~}
 %\newcommand*\citeauthoryear[1]{{\citeauthor{#1}~(\citeyear{#1})}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -364,7 +364,18 @@ all possible combinations of the Smallest Set of Smallest Rings
 molecule with $k$ SSSR, the maximum possible number of such scaffolds
 is $2^k - 1$; however the actual number is usually much lower due to
 symmetry and additional constraints (\eg reactivity, synthetic
-accessibility).
+accessibility). Briefly, the fragments are generated based on the
+following rules:
+\begin{enumerate}
+  \item Generate Bemis-Murcko framework by iteratively prune all foliages
+    except for carbonyl (or any terminal double bond).
+  \item Exhaustively enumerate all possible combinations of ring
+    system. This is achieved by iteratively breaking non-aromatic
+    bonds and keeping unique set of ring systems.
+  \item Each fragment generated should be a valid substructure of the
+    parent molecule. This constraint is approximated by ensuring the
+    fingerprint for the fragment is a subset of the parent molecule.
+\end{enumerate}
 
 As an example, in \fref{scafmethod}(b) we see the five scaffolds that
 were generated from the molecule shown in \fref{scafmethod}(a) from
@@ -379,7 +390,8 @@ the TCAMS dataset.
 \label{fig:scafmethod}
 \end{figure}
 
-\textbf{\textcolor{red}{NCATS folks, please clarify and fill in any other relevant details}}.
+
+%\textbf{\textcolor{red}{NCATS folks, please clarify and fill in any other relevant details}}.
 
 The original NCATS R-group tool focused on scaffold decomposition and
 the subsequent generation of R-group tables for each scaffold. Since
