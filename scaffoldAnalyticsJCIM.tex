@@ -151,9 +151,12 @@ separate page at the end of the document.
   results.  We compare the NCATS scaffold generation method with
   published screening triage methods such as nearest-neighbor
   clustering, data-driven clustering and scaffold
-  networks. \textbf{\textcolor{red}{Can you add a line here that
-      summarizes how this method turns out better than these
-      pre-existing methods?}}  The workflow of a Spotfire
+  networks.  Similarities and differences in the methods are evaluated
+  qualitatively and statistically. 
+  %\textbf{\textcolor{red}{Can you add a line here that
+  %    summarizes how this method turns out better than these
+  %    pre-existing methods?}}
+  The workflow of a Spotfire
   visualization used in combination with fuzzy clustering and
   structure annotation provides a novel view of large and diverse
   datasets. This allows teams to effortlessly navigate between
@@ -421,7 +424,7 @@ The corresponding R-group decomposition file contains the following columns:
 
 \subsection{Fragmentation Method: GSK Frameworks}
 \label{sec:gskframe}
-The R-group Tool described above uses the NCATS implementation of Molecular Frameworks to generate scaffolds. GSK's implementation of Molecular Frameworks is subtly different, and its use has been described in \citeauthor{Harper2004DDclus}. The two types of framework we retain for this study are Bemis-Murcko-like (\cite{BemisMurcko1996} with atom and bond orders retained) and RECAP\cite{Lewell:1998aa}. Other fragmentation methods described by \citeauthor{Harper2004DDclus} such as reduced graphs and classic Bemis-Murcko scaffolds (without atom types and bond orders) were skipped for the purposes of comparison; however there is no reason these could not be included in the framework we are proposing.    
+The R-group Tool described above uses the NCATS implementation of Molecular Frameworks to generate scaffolds. GSK's implementation of Molecular Frameworks is subtly different, and its use has been described in \citeauthor{Harper2004DDclus}. The two types of framework we retain for this study are Bemis-Murcko-like (\cite{BemisMurcko1996} with atom and bond orders retained) and RECAP\cite{Lewell:1998aa}. Other fragmentation methods described by \citeauthor{Harper2004DDclus} such as reduced graphs and classic Bemis-Murcko scaffolds (without atom types and bond orders) were skipped for the purposes of comparison; however there is no reason these could not be included in the technique we are proposing.    
 
 The input for the GSK frameworks code is a comma separated text file
 with molecules encoded in a SMILES field.  The code was modified by
@@ -438,9 +441,11 @@ The GSK frameworks found within the same molecule from TCAMS are shown
 in \fref{scafmethod}(c).  The reader will observe several differences
 from the R-group tool: there are more scaffolds found, some clipped in
 the middle of a linker rather than at a ring, and some redundancy
-between multiple scaffolds. We will see in Section \ref{sec:results}
+between multiple scaffolds. Also the current implementation does not convert
+or unify tautomers among scaffolds, again leading to larger numbers of scaffolds.  We will see in Section \ref{sec:results}
 that comprehensive coverage of fragments within each molecule can be
 both good and bad.
+\textbf{\textcolor{red}{We can include fig/frame\_taut.png here if needed to illustrate the tautomer issue}}.
 
 Further details on how to set up and run the GSK frameworks code are
 provided in the Supplementary Material.
@@ -464,7 +469,7 @@ duplicated, since this format is more amenable to Spotfire integration
 as described in a later section.  This script is made available in the
 Supplementary Material.
 
-The ID Map file has two columns, mapping a Molecule ID from the primary dataset to the Top-Level Scaffold (i.e. Murcko scaffold) obtained by stripping all pendant groups but no rings. Using the ID Map file followed by multiple iterations of the Network file one can elucidate the entire Scaffold Network starting from each query molecule, as described in a subsequent section.  As an example the scaffold network generated for a molecule from TCAMS is show in \fref{scafmethod}(d), as for the previous two methods.
+The ID Map file has two columns, mapping a Molecule ID from the primary dataset to the Top-Level Scaffold (i.e. Murcko scaffold) obtained by stripping all pendant groups but no rings. Using the ID Map file followed by multiple iterations of the Network file one can elucidate the entire Scaffold Network starting from each query molecule, as described in a subsequent section.  As an example the scaffold network generated for a molecule from TCAMS is shown in \fref{scafmethod}(d), as for the previous two methods.
 
 
 \section{Methods: Data Integration and Visualization in Spotfire}
@@ -540,13 +545,13 @@ of the primary data table, connecting them using the following logic:
   Molecules(Copy~of~Main).Molecule\_ID$
 \end{itemize}   
 
-We would like to emphasize that the above is one possible engineering solution we found for the problem of linking molecules to related molecules in Spotfire.  Several other solutions have been explored by our colleagues, which include: duplicating columns rather than tables; joining and merging all data into one giant table rather than maintaining multiple linked tables; linking up molecules directly to lists of other molecules in a preprocess that happens outside Spotfire (\eg in a script that integrates the data); and using various add-ins for Spotfire such as the SAR Toolkit{\bf RefBravi} and Discngine {\bf RefDiscngine}.
+We would like to emphasize that the above is one possible engineering solution we found for the problem of linking molecules to related molecules in Spotfire.  Several other solutions have been explored by our colleagues, which include: duplicating columns rather than tables; joining and merging all data into one giant table rather than maintaining multiple linked tables; linking up molecules directly to lists of other molecules in a preprocess that happens outside Spotfire (\eg in a script that integrates the data); and using various add-ins for Spotfire such as the internally developed GSK SAR Toolkit and commercial tools from Discngine SA.
  
 \subsection{Visualization of Molecules, Scaffolds and Related Molecules}
 
 Here we aim to provide one possible minimal and semi-intuitive interface for exploring the network of molecules, the scaffolds they contain and related molecules that contain the same scaffolds. This minimal set consists of the following:
 \begin{itemize}
-\item {\bf Main Window}: Views defined that allow one to explore the Primary Data Table (with no scaffold information) in the most useful way for each dataset.  The the canonical example, key activity, selectivity, ligand efficiency and molecular properties may be highlighted on the X, Y, shape, size and color axes on a scatter plot. The main window is illustrated for the TCAMS dataset in \fref{spotviz}(a).
+\item {\bf Main Window}: Views defined that allow one to explore the Primary Data Table (with no scaffold information) in the most useful way for each dataset.  In the canonical example, key activity, selectivity, ligand efficiency and molecular properties may be highlighted on the X, Y, shape, size and color axes on a scatter plot. The main window is illustrated for the TCAMS dataset in \fref{spotviz}(a).
 \item {\bf Scaffolds and R-groups Tab}: This tab, currently specific to the NCATS R-group tool method for generating scaffolds, contains two visualizations, as illustrated for the TCAMS dataset in \fref{spotviz}(b):  
 \subitem The first is a scatter plot display of the Scaffolds table, most commonly with Complexity and Count on the axes and sized by aggregate activity of each scaffold.  Here scaffolds of lesser interest (for example with low complexity or count) can be identified and tagged to remove them from the analysis. Conversely, scaffolds of high interest, for example with many active members or high aggregate ligand efficiency, may be tagged into separate categories.
 \subitem The second plot is an R-group table, \ie a Table view of the {RG}decomp table limited to data records that have been marked, \ie molecules that lie in scaffolds currently marked. The table is sorted first by scaffold and then by primary activity, and molecular fields such as Scaffold SMILES, Molecule SMILES and R-groups $R\_1..R\_n$ are rendered using an appropriate depiction package - at GSK this is {JChem}.  This table may be exported to Excel as an on-the-fly R-group table of the scaffolds of interest.
@@ -626,6 +631,9 @@ derived from them, defined as follows:
 Here we illustrate some of our key findings and use cases on a few datasets. 
 
 \subsection{Use Case: Scaffold Progression and Prioritization}
+
+
+For the in-house kinase dataset, the program team were looking for hit series with activity in a range of orthogonal on-target assays, selectivity against a mutant counter-screen, and good properties to predict developability.  We aggregated the activity in each of the primary assays, selectivity, and Property Forecast Index (PFI~\cite{Young2011}), using the mean values as filters to identify promising scaffolds.      
 \textbf{Since the current use case is on the GSK Kinase X dataset, this part will have to be approved by GSK legal before placing specific results here. Or we can substitute it.}
 To conclude, we have observed how scaffold-based analytics allows us to make decisions based on the aggregate (average, SD, median, min, max, ...) properties of molecules in scaffolds. An entire scaffold may be rejected or prioritized at a time instead of keeping track of individual molecules. It is important to note that rejecting a scaffold does not reject all molecules containing that scaffold - otherwise rejecting the benzene ring would remove a large percentage of valid leads. Also at any time we are able to drill down into the data for individual compounds in interesting scaffolds, whether in an R-group table or a custom plot, and incorporate that into our prioritization.   
 
@@ -682,7 +690,7 @@ Another intriguing result is seen by observing a new tricyclic series that share
 {\bf NCATS R-group tool}: As opposed to the clustering method, 
 if any two molecules share a common substructure that meets the standards required of a scaffold by the NCATS method (\eg being bordered by rings on each end), then those molecules will be found to contain that shared substructure as a scaffold and their activities will be used to compute aggregate properties for it. 
 
-{\bf Other Scaffold Generation Methods}: As shown above, even though other scaffold generation methods (GSK frameworks and Scaffold Network Generator) differed in their implementation details and produced different numbers of scaffolds for the same molecule, they were roughly equivalent in a qualitative sense with regard to the insights obtained. Due to substantial overlap between sets of scaffolds, ring systems responsible for activity of a molecule were generally revealed by any of the methods. For example, the insights mentioned in \sref{scafwalk} were more or less consistent across the three methods. However, there were cases where the Frameworks revealed negative information about a fragment being not important for activity that is also useful for a drug discovery scientist. For example, in \fref{frameswalk} a substructure is highlighted that is on the aggregate inactive and could be removed or substituted. This insight is not available from the other methods since they don't define or find that fragment as a scaffold.
+{\bf Other Scaffold Generation Methods}: As shown earlier, even though other scaffold generation methods (GSK frameworks and Scaffold Network Generator) differed in their implementation details and produced different numbers of scaffolds for the same molecule, they were roughly equivalent in a qualitative sense with regard to the insights obtained. Due to substantial overlap between sets of scaffolds, ring systems responsible for activity of a molecule were generally revealed by any of the methods. For example, the insights mentioned in \sref{scafwalk} were more or less consistent across the three methods. However, there were cases where the Frameworks revealed negative information about a fragment being not important for activity that is also useful for a drug discovery scientist. For example, in \fref{frameswalk} a substructure is highlighted that is on the aggregate inactive and could be removed or substituted. This insight is not available from the other methods since they don't define or find that fragment as a scaffold.
 
 \begin{figure}
 \includegraphics[width=6in]{fig/mol1_frames_scafpie.png}
