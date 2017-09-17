@@ -37,6 +37,8 @@
 \newcommand*\sref[1]{Section~\ref{sec:#1}}
 \newcommand*\eg{e.g.,~}
 \newcommand*\ie{i.e.,~}
+\newcommand*\vs{vs.~}
+\newcommand*\viz{viz.~}
 %\newcommand*\citeauthoryear[1]{{\citeauthor{#1}~(\citeyear{#1})}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -291,7 +293,7 @@ multiple clusters. Fuzzy clusters have been rarely used in
 cheminformatics (for example \cite{Holliday2004,Richmond2015Galois}),
 perhaps because they are hard to visualize and navigate.  In this work
 we provide an intuitive visual framework that we believe can help end
-users easily navigate a diverse chemical dataset describd by a fuzzy
+users easily navigate a diverse chemical dataset described by a fuzzy
 clustering of multiple overlapping scaffolds per molecule.
 
 \subsection{Datasets}
@@ -349,7 +351,7 @@ molecules in our visualizations just for comparison purposes. This
 method produces an output file in which the unique cluster ID (CLink)
 and number of other molecules in the same cluster (N\_Clink) are added
 as additional fields to the original dataset.  Complete linkage
-chemical clustering is described further in serveral references such
+chemical clustering is described further in several references such
 as \citeauthor{Jain2010,Downs2003}.
 
 \subsection{Fragmentation Method: NCATS R-Group Tool}
@@ -367,7 +369,7 @@ symmetry and additional constraints (\eg reactivity, synthetic
 accessibility). Briefly, the fragments are generated based on the
 following rules:
 \begin{enumerate}
-  \item Generate Bemis-Murcko framework by iteratively prune all foliages
+  \item Generate Bemis-Murcko framework by iteratively pruning all foliage
     except for carbonyl (or any terminal double bond).
   \item Exhaustively enumerate all possible combinations of ring
     system. This is achieved by iteratively breaking non-aromatic
@@ -643,19 +645,51 @@ derived from them, defined as follows:
 Here we illustrate some of our key findings and use cases on a few datasets. 
 
 \subsection{Use Case: Scaffold Progression and Prioritization}
+Aggregate statistics such as maximum, minimum, mean and standard deviation, computed at a per scaffold level, may be useful in prioritizing scaffolds. For example, \fref{RGTaggr} shows the six scaffolds contained within a tricyclic molecule from TCAMS (Molecule 2, CID: 533945) ranked by average activity and IFI. This ordering may be used to determine which substructures are most important for the molecule's activity, and use this information to design or test further compounds.
+
+\begin{figure}
+  \includegraphics[width=5in]{fig/RGT_aggr_prop2.png}
+  \caption{All \~5000 scaffolds from the TCAMS dataset ranked by average pIC50 in the P.~falciparum 3D7 strain and Inhibition Frequency Index. The six scaffolds contained in Molecule 2 (CID: 533945) are shown in increasing order of average }
+\label{fig:RGTaggr}   
+\end{figure}
+
+For the in-house kinase dataset, the program team were looking for hit series with activity in a range of orthogonal on-target assays, selectivity against a mutant counter-screen, and good properties to predict developability.  We aggregated the activity in each of the primary assays, selectivity, and Property Forecast Index (PFI~\cite{Young2011}), using the mean values as filters to identify promising scaffolds.  A plot of aggregate selectivity \vs PFI is shown in \fref{KinaseX}(a).
+
+Once a promising scaffold was identified, one could drill down with a single click into detailed activities and properties of the molecules containing the scaffold, to decide whether to pursue the series further. For example, the
+the scaffold with ID 2988, marked in \fref{KinaseX}(a) has on the aggregate good selectivity (1.4 log units) and also low PFI (6.7). The activity profiles for 8
+molecules sharing this scaffold are shown in \fref{KinaseX}(b). Clear differentiation is observed between an orthogonal suite of native protein assays and the mutant assay, marking the scaffold as a good one to explore making additional molecules.
+
+\begin{figure}
+  (a)\includegraphics[width=5in]{fig/KinaseX_RG_aggr.png}\\
+  (b)\includegraphics[width=5in]{fig/KinaseX_RG_drill.png}
+  \caption{(a) Aggregate scaffold statistics for molecules from the Kinase X dataset, with average selectivity against a mutant assay in log units on the Y-axis and average PFI (Property Forecast Index) on the X-axis.  Scaffolds are tagged as selective or non-selective after exploring their detailed properties. (b) Detailed properties of 8 molecules that share scaffold 2988 (structure not shown), split over two HTS datasets from 2014 and 2012. Lines are color-coded by assay type, and the mutant assay is shown in orange across the bottom of the graph.   
+  }
+\label{fig:KinaseX}   
+\end{figure}
 
 
-For the in-house kinase dataset, the program team were looking for hit series with activity in a range of orthogonal on-target assays, selectivity against a mutant counter-screen, and good properties to predict developability.  We aggregated the activity in each of the primary assays, selectivity, and Property Forecast Index (PFI~\cite{Young2011}), using the mean values as filters to identify promising scaffolds.      
-\textbf{Since the current use case is on the GSK Kinase X dataset, this part will have to be approved by GSK legal before placing specific results here. Or we can substitute it.}
 To conclude, we have observed how scaffold-based analytics allows us to make decisions based on the aggregate (average, SD, median, min, max, ...) properties of molecules in scaffolds. An entire scaffold may be rejected or prioritized at a time instead of keeping track of individual molecules. It is important to note that rejecting a scaffold does not reject all molecules containing that scaffold - otherwise rejecting the benzene ring would remove a large percentage of valid leads. Also at any time we are able to drill down into the data for individual compounds in interesting scaffolds, whether in an R-group table or a custom plot, and incorporate that into our prioritization.   
 
 \subsection{Use Case: Dataset Fusion and Hybridization}
-\textbf{Since the current use case is on the GSK Kinase X dataset, this part will have to be approved by GSK legal before placing specific results here. Or we can substitute it.}
-  
+In the previous section and \fref{KinaseX}, we noted that the 8 molecules sharing scaffold 2988 came from two datasets, \viz HTS hits from 2012 and 2014. This is significant since the 5 molecules found during the 2012 campaign were not prioritized since they did not jump to the top using visual inspection, clustering or other methods used to triage the hits -- this Scaffold-Based Analytics method was not available. However, when the hits from both screens were combined and analyzed with this method in 2014, the pattern of activity, selectivity and properties that made these desirable hits to pursue was automatically found and readily flagged.
+
+In this way, Scaffold-Based analytics may be used to combine multiple datasets using the scaffold as the common unit of comparison and merging, with dataset labels identifying molecules in the resulting merged dataset. If the datasets have comparable activities, as the Kinase X HTS datasets did, aggregate statistics are easy to compute. If they do not, \eg if one dataset has $pIC_{50}$ and others primary screening activity or a different measure of desirability, normalized activities may be computed to enable aggregation at the scaffold level.
+
+Sometimes one of the datasets does not contain activities at all, \eg in the case of virtual molecules from an Encoded Library Technology screen, or for molecules from a vendor catalog that are yet to be ordered and assayed. In \fref{ELT} we show an example where two computed properties, Molecular Weight and PFI were used to identify promising virtual molecules from the ELT dataset to make, and untested molecules from the FBDD (Fragment-Based Drug Design) dataset to test.    
+
+\begin{figure}
+\includegraphics[width=6in]{fig/KinaseX_ELT.png}
+\caption{
+Two scaffolds with ID 1920 (pyridophenyl) and 3116 (benzimidazole) shown in a trellised plot of molecules related to a weak active in the Kinase X 2014 HTS screen. The axes of the plots are computed properties, MW and PFI, to allow molecules without measured activity or virtual molecules not yet synthesized to be included in the plot. The compass arrow device points in the direction of improved properties -- lower MW and PFI. Interesting related molecules are labeled on the plot, including untested fragment-like molecules from the FBDD dataset, virtual molecules from the ELT dataset, and another ligand-efficient hit from the HTS2014 dataset, all with low MW/PFI. The unmeasured and unmade molecules are good candidates for future synthesis and testing.   
+}
+\label{fig:ELT}   
+\end{figure}
+
+\textbf{\textcolor{red}{Move most of this to discussion.}}
 To summarize, disparate datasets with no common activity fields (or if preferred, activity fields normalized to a common scale) can be combined and merged at the scaffold level to derive insights such as:
 \begin{itemize}
 \item Are there regions of chemical space that are unique to one dataset and should be explored further to enrich the chemical diversity available?
-\item Conversely, are there chemotypes that substantialy overlap between the datasets?  This might increase confidence in otherwise noisy screening data and provide a coherent SAR picture (including defining series) that might not be available from individual datasets.
+\item Conversely, are there chemotypes that substantially overlap between the datasets?  This might increase confidence in otherwise noisy screening data and provide a coherent SAR picture (including defining series) that might not be available from individual datasets.
 \item Can active or otherwise interesting scaffolds from one or a few datasets point to latent or unmeasured actives in other datasets that can then be synthesized (if virtual) or measured (if available) to confirm their activity or add a SAR data point. 
 \item If there is a common chemical motif behind several actives, the method will reveal it automatically without relying on a chemist's having seen and flagged the similarity, even if the molecules concerned are disparate looking, few, and scattered across datasets.
 \item A cohesive view of actives, inactives, and SAR from a set of screening campaigns helps to summarize the effort and return to it if needed without relying on memory, lab notebooks or manual effort in collating and remining the data.   
@@ -678,7 +712,7 @@ As an example, consider Molecule 1 (PubChem CID: 536182) in \fref{scafwalk1}, as
 \label{fig:scafwalk2}
 \end{figure}
 
-Molecule 2 in \fref{scafwalk2} is another case where we might want to optimize the physical and chemical properties of the molecule without sacrificing activity or increasing promiscuity. Since solubility has been shown to go down with number of aromatic rings independent of lipophilicity\cite{Hill2010}, walks that remove one or more of the three fused rings might be productive. By exploring the Related Molecules, we observe the SAR for three scaffolds: quinazolines (\#305, brown), indazoloquinazolines (\#574, blue) and indazoles (\#3822, pink). We observe from the plot a few more molecules containing all three scaffolds (tricolored pies, \ie exact analogs of the parent molecule); all of these are less active than the parent. The indazoles when they occur alone (pink circles) are far less active than the parent, suggesting they do not contribute significantly to activity and may be substituted. Lastly the quinazolines (brown) include several analogs that are more active and also less promiscuous than the parent. Drilling down into these structures, we observe several that contain only two aromatic rings (\ie no more are either fused or attached); these provide novel, active and ligand-efficient templates on which to build new analogs with enhanced solubility or other properties. Suggestions for which analogs to make can often be obtained by examining the SAR -- for example, disparate aliphatic and aromatic analogs at two adjacent positions on the quanazoline phenyl are active, which suggests hybridizing them or designing further analogs substituted at these positions.
+Molecule 2 in \fref{scafwalk2} is another case where we might want to optimize the physical and chemical properties of the molecule without sacrificing activity or increasing promiscuity. Since solubility has been shown to go down with number of aromatic rings independent of lipophilicity\cite{Hill2010}, walks that remove one or more of the three fused rings might be productive. By exploring the Related Molecules, we observe the SAR for three scaffolds: quinazolines (\#305, brown), indazoloquinazolines (\#574, blue) and indazoles (\#3822, pink). We observe from the plot a few more molecules containing all three scaffolds (tricolored pies, \ie exact analogs of the parent molecule); all of these are less active than the parent. The indazoles when they occur alone (pink circles) are far less active than the parent, suggesting they do not contribute significantly to activity and may be substituted. Lastly the quinazolines (brown) include several analogs that are more active and also less promiscuous than the parent. Drilling down into these structures, we observe several that contain only two aromatic rings (\ie no more are either fused or attached); these provide novel, active and ligand-efficient templates on which to build new analogs with enhanced solubility or other properties. Suggestions for which analogs to make can often be obtained by examining the SAR -- for example, disparate aliphatic and aromatic analogs at two adjacent positions on the quinazoline phenyl are active, which suggests hybridizing them or designing further analogs substituted at these positions.
 
 Another intriguing result is seen by observing a new tricyclic series that shares the quinazoline but adds an indole instead of indazole as the third fused ring. This alternative tricyclic template, while it may not confer solubility advantages, opens up a new area of chemical space. By iteratively seeking the Related Molecules for this new hit as shown in \fref{scafwalk3}, we observed that most of the active quinazoline analogs have this new tricyclic scaffold (\#1824, tan wedges in tricolored pies) and relatively few contain only quinazolines (\#305, brown circles). Also, indoles by themselves (\#1188, blue circles) do not much better than indazoles, so this is a new synergistic effect discovered by scaffold walking from the original hit.            
 
@@ -689,7 +723,7 @@ Another intriguing result is seen by observing a new tricyclic series that share
 \end{figure}
 
 \subsection{Qualitative Comparison of Scaffold-Generation Methods and Clustering}
-{\bf Complete-Linkage Clustering}: As shown in \fref{clusterlanes}, the defining feature of a partioning clustering is that every molecule maps to one and only one cluster. Thus if a chemotype is broken up among two or more clusters, using the cluster ID to map Related Molecules can retrieve only neighbors from the same cluster, ignoring the other cluster. This is not ideal for purposes of the visualization and navigation method presented here, as arbitrary neighbors would be excluded depending on how the clustering is defined.  Thus we do not advocate the use of clustering, unless it is a fuzzy clustering where all meaningful class memberships a molecule might have are considered. 
+{\bf Complete-Linkage Clustering}: As shown in \fref{clusterlanes}, the defining feature of a partitioning clustering is that every molecule maps to one and only one cluster. Thus if a chemotype is broken up among two or more clusters, using the cluster ID to map Related Molecules can retrieve only neighbors from the same cluster, ignoring the other cluster. This is not ideal for purposes of the visualization and navigation method presented here, as arbitrary neighbors would be excluded depending on how the clustering is defined.  Thus we do not advocate the use of clustering, unless it is a fuzzy clustering where all meaningful class memberships a molecule might have are considered. 
 
 \begin{figure}
 \includegraphics[width=6in]{fig/clusterlanes.png}
@@ -765,7 +799,7 @@ Comparing the GSK Frameworks and NCATS R-Group Tool for the TCAMS dataset using 
  }
 (b)\includegraphics[width=2in]{fig/CP_TCAMS_GSKFW_RGT.png}
   \end{minipage}
-  \caption{Statistics computed for 10th/90th percentile, median and average value for structure group size ($Ca$/$Cb$), common proportion, propotional information unique to A and B, number of fragments in and fragment efficiency of method A (GSK frameworks) and B (NCATS R-group tool).}
+  \caption{Statistics computed for 10th/90th percentile, median and average value for structure group size ($Ca$/$Cb$), common proportion, proportional information unique to A and B, number of fragments in and fragment efficiency of method A (GSK frameworks) and B (NCATS R-group tool).}
 \label{fig:statcomparetable}
 \end{figure}
 
@@ -787,6 +821,8 @@ We can make a few observations from this data and plot:
 \item The outliers are interesting. At one end, compounds in a rare tautomer are unified with the dominant one by the NCATS tool (high fragment efficiency), but left as singletons by the frameworks (low fragment efficiency). And compounds whose only link with other molecules would be a benzene ring or similar low complexity scaffold remain singletons with the R-group tool (lower fragment efficiency).
 \end{enumerate}
 
+\subsection{Statistical Basis of Structure-Activity Relationships (SAR)}\label{sec:statSAR}
+
 We have also explored the Common Proportion measure to get at the overlap between structure and activity, \ie to investigate the statistical basis of SAR based on overlapping scaffolds. To do this, we define an Activity Group of compound $C$, $C_{act}$ as a set of compounds with activity bordering that of $C$ (in this case pIC50 in the 3D7 antimalarial assay). The activity group of each compound $C$ is defined to be the same size as the structure group, denoted $C_A$ or $C_B$ above, and generalized here as $C_{str}$.  This is done arbitrarily for ease of statistical calculations, being cognizant that it may soimetimes lead to issues such as breaking a large list of compounds with the same activity arbitrarily, especially when picking a small list of activity neighbors for compounds with a small structure group.
 
 The structure-activity common proportion, $CP_{str,act}(C)$ then measures the overlap between the structure neighbors of $C$, \ie compounds sharing any scaffold with $C$, and its activity neighbors, \ie compounds in a similar activity range.
@@ -800,6 +836,11 @@ For comparing groups of different sizes we use the normalized Common Proportion,
 NormCP_{str,act}(C) = CP_{str,act}(C) / (Expected CP for Random Str) 
 \end{equation}
 
+We computed this NormCP measure for all compounds, which fit a normal distribution centered at 1, implying that for all compounds considered as an aggregate, structural similarity does not imply activity similarity.  However, the top 200 most active compounds, which are activity outliers, are also outliers in this normal distribution of NormCP as shown in \fref{NormCP}(a).
+
+Among these compounds there are some that have 40 times as much overlap between structure and activity than would be expected by chance, shown on the right of \fref{NormCP}(b).  This implies a strong confidence in the activity being genuine, and the series being worthy of making or measuring the activity of further analogs.
+
+On the other hand, there are also some compounds, highlighted on the left side of \fref{NormCP}(b), that though they are among the top 200 by activity, have NormCP much less than 1, \ie much less overlap between structure and activity than would be expected by chance.  This would imply that structural neighbors of these compounds are largely less active that the original compound, no matter which of the overlapping scaffolds within the molecule we use to define those structural neighbors!  This gives us a way to quantify flagpoles or false positive hits, which may not be worth following up.
 
 
 \section{Discussion}
@@ -852,6 +893,15 @@ NormCP_{str,act}(C) = CP_{str,act}(C) / (Expected CP for Random Str)
   ignore other scaffolds. To combat such human biases, data driven
   summaries and navigation are vital
 \end{itemize}
+
+Anecdotal comparison of overlapping scaffolds to commonly used partition-based clustering methods such as complete linkage clustering shows that the latter methods may divide very similar molecules arbitrarily into two different clusters, after which the two sets of molecules remain distinct and manual compilation of sets of related clusters is necessary to see all molecules related to a single one. With overlapping scaffolds, if two molecules share a common substructure, these methods will find it -- provided of course that it is a legitimate scaffold for a particular method and thresholds have not been set on scaffold count or complexity that exclude small groups or simple substructures. 
+
+Our statistical methods for quantifying the similarity and differences between different methods of computing ovrelapping scaffolds we hope are a useful contribution in their own right. Common proportion, proportion of information unique to a method, fragment efficiency and normalized common proportion give practitioners simple and objective ways to determine which fragmentation methods work best for meeting the goals of chemists to find interesting active molecules related to a hit. As mentioned earlier they also extend the applicability of methods to compare the output of different partitioning clustering methods such as \citeauthor{Torres2009}, allowing them to be used for non-overlapping fuzzy clusters.
+
+We hope our use of anecdotal and statistical methods to quantify similarities and differences has convinced the reader that there is no one fuzzy clustering method that is superior to others in all situations. Instead, different methods bring nuances and slightly different sets of SAR insights to the table, and the reader may evaluate which performs the best on their own dataset. On the TCAMS dataset, the high fragment efficiency         
+
+Our method for quantifying structure-activity overlap via NormCP is novel, though similar in spirit and purpose to local hit rate calculations that have been proposed for HTS triage\cite{Posner2009}, with a comprehensive structural neighbor metric based on overlapping scaffolds. It will be interesting to see this metric being used and compared with existing methods more widely, which we hope future authors will take on.      
+
 
 \begin{acknowledgement}
   The GSK authors thank Subhas Chakravorty, Neysa Nevins, Ami Lakdawala Shah,
