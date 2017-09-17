@@ -838,13 +838,24 @@ NormCP_{str,act}(C) = CP_{str,act}(C) / (Expected CP for Random Str)
 
 We computed this NormCP measure for all compounds, which fit a normal distribution centered at 1, implying that for all compounds considered as an aggregate, structural similarity does not imply activity similarity.  However, the top 200 most active compounds, which are activity outliers, are also outliers in this normal distribution of NormCP as shown in \fref{NormCP}(a).
 
-Among these compounds there are some that have 40 times as much overlap between structure and activity than would be expected by chance, shown on the right of \fref{NormCP}(b).  This implies a strong confidence in the activity being genuine, and the series being worthy of making or measuring the activity of further analogs.
+\begin{figure}
+  (a)\includegraphics[width=4.5in]{fig/NormCP_all.png}\\
+  (b)\includegraphics[width=4.5in]{fig/NormCP_top200.png}\\
+  (c)\includegraphics[width=1.5in]{fig/NormCP=42_5_pIC50=8_49_CID524739.png}
+  (d)\includegraphics[width=1.5in]{fig/NormCP=0_17_pIC50=8_22_CID541941.png}
+  (e)\includegraphics[width=1.7in]{fig/NormCP=0_16_pIC50=7_73_CID531249.png}  
+  \caption{(a) Normalized common proportion scores between structure (data-driven frameworks) and activity ($pIC50_{3D7}$) for all 13.5k molecules in TCAMS.  The histogram has 1000 bins and a log scale on the X-axis. The top 200 most active compounds ($pIC50_{3D7}$ > 7.6) are marked in red, and occupy many of the outlier bars with high NormCP > 10. (b) Making the distribution of the top 200 active compounds clearer by giving them a separate scale, at the RHS. (c) One of the 23 compounds with NormCP = 42.5, PubChem CID 524739. (d)--(e) two active compounds with low NormCP in the 0.16-0.17 range: (d) CID 542941 and (e) CID 531249. For both compounds, they alone are highly active among a structure group of 96 compounds, raising the probability that these compounds are flagpoles and not worth following up as hits.}
+\label{fig:NormCP}   
+\end{figure}
 
-On the other hand, there are also some compounds, highlighted on the left side of \fref{NormCP}(b), that though they are among the top 200 by activity, have NormCP much less than 1, \ie much less overlap between structure and activity than would be expected by chance.  This would imply that structural neighbors of these compounds are largely less active that the original compound, no matter which of the overlapping scaffolds within the molecule we use to define those structural neighbors!  This gives us a way to quantify flagpoles or false positive hits, which may not be worth following up.
+Among these compounds there are some that have over 40 times as much overlap between structure and activity than would be expected by chance, shown on the right of \fref{NormCP}(b) and in \fref{NormCP}(c).  This implies a strong confidence in the activity being genuine, and the series being worthy of making or measuring the activity of further analogs.
 
+On the other hand, there are also some compounds, highlighted on the left side of \fref{NormCP}(b) and in \fref{NormCP}(d--e), that though they are among the top 200 by activity, have NormCP much less than 1, \ie much less overlap between structure and activity than would be expected by chance.  This would imply that structural neighbors of these compounds are largely less active that the original compound, no matter which of the overlapping scaffolds within the molecule we use to define those structural neighbors!  This gives us a way to quantify flagpoles or false positive hits, which may not be worth following up.
 
 \section{Discussion}
 \label{sec:discussion}
+
+
 
 \begin{itemize}
 \item Discuss performance - scaffold generation is usually a one time procedure
