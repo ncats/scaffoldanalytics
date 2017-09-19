@@ -18,6 +18,7 @@
 \usepackage{hyperref}
 
 \usepackage{xcolor}
+\usepackage{ulem}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% If issues arise when submitting your manuscript, you may want to
@@ -420,7 +421,7 @@ key columns:
 \item {\it Complexity}: A number that captures increasing size and complexity of scaffolds - increases with number of rings, non-ring atoms, chiral atoms and ring adjacencies. \textbf{Trung or anyone else, would you like to provide more detail on this and the following scaffold metrics?}. Complexity can be used to prune away scaffolds that are too simple, by setting a cutoff such as 100.  
 \item {\it Count}: Number of molecules that share this scaffold
 \end{itemize}
-The remaining columns are aggregated property columns. Thus for ecah
+The remaining columns are aggregated property columns. Thus for each
 property of the input molecules, we compute the mean and standard
 deviation of that property for all molecules containing the
 scaffold. These values are reported in columns labeled \texttt{X} and
@@ -438,7 +439,7 @@ The corresponding R-group decomposition file contains the following columns:
 
 \subsection{Fragmentation Method: GSK Frameworks}
 \label{sec:gskframe}
-The R-group Tool described above uses the NCATS implementation of Molecular Frameworks to generate scaffolds. GSK's implementation of Molecular Frameworks is subtly different, and its use has been described in \citeauthor{Harper2004DDclus}. The two types of framework we retain for this study are Bemis-Murcko-like (\cite{BemisMurcko1996} with atom and bond orders retained) and RECAP\cite{Lewell:1998aa}. Other fragmentation methods described by \citeauthor{Harper2004DDclus} such as reduced graphs and classic Bemis-Murcko scaffolds (without atom types and bond orders) were skipped for the purposes of comparison; however there is no reason these could not be included in the technique we are proposing.    
+The R-group Tool described above uses the NCATS implementation of Molecular Frameworks to generate scaffolds. GSK's implementation of Molecular Frameworks is subtly different, and its use has been described in \citeauthor{Harper2004DDclus}. The two types of framework we retain for this study are Bemis-Murcko-like\cite{BemisMurcko1996} (with atom and bond orders retained) and RECAP\cite{Lewell:1998aa}. Other fragmentation methods described by \citeauthor{Harper2004DDclus} such as reduced graphs and classic Bemis-Murcko scaffolds (without atom types and bond orders) were skipped for the purposes of comparison; however there is no reason these could not be included in the technique we are proposing.    
 
 The input for the GSK frameworks code is a comma separated text file
 with molecules encoded in a SMILES field.  The code was modified by
@@ -501,7 +502,17 @@ Spotfire, our visualization tool of choice at GSK.
 \label{fig:detaildevil}
 \end{figure}
 
-\fref{detaildevil} shows how the data tables output by the scaffold generation methods we have considered are layered onto the primary data table in Spotfire. This primary data table is usually a direct import of tabular molecule and activity data generated at GSK or available from public datasets. What gets added is by and large similar, following the framework ``Molecule --> Scaffold (including Annotation) --> Related Molecules'' shown in the figure. For each Molecule in the dataset, we connect it to every Scaffold/Framework/Cluster it contains, and then to every other molecule containing any of these Scaffolds/Frameworks/Clusters. Slight differences for each individual method are detailed below. 
+\fref{detaildevil} shows how the data tables output by the scaffold
+generation methods considered here, are layered onto the primary data
+table in Spotfire. This primary data table is usually a direct import
+of tabular molecule and activity data generated at GSK or available
+from public datasets. What gets added is by and large similar,
+following the framework ``Molecule --> Scaffold (including Annotation)
+--> Related Molecules'' shown in the figure. For each Molecule in the
+dataset, we connect it to every Scaffold/Framework/Cluster it
+contains, and then to every other molecule containing any of these
+Scaffolds/Frameworks/Clusters. Slight differences for each individual
+method are detailed below.
 
 {\bf Complete Linkage Clustering} adds a Cluster Number to the primary data table. To get the Related Molecules, we simply add a duplicate copy of the primary data table and link it to the original via Scaffold ID. In other words, a Table Relation is entered into Spotfire so that $Main.CLink = Main(2).CLink$.  
 
@@ -511,7 +522,12 @@ Spotfire, our visualization tool of choice at GSK.
 \item $Frames(2).Framework\_ID = Frames.Framework\_ID$
 \end{itemize}
 
-{\bf NCATS R-group Tool} adds an additional Annotation layer, \ie the scaffold-level summaries in addition to the R-group decomposition table. In order to enable bidirectional navigation from scaffolds to molecules, we add both these tables and also a duplicate copy of the R-group decomposition table. Then Relations are set up as follows within Spotfire:
+{\bf NCATS R-group Tool} adds an additional Annotation layer, \ie the
+scaffold-level summaries in addition to the R-group decomposition
+table. In order to enable bidirectional navigation from scaffolds to
+molecules, we add both these tables and also a duplicate copy of the
+R-group decomposition table. Then Relations are set up as follows
+within Spotfire:
 \begin{itemize}
 \item $Main.Molecule\_ID = RGdecomp(2).Molecule\_ID$
 \item $RGdecomp(2).Scaffold\_ID = Scaffolds.Scaffold\_ID$
@@ -559,18 +575,57 @@ of the primary data table, connecting them using the following logic:
   Molecules(Copy~of~Main).Molecule\_ID$
 \end{itemize}   
 
-We would like to emphasize that the above is one possible engineering solution we found for the problem of linking molecules to related molecules in Spotfire.  Several other solutions have been explored by our colleagues, which include: duplicating columns rather than tables; joining and merging all data into one giant table rather than maintaining multiple linked tables; linking up molecules directly to lists of other molecules in a preprocess that happens outside Spotfire (\eg in a script that integrates the data); and using various add-ins for Spotfire such as the internally developed GSK SAR Toolkit and commercial tools from Discngine SA.
+% We emphasize that this approach is just one solution to the problem of
+% linking related molecules in Spotfire.  Several other solutions have
+% been explored by our colleagues, which include: duplicating columns
+% rather than tables; joining and merging all data into one giant table
+% rather than maintaining multiple linked tables; linking up molecules
+% directly to lists of other molecules in a preprocess that happens
+% outside Spotfire (\eg in a script that integrates the data); and using
+% various add-ins for Spotfire such as the internally developed GSK SAR
+% Toolkit and commercial tools from Discngine SA.
  
 \subsection{Visualization of Molecules, Scaffolds and Related Molecules}
 
-Here we aim to provide one possible minimal and semi-intuitive interface for exploring the network of molecules, the scaffolds they contain and related molecules that contain the same scaffolds. This minimal set consists of the following:
+We next describe a minimalistic user interface for exploring the
+network of molecules, the scaffolds they contain and related molecules
+that contain the same scaffolds. This interface consists of the
+following elements:
 \begin{itemize}
 \item {\bf Main Window}: Views defined that allow one to explore the Primary Data Table (with no scaffold information) in the most useful way for each dataset.  In the canonical example, key activity, selectivity, ligand efficiency and molecular properties may be highlighted on the X, Y, shape, size and color axes on a scatter plot. This window is not illustrated in the interests of space, and since the reader may already be familiar.  
   %The main window is illustrated for the TCAMS dataset in \fref{spotviz}(a).
-\item {\bf Related Molecules Tab}: The purpose of this tab is to implement the Scaffold Walking navigation described briefly earlier.  The setup is described for the NCATS R-group Tool decomposition, though this tab applies to and can be set up analogously for any of the other decompositions. The tab consists of two visualizations, illustrated for the TCAMS dataset in \fref{spotviz}(a):
-\subitem The first one is a miniature version of the Main window, allowing the user to select (in Spotfire, mark) molecules of interest without flipping over to the Main tab. Doing so drives one of the following two Details Visualizations on the {RG}decomp table, showing only molecules from the scaffolds contained in the marked molecule, \ie Related Molecules:
-\subitem {\bf Scaffold Trellis}: This scatter plot is trellised by Scaffold ID and ideally displays the same properties on the axes as the Main visualization above it.  An example is shown in \fref{ELT}. The trellis allows us to break up the SAR for each constituent scaffold individually, identifying promising scaffolds and substituting unproductive ones as we will describe in the Discussion. The trellis visualization suffers from redundancy: the same molecule occurs in multiple trellis panels and the only way to link them is by X and Y coordinates, by observing groups of points that are laid out similarly across multiple trellis panels.  Though some of our users still prefer this approach, we now describe a newer solution that better leverages Spotfire's capabilities. 
-\subitem {\bf Scaffold Pies}: Instead of using a trellis, the Marker shape is changed to Pies, with Colors (which map to pie sectors) by Scaffold ID, and sectors sized by the Count of molecules in each scaffold.  The result is illustrated in \fref{spotviz}(a). This plot shows only one point per related molecule but one sector for each scaffold it shares with the parent molecule.  As we'll see later in the Results, this lets the user quickly and visually home in on key substructures that are important or unimportant for activity.
+\item {\bf Related Molecules Tab}: The purpose of this tab is to
+  implement the Scaffold Walking navigation described briefly earlier.
+  The setup is described for the NCATS R-group Tool decomposition,
+  though this tab applies to and can be set up analogously for any of
+  the other decompositions. The tab consists of two visualizations,
+  illustrated for the TCAMS dataset in \fref{spotviz}(a): \subitem The
+  first one is a miniature version of the Main window, allowing the
+  user to select (in Spotfire, mark) molecules of interest without
+  flipping over to the Main tab. Doing so drives one of the following
+  two Details Visualizations on the {RG}decomp table, showing only
+  molecules from the scaffolds contained in the marked molecule, \ie
+  Related Molecules: \subitem {\bf Scaffold Trellis}: This scatter
+  plot is trellised by Scaffold ID and ideally displays the same
+  properties on the axes as the Main visualization above it.  An
+  example is shown in \fref{ELT}. The trellis allows us to break up
+  the SAR for each constituent scaffold individually, identifying
+  promising scaffolds and substituting unproductive ones as we will
+  describe in the Discussion. The trellis visualization suffers from
+  redundancy: the same molecule occurs in multiple trellis panels and
+  the only way to link them is by X and Y coordinates, by observing
+  groups of points that are laid out similarly across multiple trellis
+  panels.  Though some of our users still prefer this approach, we now
+  describe a newer solution that better leverages Spotfire's
+  capabilities.  \subitem {\bf Scaffold Pies}: Instead of using a
+  trellis, the Marker shape is changed to Pies, with Colors (which map
+  to pie sectors) by Scaffold ID, and sectors sized by the Count of
+  molecules in each scaffold.  The result is illustrated in
+  \fref{spotviz}(a). This plot shows only one point per related
+  molecule but one sector for each scaffold it shares with the parent
+  molecule.  As described in Section \ref{sec:results}, this lets the
+  user quickly and visually home in on key substructures that are
+  important or unimportant for activity.
 
 \item {\bf Scaffolds and R-groups Tab}: This tab, currently specific to the NCATS R-group tool method for generating scaffolds, contains two visualizations, as illustrated for the TCAMS dataset in \fref{spotviz}(b)--(c):  
   \subitem The first is a scatter plot display of the Scaffolds table, displaying scaffolds Complexity and Count and aggregate activity of each scaffold either on the axes or using the Size and Shape dimensions.  Here scaffolds of lesser interest (for example with low complexity or count) can be identified and tagged to remove them from the analysis. Conversely, scaffolds of high interest, for example with many active members or high aggregate ligand efficiency, may be tagged into separate categories.
@@ -594,6 +649,8 @@ In the Supplementary Material we describe some of these alternate visualizations
 \label{sec:statmethod}
 Our goal in this section is to define the statistical methods that we
 have applied in characterizing various methods for classifying
+\textbf{\textcolor{red}{classifying as what? is this type of
+    clasification functionally equivalent to clustering?}}
 molecules using multiple overlapping scaffolds, as opposed to
 partitioning the set of molecules into non-overlapping categories
 (clusters). The similarities and differences between non-overlapping
@@ -612,14 +669,28 @@ $n$ members, respectively:
 Sim(X,Y) = \Sigma_{i \le m, j \le n}{S_{ij} / max(m,n)}
 \end{equation}
 
-We adapt this method for SAR analysis using overlapping scaffolds, where the question on the minds of chemists is twofold: what are the fragments in active/desirable molecules, and which other molecules share these fragments? Now if there are two methods $A$ and $B$ of fragmenting compounds, we can evaluate for any molecule how many other molecules share fragments from $A$ or from $B$, and thus can be found using ontologies $A$ alone, $B$ alone, $A$ and $B$, or $A$ excluding $B$.  Using these methods we can evaluate the overall similarity of methods $A$ and $B$, and also independently score the usefulness of $A$ and $B$.
+We adapt this method for SAR analysis using overlapping scaffolds,
+where the question on the minds of chemists is twofold: what are the
+fragments in active/desirable molecules, and which other molecules
+share these fragments? Given two fragmentation schemes,  $A$ and $B$,
+we can evaluate for any molecule how many other molecules share
+fragments using $A$ or $B$, and thus can be found using ontologies
+\textbf{\textcolor{red}{Not clear where ontologies comes from here?
+    Not sure that this is the correct term in this conext}} $A$ alone,
+$B$ alone, $A$ and $B$, or $A$ excluding $B$.  Using these methods we
+can evaluate the overall similarity of the two fragmentation schemes,
+and also independently score the usefulness of $A$ and $B$. \textbf{\textcolor{red}{how?}}
 
-For any compound $C$ and ontology $A$, define the structure group of $C$ under $A$, $C_A$ as the set of compounds that share fragments from $A$ with compound $C$. Similarly define the structure group of $C$ under $B$, $C_B$ as the set of compounds that share fragments from $B$. The Common Proportion ($CP$) for compound $C$ is then defined as the fraction of compounds found by combining both methods that would have been found by either method alone:
-
+For any compound $C$ and ontology $A$, define the structure group of
+$C$ under $A$, $C_A$ as the set of compounds that share fragments from
+$A$ with compound $C$. Similarly define the structure group of $C$
+under $B$, $C_B$ as the set of compounds that share fragments from
+$B$. The Common Proportion ($CP$) for compound $C$ is then defined as
+the ratio of the number of compounds common to $C_A$ and $C_B$ to the
+total number of unique compounds contained in $C_A$ and $C_B$:
 \begin{equation}
 CP_{A,B}(C) = \| C_A \cap C_B \| / \| C_A \cup C_B \|
 \end{equation}
-
 Similar statistics can be defined to rank the usefulness of an individual ontology given others. The Proportion of Information $PI_A$ calculates the proportion of compounds reachable from $A$ and $B$ that would be reachable from $A$ alone:
 
 \begin{equation}
@@ -866,18 +937,27 @@ On the other hand, there are also some compounds, highlighted on the left side o
 \section{Discussion}
 \label{sec:discussion}
 
+The current work highlights the utility of the Spotfire platform for
+exploring multiple fragmentation schemes and linking a fragment
+collection to activity data to support SAR exploration and
+analytics. For large structure collections, the primary bottleneck is
+the fragmentation step. However, scaffold generation is usually a
+one-time procedure. Furthermore, after scaffold generation, the
+compound-scaffold associations reduce to fixed time lookups and thus
+assesing scaffold membership (\eg computing structure groups or
+activity groups) is very fast.
 
 
 \begin{itemize}
-\item Discuss performance - scaffold generation is usually a one time procedure
+\item \sout{Discuss performance - scaffold generation is usually a one time procedure
   for a given screening deck. Furthermore, the scaffold generating process will
   associate compounds with scaffolds, so looking up scaffold membership is very
   fast. When considering scaffold similarity, usual performance bottlenecks
   occur, same as for other similarity applications. Can we include some
-  performance numbers?
-\item we haven't discussed removal of promiscuous compounds/chemotypes,
+  performance numbers?}
+\item \sout{we haven't discussed removal of promiscuous compounds/chemotypes,
   undesirable chemotypes (ie PAINS etc), these are generally a separate and
-  independent step from the scaffold identification process
+  independent step from the scaffold identification process}
 \item Ranking scaffolds is a key step in prioritizing hits in a scaffold-based
   approach. Still a subjective issue and many ways to do it. Not clear that
   there is a single optimal way. Discussion points could include
@@ -922,7 +1002,11 @@ Our statistical methods for quantifying the similarity and differences between d
 
 We hope our use of anecdotal and statistical methods to quantify similarities and differences has convinced the reader that there is no one fuzzy clustering method that is superior to others in all situations. Instead, different methods bring nuances and slightly different sets of SAR insights to the table, and the reader may evaluate which performs the best on their own dataset. On the TCAMS dataset, the high fragment efficiency         
 
-Our method for quantifying structure-activity overlap via NormCP is novel, though similar in spirit and purpose to local hit rate calculations that have been proposed for HTS triage\cite{Posner2009}, with a comprehensive structural neighbor metric based on overlapping scaffolds. It will be interesting to see this metric being used and compared with existing methods more widely, which we hope future authors will take on.      
+Our method for quantifying structure-activity overlap via NormCP is
+novel, though similar in spirit and purpose to local hit rate
+calculations that have been proposed for HTS triage\cite{Posner2009},
+with a comprehensive structural neighbor metric based on overlapping
+scaffolds.
 
 
 \begin{acknowledgement}
