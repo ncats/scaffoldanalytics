@@ -335,16 +335,15 @@ scaffolds.
 \label{sec:prepro}
 The typical dataset under consideration is available as a
 comma-separated text file (CSV), whereas most of the scaffold
-decomposition methods described expect MDL SD-files. To convert CSV to
-SDF while preserving non-molecule fields as SDF properties, we have
-created a simple Pipeline Pilot workflow, but this can also be done
-via standard cheminformatics toolkits such as JChem or RDKit. Prior to
-SDF conversion, activity or property columns that are not to be
-aggregated at the scaffold level should be deleted from the CSV file,
-in order to speed up the analysis and aggregation.  There are some
-further quirks to pre-processing datasets for the NCATS R-group tool
-that will be described in the Supplementary
-Material.\textbf{\textcolor{red}{follow through. Did you get this?}}
+decomposition methods described expect MDL SD-files. We constructed a
+Pipeline Pilot workflow to convert CSV to SDF while preserving
+non-molecule fields as SDF properties.  Prior to SDF conversion,
+activity or property columns that are not to be aggregated at the
+scaffold level should be deleted from the CSV file, in order to speed
+up the analysis and aggregation.  There are some further quirks to
+pre-processing datasets for the NCATS R-group tool that will be
+described in the Supplementary Material.\textbf{\textcolor{red}{follow
+    through. Did you get this?}}
 
 \subsection{Partitioning Method: Complete Linkage Clustering}
 We retain the default method used at GSK to visualize groups of
