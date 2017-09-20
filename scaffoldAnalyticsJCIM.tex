@@ -645,24 +645,21 @@ user. \textbf{\textcolor{red}{TODO}}
 
 \subsection{Statistical Comparison of Scaffold Generation Methods}
 \label{sec:statmethod}
-Our goal in this section is to define the statistical methods that we
-have applied in characterizing various methods for annotating 
-%\textbf{\textcolor{red}{classifying as what? is this type of
-%    clasification functionally equivalent to clustering?}}
-molecules using multiple overlapping scaffolds they contain, as opposed to
-partitioning the set of molecules into non-overlapping categories
-(clusters). The similarities and differences between non-overlapping
-ontologies have been analyzed in the literature, and one example is
-the method of \citeauthor{Torres2009}, who provide a similarity
-measure between outputs of two partitioning clustering methods (not to
-be confused with the similarity measure between items that is used to
-define the clustering). They use Jaccard's similarity coefficient
-$S_{ij}$, defined as the ratio of intersection size to union size of
-two groups $i$ and $j$ in the ontology -- similar in spirit to the
-Tanimoto coefficient used to define Chemical fingerprint similarity.
-This coefficient, computed pairwise and summed, yields a simple
-similarity measure between two clusterings $X$ and $Y$ with $m$ and
-$n$ members, respectively:
+In this section we define the statistical methods used to compare the
+scaffold generation methods in the context of annotating molecules in
+a screening dataset with multiple, possibly overlapping scaffolds (as
+opposed to partitioning the set of molecules into non-overlapping
+categories, a.k.a. clustering). 
+
+The similarities and differences between non-overlapping clusterings
+have been analyzed in the literature, and one example is the method of
+\citeauthor{Torres2009}, who provide a similarity measure between
+outputs of two partitioning clustering methods. They use Jaccard's
+similarity coefficient $S_{ij}$, defined as the ratio of intersection
+size to union size of two groups $i$ and $j$ in the clustering.  This
+coefficient, computed pairwise and summed, yields a simple similarity
+measure between two clusterings $X$ and $Y$ with $m$ and $n$ clusters,
+respectively:
 \begin{equation}
 Sim(X,Y) = \Sigma_{i \le m, j \le n}{S_{ij} / max(m,n)}
 \end{equation}
@@ -670,14 +667,13 @@ Sim(X,Y) = \Sigma_{i \le m, j \le n}{S_{ij} / max(m,n)}
 We adapt this method for SAR analysis using overlapping scaffolds,
 where the question on the minds of chemists is twofold: what are the
 fragments in active/desirable molecules, and which other molecules
-share these fragments? Given two fragmentation schemes,  $A$ and $B$,
+share these fragments? Given two fragmentation schemes, $A$ and $B$,
 we can evaluate for any molecule how many other molecules share
-fragments using $A$ or $B$, and thus can be found using ontologies
-\textbf{\textcolor{red}{Not clear where ontologies comes from here?
-    Not sure that this is the correct term in this conext}} $A$ alone,
-$B$ alone, $A$ and $B$, or $A$ excluding $B$.  Using these methods we
-can evaluate the overall similarity of the two fragmentation schemes,
-and also independently score the usefulness of $A$ and $B$. \textbf{\textcolor{red}{how?}}
+fragments using $A$ or $B$, and thus can be found using fragmentations
+$A$ alone, $B$ alone, $A$ and $B$, or $A$ excluding $B$.  Using these
+methods we can evaluate the overall similarity of the two
+fragmentation schemes, and also independently score the usefulness of
+$A$ and $B$. \textbf{\textcolor{red}{how?}}
 
 For any compound $C$ and ontology $A$, define the structure group of
 $C$ under $A$, $C_A$ as the set of compounds that share fragments from
@@ -689,7 +685,10 @@ total number of unique compounds contained in $C_A$ and $C_B$:
 \begin{equation}
 CP_{A,B}(C) = \| C_A \cap C_B \| / \| C_A \cup C_B \|
 \end{equation}
-Similar statistics can be defined to rank the usefulness of an individual ontology given others. The Proportion of Information $PI_A$ calculates the proportion of compounds reachable from $A$ and $B$ that would be reachable from $A$ alone:
+Similar statistics can be defined to rank the usefulness of an
+individual fragmentation given others. The Proportion of Information
+$PI_A$ calculates the proportion of compounds reachable from $A$ and
+$B$ that would be reachable from $A$ alone:
 
 \begin{equation}
 PI_A(C) = \| C_A \| / \| C_A \cup C_B \|
@@ -710,8 +709,8 @@ FragEff_A(C) = \| C_A \| / \| frag_A(C) \|
 These statistics can be averaged over all compounds in a dataset to yield the Average Common Proportion (ACP), Average Proportion of Information (API), Average Proportion of Information Unique to A (APIU) or Average Fragment Efficiency (AFE).  Other statistics can also be applied to the distribution of $CP$, $PI$ or $PIU$ to characterize the dataset and overlapping scaffolds used to characterize it.
 
 Our methods extend the similarity score of \citeauthor{Torres2009} to
-overlapping clusters by using a set of clusters
-derived from them, defined as follows:
+overlapping clusters by using a set of clusters derived from them,
+defined as follows:
 \begin{itemize}
 \item Replace the original clusters by new clusters, one for each item
   in any cluster (in this case, any compound in the dataset).
@@ -829,8 +828,6 @@ if any two molecules share a common substructure that meets the standards requir
 \caption{Using Scaffold Network Generator to find Related Molecules a few hops away in the Scaffold Network that have a desirable property, in this case activity against the resistant DD2 strain of P.~falc.  The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and +Y axes).}
 \label{fig:SNGwalk}
 \end{figure}
-
-
 
 Using the Scaffold Network to visualize Related Molecules, one is able to deconvolute scaffolds with different numbers of rings (which serves as the level in the hierarchy) by trellising on it, and thus gather together substructures of comparable size. As shown in \fref{SNGwalk}, with the same tricyclic molecule as in \fref{scafwalk2}, we use Scaffold Networks to solve a selectivity issue. Members of the original scaffold, shown in light brown, tend to have some activity against the susceptible 3D7 strain of $P.~falciparum$ but be inactive against the multidrug-resistant DD7 strain. Using the scaffold network to go one level down (to molecules with two rings) and then two levels up (up to 5 rings) we obtain many new molecules that are a few hops away from the top-level tricyclic scaffold while still sharing some aspect of it. Looking at where these new Related Molecules are placed, we mark one scaffold with 3 rings that has a quinazoline linked to a phenyl, and one with 4 rings that contains an indoloquinazoline (also discovered by scaffold walking with the NCATS R-group tool as described above) linked to a phenyl. These two scaffolds are highlighted since their members consistently have high activity against the resistant DD2 strain, and thus this would be a desirable scaffold hop (or walk) towards chemical space that is more useful in overcoming resistance from the malarial parasite.  
 
