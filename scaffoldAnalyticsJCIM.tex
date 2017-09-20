@@ -974,11 +974,11 @@ On the other hand, there are also some compounds, highlighted on the left side o
   but usually one identifies such privileged scaffolds in a
   retrospective fashion, across multiple HTS campaigns. Relevance /
   importance to scaffold based triage?
-\item The last point also suggests that intuition and experience play
+\item \sout{The last point also suggests that intuition and experience play
   an important role and also present a possible source of bias. A
   chemist with a ``favorite'' scaffold may (unconciously) tend to
   ignore other scaffolds. To combat such human biases, data driven
-  summaries and navigation are vital
+  summaries and navigation are vital}
 \end{itemize}
 
 Anecdotal comparison of overlapping scaffolds to commonly used partition-based clustering methods such as complete linkage clustering shows that the latter methods may divide very similar molecules arbitrarily into two different clusters, after which the two sets of molecules remain distinct and manual compilation of sets of related clusters is necessary to see all molecules related to a single one. With overlapping scaffolds, if two molecules share a common substructure, these methods will find it -- provided of course that it is a legitimate scaffold for a particular method and thresholds have not been set on scaffold count or complexity that exclude small groups or simple substructures. 
@@ -1000,7 +1000,19 @@ scaffold generation, the compound-scaffold associations reduce to
 fixed time lookups and thus assesing scaffold membership (\eg
 computing structure groups or activity groups) is very fast.
 
-We hope our use of anecdotal and statistical methods to quantify similarities and differences has convinced the reader that there is no one fuzzy clustering method that is superior to others in all situations. Instead, different methods bring nuances and slightly different sets of SAR insights to the table, and the reader may evaluate which performs the best on their own dataset. On the TCAMS dataset, the high fragment efficiency         
+
+We hope our use of anecdotal and statistical methods to quantify
+similarities and differences has convinced the reader that there is no
+one fuzzy clustering method that is superior to others in all
+situations. Instead, different methods bring nuances and slightly
+different sets of SAR insights to the table, and the reader may
+evaluate which performs the best on their own dataset. At the same it
+is important to realize the importance of a chemists intuition and
+experience, which can often bias scaffold and subsequent lead
+selection. Thus a chemist with a ``favorite'' scaffold may
+(unconciously) tend to downplay or ignore other scaffolds. While this
+is unavoidable, visual and data-driven approaches such as described
+here may help to combat such biases.
 
 Our method for quantifying structure-activity overlap via NormCP is
 novel, though similar in spirit and purpose to local hit rate
