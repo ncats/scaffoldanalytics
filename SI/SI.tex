@@ -25,30 +25,10 @@ PA 19426 \\
 $^{\ddagger}$ National Center for Advancing Translational Science, \\ 9800 Medical Center Drive, Rockville, MD 20850}
 \maketitle
 
-\section{Scaffold metrics}
-\label{sec:scaffold-metrics}
+\newpage 
 
-The NCATS R-group tool is designed to fragment a collection of
-molecules. In addition to the fragmentation procedure it computes a
-series of scaffold metrics, described in Table
-\ref{table:scaffoldfilecolumns}. In this section we provide some
-details about the \textit{ScaffoldScore} and \textit{Complexity}
-metrics.
-
-The \textit{ScaffoldScore} is an empirical metric designed to
-summarize a scaffold (or more generally, a fragment) and the compounds
-containing the scaffold. Specifically, we define it as
-\begin{equation}
-  \label{eq:1}
-  S = foo
-\end{equation}
-
-The \textit{Complexity} metric is an implemention of the empirical
-complexity metric described by Barone and Channon \cite{Barone2001}.
-\textit{Complexity} can be used to prune away scaffolds that are too
-simple, by setting a cutoff such as 100.
-
-
+\section{NCATS R-group tool output files}
+\label{sec:ncats-r-group}
 
 \begin{table}[h]
   \centering
@@ -62,7 +42,8 @@ simple, by setting a cutoff such as 100.
     Structure & Scaffold SMILES without R-groups attached \\
     RgroupLabels & A comma separated list of R-group labels for
     all R-groups associated with the scaffold \\
-    ScaffoldScore & XXX \\
+    ScaffoldScore & A quantitative assessment of the scaffold quality.
+    See Section \ref{sec:scaffold-metrics} \\
     Complexity & A number that captures increasing size and complexity of
     scaffolds. See Section \ref{sec:scaffold-metrics}.  \\
     Count & Number of molecules that share this scaffold \\
@@ -70,7 +51,11 @@ simple, by setting a cutoff such as 100.
   \end{tabular}
   \caption{A description of the fixed columns of the scaffold file generated
     by the NCATS R-group tool. Additional columns may be present which
-    correspond to aggregated property columns.}
+    correspond to aggregated property columns. Thus for each
+    property of the input molecules, we compute the mean and standard
+    deviation of that property for all molecules containing the
+    scaffold. These values are reported in columns labeled \texttt{X} and
+    \texttt{$X_{sd}$}, where \texttt{X} is the property name.}
   \label{table:scaffoldfilecolumns}
 \end{table}
 
@@ -95,7 +80,48 @@ simple, by setting a cutoff such as 100.
 
 \newpage
 
+\section{Scaffold metrics}
+\label{sec:scaffold-metrics}
+
+The NCATS R-group tool is designed to fragment a collection of
+molecules. In addition to the fragmentation procedure it computes a
+series of scaffold metrics, described in Table
+\ref{table:scaffoldfilecolumns}. In this section we provide some
+details about the \textit{ScaffoldScore} and \textit{Complexity}
+metrics.
+
+The \textit{ScaffoldScore} is an empirical metric designed to
+summarize a scaffold (or more generally, a fragment) and the compounds
+containing the scaffold. Specifically, we define it as  
+\begin{equation}
+  \label{eq:1}
+  S = -\log_{10} \Bigg( \sqrt{ N_{\mathrm{core}} \times \frac{N_{m}}{N} \times
+    \frac{1}{\sqrt{\sigma}} \times \frac{1}{R} }  \, \Bigg)
+\end{equation}
+where $N_{\mathrm{core}}$ is the atom count of the scaffold,
+$N_{m}$ is the size of the member set for the scaffold,
+$N$ is the total number of molecules used as input, $R$ is the number
+of R-groups identified for this scaffold and $\sigma$ is a measure of
+how close the members are to the scaffold and is defined as
+\begin{equation}
+  \label{eq:2}
+  \sigma = \sum_{i=1}^{N_m} ( A_i - N_{\mathrm{core}} )^2
+\end{equation}
+where $A_i$ is the atom count of the $i$'th molecule in the scaffolds
+member set.  In summary, the score is for a scaffold is higher if it
+is larger, with member molecules are relatively close to the scaffold
+and covers a large fraction of the input set and has fewer R-groups.
+
+The \textit{Complexity} metric is an implemention of the empirical
+complexity metric described by Barone and Channon \cite{Barone2001}.
+\textit{Complexity} can be used to prune away scaffolds that are too
+simple, by setting a cutoff such as 100.
+
+
+\newpage
+
 \bibliographystyle{unsrt}
 \bibliography{bibliography}
 
 \end{document}
+

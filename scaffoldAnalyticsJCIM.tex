@@ -408,34 +408,8 @@ running from the command-line, ensuring 16G of memory (via
 handful of numeric activity columns to be analyzed without running out
 of memory. The scaffolds along with R-group tables for each scaffold
 can be exported in a set of TSV files or a single JSON file. In the
-current work we employed the TSV format which is briefly described.
-
-The scaffold file lists the scaffolds, one to a row with the following
-key columns:
-\begin{itemize}
-\item {\it ScaffoldID}: Numeric scaffold identifier. Each scaffold occurs only once, and data columns are aggregated for all molecules containing the scaffold.
-\item {\it Structure}: Scaffold SMILES without R-groups attached. 
-\item{\it RgroupLabels}: A comma separated list of R-group labels for
-  all R-groups associated with the scaffold
-\item {\it Scaffold Score}: \textbf{Do we want to discuss and define this here?}
-\item {\it Complexity}: A number that captures increasing size and complexity of scaffolds - increases with number of rings, non-ring atoms, chiral atoms and ring adjacencies. \textbf{Trung or anyone else, would you like to provide more detail on this and the following scaffold metrics?}. Complexity can be used to prune away scaffolds that are too simple, by setting a cutoff such as 100.  
-\item {\it Count}: Number of molecules that share this scaffold
-\end{itemize}
-The remaining columns are aggregated property columns. Thus for each
-property of the input molecules, we compute the mean and standard
-deviation of that property for all molecules containing the
-scaffold. These values are reported in columns labeled \texttt{X} and
-\texttt{$X_{sd}$}, where \texttt{X} is the property name.
-
-The corresponding R-group decomposition file contains the following columns:
-\begin{itemize}
-\item {\it ScaffoldID}: Numeric scaffold identifier (corresponding to
-  the {\it ScaffoldID} column in the scaffold file)
-\item {\it MolID}: Numeric or text molecule identifier (name). Each molecule is repeated once for each scaffold that it occurs in.\
-\item {\it Structure}: Molecule structure
-\item {\it $R_1..R_n$}: R-group SMILES, with \*-atoms at attachment
-  points. By default we limit to $n = 21$
-\end{itemize}
+current work we employed the TSV format which is described in detail
+in Supplementary Tables S1 \& S2.
 
 \subsection{Fragmentation Method: GSK Frameworks}
 \label{sec:gskframe}
