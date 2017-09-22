@@ -108,25 +108,25 @@
 %% require that it is printed as part of the abstract page. It will
 %% be automatically moved as appropriate.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{tocentry}
+%\begin{tocentry}
 
-Some journals require a graphical entry for the Table of Contents.
-This should be laid out ``print ready'' so that the sizing of the
-text is correct.
+%Some journals require a graphical entry for the Table of Contents.
+%This should be laid out ``print ready'' so that the sizing of the
+%text is correct.
 
-Inside the \texttt{tocentry} environment, the font used is Helvetica
-8\,pt, as required by \emph{Journal of the American Chemical
-Society}.
+%Inside the \texttt{tocentry} environment, the font used is Helvetica
+%8\,pt, as required by \emph{Journal of the American Chemical
+%Society}.
 
-The surrounding frame is 9\,cm by 3.5\,cm, which is the maximum
-permitted for  \emph{Journal of the American Chemical Society}
-graphical table of content entries. The box will not resize if the
-content is too big: instead it will overflow the edge of the box.
+%The surrounding frame is 9\,cm by 3.5\,cm, which is the maximum
+%permitted for  \emph{Journal of the American Chemical Society}
+%graphical table of content entries. The box will not resize if the
+%content is too big: instead it will overflow the edge of the box.
 
-This box and the associated title will always be printed on a
-separate page at the end of the document.
+%This box and the associated title will always be printed on a
+%separate page at the end of the document.
 
-\end{tocentry}
+%\end{tocentry}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% The abstract environment will automatically gobble the contents
@@ -255,7 +255,7 @@ Multiple scaffolds if present in a dataset can be inferred from the
 scaffold tree decomposition\cite{ClarkLabute2008SAReport}. However in
 practice, the thresholds used by \citeauthor{ClarkLabute2008SAReport}
 miss common scaffolds in HTS-like diverse chemical compound
-sets. \citeauthor{Bandyopadhyay2011ACS} have used a common fragment
+sets. \citeauthor{Bandyopadhyay2012ACS} used a common fragment
 decomposition plug-in for SAReport in order to find and export
 scaffolds for diverse datasets, such as the GSK Natural Products
 Set\cite{Coma2014}.  This approach assigns at most one scaffold for
@@ -285,7 +285,7 @@ clusters containing just one compound, as shown in \fref{platypus}.
 In contrast to these partitioning clusters, the methods described
 herein rely on fuzzy clustering, where a molecule may be assigned to
 multiple clusters. Fuzzy clusters have been rarely used in
-cheminformatics (for example \cite{Holliday2004,Richmond2015Galois}),
+cheminformatics (for example \cite{Holliday2004,Richmond2013Galois}),
 perhaps because they are hard to visualize and navigate.  In this work
 we provide an intuitive visual framework that we believe can help end
 users easily navigate a diverse chemical dataset described by a fuzzy
@@ -304,7 +304,7 @@ weight, aromatic ring count, cLogP), and Inhibition Frequency Index
 (IFI, a measure of promiscuity defined as the percentage of screens in
 which a molecule inhibits over 50\%, \cite{Chakravorty2013IFI}).
 
-The in-house kinase dataset shown, by contrast, is perhaps less
+The in-house kinase dataset shown (``Kinase X''), by contrast, is perhaps less
 diverse but chosen to illustrate the power of this approach in joining
 and merging datasets from multiple screens, combining their SAR to
 design hybrid molecules, and making inferences about unknown activity
@@ -337,7 +337,7 @@ SDF conversion, activity or property columns that are not to be
 aggregated at the scaffold level should be deleted from the CSV file,
 in order to speed up the analysis and aggregation.  There are some
 further quirks to pre-processing datasets for the NCATS R-group tool
-that will be described in the Supplementary Material.
+that will be described in the Supplementary Material in section S3.
 
 \subsection{Partitioning Method: Complete Linkage Clustering}
 We retain the default method used at GSK to visualize groups of
@@ -438,7 +438,7 @@ comprehensive coverage of fragments within each molecule can be both
 good and bad.
 
 Further details on how to set up and run the GSK frameworks code are
-provided in the Supplementary Material. \textbf{\textcolor{red}{TODO}}
+provided in the Supplementary Material Section S4. %\textbf{\textcolor{red}{TODO}}
 
 \subsection{Fragmentation Method: Scaffold Network Generator}
 \label{sec:SNG}
@@ -453,11 +453,9 @@ outputs.
 
 The Network file lists each Scaffold with numeric ID, SMILES, Number
 of Rings (which serves as the level in the hierarchy) and Subscaffolds
-presented as a comma-separated numeric list. We wrote a script to
-split the subscaffold list among multiple lines with the other fields
-duplicated, since this format is more amenable to Spotfire integration
-as described in a later section.  This script is made available in the
-Supplementary Material.
+presented as a comma-separated numeric list. This list was converted into
+a multi-line format, one for each subscaffold, as described in the
+Supplementary Material in Section S5.
 
 The ID Map file has two columns, mapping a Molecule ID from the
 primary dataset to the Top-Level Scaffold (i.e. Murcko scaffold)
@@ -477,10 +475,6 @@ NCATS R-group tool and other comparable methods is integrated into
 Spotfire, our visualization tool of choice at GSK.
 
 \subsection{Data Table Generation and Linking}
-\textbf{\textcolor{red}{This section could be moved completely to SI,
-    since it is very specific to Spotfire usage, and after this
-    section, we are concerned with the results on the linked data, not
-  how the data was linked}}
 
 \begin{figure}
 \includegraphics[width=6in]{fig/details_all2.png}
@@ -497,84 +491,13 @@ generation methods considered here, are layered onto the primary data
 table in Spotfire. This primary data table is usually a direct import
 of tabular molecule and activity data generated at GSK or available
 from public datasets. What gets added is by and large similar,
-following the framework ``Molecule --> Scaffold (including Annotation)
+following the schema ``Molecule --> Scaffold (including Annotation)
 --> Related Molecules'' shown in the figure. For each Molecule in the
 dataset, we connect it to every Scaffold/Framework/Cluster it
 contains, and then to every other molecule containing any of these
 Scaffolds/Frameworks/Clusters. Slight differences for each individual
-method are detailed below.
+method are detailed in the Supplementary Material, Section S6.
 
-{\bf Complete Linkage Clustering} adds a Cluster Number to the primary data table. To get the Related Molecules, we simply add a duplicate copy of the primary data table and link it to the original via Scaffold ID. In other words, a Table Relation is entered into Spotfire so that $Main.CLink = Main(2).CLink$.  
-
-{\bf GSK Frameworks} are similar to Clusters, except the one-to-many rather than one-to-one mapping of molecules to frameworks. To get the Related Molecules, we add an original and a duplicate copy of this mapping, and set Relations so that:  
-\begin{itemize}
-\item $Main.Molecule\_ID = Frames(2).Molecule\_ID$
-\item $Frames(2).Framework\_ID = Frames.Framework\_ID$
-\end{itemize}
-
-{\bf NCATS R-group Tool} adds an additional Annotation layer, \ie the
-scaffold-level summaries in addition to the R-group decomposition
-table. In order to enable bidirectional navigation from scaffolds to
-molecules, we add both these tables and also a duplicate copy of the
-R-group decomposition table. Then Relations are set up as follows
-within Spotfire:
-\begin{itemize}
-\item $Main.Molecule\_ID = RGdecomp(2).Molecule\_ID$
-\item $RGdecomp(2).Scaffold\_ID = Scaffolds.Scaffold\_ID$
-\item $Scaffolds.Scaffold\_ID = RGdecomp.Scaffold\_ID$
-\end{itemize}   
-
-{\bf Scaffold-Network Generator} adds several additional layers of
-complexity to the preceding methods. The Molecule ID in the primary
-dataset is linked only to the Top-Level Scaffold ID in the ID Map
-file; there exists no reverse mapping from subscaffolds with fewer
-rings deep within the network to related Molecule IDs. Thus we create
-one by assuming one wants to explore at most three levels deeper than
-the top level scaffold, but not connect to other molecules that share
-only a single ring (rather than a larger system of two or more rings)
-with the parent molecule. Thus we add six (three in each direction)
-copies of the Scaffold Network table, two of the ID Map table, and two
-of the primary data table, connecting them using the following logic:
-\begin{itemize}
-\item In the three Forward instances of the Network table, the
-  Scaffold to Subscaffold Mapping already exists. Modify it by
-  truncating (assigning a null subscaffold) when the number of rings
-  is 2 or 1.  \subitem Define a new column that maps a null
-  subscaffold to the same scaffold, to be able to follow the link to
-  downstream tables without diving deeper.
-\item In the three Reverse instances of the Network table, the
-  Subscaffold to Superscaffold mapping needs to be defined by
-  inverting the provided mapping. Thus: \subitem We define in each
-  network table a duplicate scaffold ID field, dupID, so that one
-  instance of the ID can be used to map in either direction without
-  introducing a cycle.  \subitem The mapping from scaffolds in one
-  table ($A$) to superscaffolds in one table higher ($B$) is then
-  recast as one from scaffolds in $B$ to subscaffolds in $A$, using a
-  different set of IDs from the upward links.
-\item The Table Relations are then set up as follows to link Molecules
-  to Related Molecules in the scaffold network: \subitem
-  $Main.Molecule\_ID = ID\_Map(2).Molecule\_ID$ \subitem
-  $ID\_Map.Top\_Level\_Scaffold = NetworkDown(3).Scaffold$ \subitem
-  $NetworkDown(3).SubScaffold = NetworkDown(2).Scaffold$ \subitem
-  $NetworkDown(2).SubScaffold = NetworkDown.Scaffold$ \subitem
-  $NetworkDown.Scaffold = NetworkUp.SubScaffold$ \subitem
-  $NetworkUp.Scaffold = NetworkUp(2).SubScaffold$ \subitem
-  $NetworkUp(2).Scaffold = NetworkUp(3).SubScaffold$ \subitem
-  $NetworkUp(3).Scaffold = ID\_Map.Top\_Level\_Scaffold$ \subitem
-  $ID\_Map.Molecule\_ID = Related
-  Molecules(Copy~of~Main).Molecule\_ID$
-\end{itemize}   
-
-% We emphasize that this approach is just one solution to the problem of
-% linking related molecules in Spotfire.  Several other solutions have
-% been explored by our colleagues, which include: duplicating columns
-% rather than tables; joining and merging all data into one giant table
-% rather than maintaining multiple linked tables; linking up molecules
-% directly to lists of other molecules in a preprocess that happens
-% outside Spotfire (\eg in a script that integrates the data); and using
-% various add-ins for Spotfire such as the internally developed GSK SAR
-% Toolkit and commercial tools from Discngine SA.
- 
 \subsection{Visualization of Molecules, Scaffolds and Related Molecules}
 
 We next describe a minimalistic user interface for exploring the
@@ -638,10 +561,10 @@ following elements:
 \end{figure}
 
 Alternative visualizations are possible and we describe some of them
-in the Supplementary Material. In addition, we discuss several
+in the Supplementary Material, Section S7. In addition, we discuss several
 Spotfire tricks that are instrumental in making our visualization
 useful to the chemist or biologist
-user. \textbf{\textcolor{red}{TODO}}
+user. %\textbf{\textcolor{red}{TODO}}
 
 \subsection{Statistical Comparison of Scaffold Generation Methods}
 \label{sec:statmethod}
@@ -673,7 +596,7 @@ fragments using $A$ or $B$, and thus can be found using fragmentations
 $A$ alone, $B$ alone, $A$ and $B$, or $A$ excluding $B$.  Using these
 methods we can evaluate the overall similarity of the two
 fragmentation schemes, and also independently score the usefulness of
-$A$ and $B$. \textbf{\textcolor{red}{how?}}
+$A$ and $B$ to connect compound(s) of interest to related molecules. 
 
 For any compound $C$ and ontology $A$, define the structure group of
 $C$ under $A$, $C_A$ as the set of compounds that share fragments from
@@ -764,15 +687,6 @@ Two scaffolds with ID 1920 (pyridophenyl) and 3116 (benzimidazole) shown in a tr
 \label{fig:ELT}   
 \end{figure}
 
-\textbf{\textcolor{red}{Move most of this to discussion.}}
-To summarize, disparate datasets with no common activity fields (or if preferred, activity fields normalized to a common scale) can be combined and merged at the scaffold level to derive insights such as:
-\begin{itemize}
-\item Are there regions of chemical space that are unique to one dataset and should be explored further to enrich the chemical diversity available?
-\item Conversely, are there chemotypes that substantially overlap between the datasets?  This might increase confidence in otherwise noisy screening data and provide a coherent SAR picture (including defining series) that might not be available from individual datasets.
-\item Can active or otherwise interesting scaffolds from one or a few datasets point to latent or unmeasured actives in other datasets that can then be synthesized (if virtual) or measured (if available) to confirm their activity or add a SAR data point. 
-\item If there is a common chemical motif behind several actives, the method will reveal it automatically without relying on a chemist's having seen and flagged the similarity, even if the molecules concerned are disparate looking, few, and scattered across datasets.
-\item A cohesive view of actives, inactives, and SAR from a set of screening campaigns helps to summarize the effort and return to it if needed without relying on memory, lab notebooks or manual effort in collating and remining the data.   
-\end{itemize} 
 
 \subsection{Use Case: Scaffold Walking Navigation}
 \label{sec:scafwalk}
@@ -793,13 +707,14 @@ As an example, consider Molecule 1 (PubChem CID: 536182) in \fref{scafwalk1}, as
 
 Molecule 2 in \fref{scafwalk2} is another case where we might want to optimize the physical and chemical properties of the molecule without sacrificing activity or increasing promiscuity. Since solubility has been shown to go down with number of aromatic rings independent of lipophilicity\cite{Hill2010}, walks that remove one or more of the three fused rings might be productive. By exploring the Related Molecules, we observe the SAR for three scaffolds: quinazolines (\#305, brown), indazoloquinazolines (\#574, blue) and indazoles (\#3822, pink). We observe from the plot a few more molecules containing all three scaffolds (tricolored pies, \ie exact analogs of the parent molecule); all of these are less active than the parent. The indazoles when they occur alone (pink circles) are far less active than the parent, suggesting they do not contribute significantly to activity and may be substituted. Lastly the quinazolines (brown) include several analogs that are more active and also less promiscuous than the parent. Drilling down into these structures, we observe several that contain only two aromatic rings (\ie no more are either fused or attached); these provide novel, active and ligand-efficient templates on which to build new analogs with enhanced solubility or other properties. Suggestions for which analogs to make can often be obtained by examining the SAR -- for example, disparate aliphatic and aromatic analogs at two adjacent positions on the quinazoline phenyl are active, which suggests hybridizing them or designing further analogs substituted at these positions.
 
-Another intriguing result is seen by observing a new tricyclic series that shares the quinazoline but adds an indole instead of indazole as the third fused ring. This alternative tricyclic template, while it may not confer solubility advantages, opens up a new area of chemical space. By iteratively seeking the Related Molecules for this new hit as shown in \fref{scafwalk3}, we observed that most of the active quinazoline analogs have this new tricyclic scaffold (\#1824, tan wedges in tricolored pies) and relatively few contain only quinazolines (\#305, brown circles). Also, indoles by themselves (\#1188, blue circles) do not much better than indazoles, so this is a new synergistic effect discovered by scaffold walking from the original hit.            
-
 \begin{figure}
-\includegraphics[width=6in]{fig/mol3_RGtool_scafpie_iter.png}
+\includegraphics[width=5.5in]{fig/mol3_RGtool_scafpie_iter.png}
 \caption{Iterative Related Molecules scaffold pies visualization for Molecule 3 (CID: 541531), a scaffold hop from Molecule 2 shown in \fref{scafwalk2}. Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
 \label{fig:scafwalk3}
 \end{figure}
+
+Another intriguing result is seen by observing a new tricyclic series that shares the quinazoline but adds an indole instead of indazole as the third fused ring. This alternative tricyclic template, while it may not confer solubility advantages, opens up a new area of chemical space. By iteratively seeking the Related Molecules for this new hit as shown in \fref{scafwalk3}, we observed that most of the active quinazoline analogs have this new tricyclic scaffold (\#1824, tan wedges in tricolored pies) and relatively few contain only quinazolines (\#305, brown circles). Also, indoles by themselves (\#1188, blue circles) do not much better than indazoles, so this is a new synergistic effect discovered by scaffold walking from the original hit.            
+
 
 \subsection{Qualitative Comparison of Scaffold-Generation Methods and Clustering}
 {\bf Complete-Linkage Clustering}: As shown in \fref{clusterlanes}, the defining feature of a partitioning clustering is that every molecule maps to one and only one cluster. Thus if a chemotype is broken up among two or more clusters, using the cluster ID to map Related Molecules can retrieve only neighbors from the same cluster, ignoring the other cluster. This is not ideal for purposes of the visualization and navigation method presented here, as arbitrary neighbors would be excluded depending on how the clustering is defined.  Thus we do not advocate the use of clustering, unless it is a fuzzy clustering where all meaningful class memberships a molecule might have are considered. 
@@ -818,14 +733,14 @@ if any two molecules share a common substructure that meets the standards requir
 {\bf Other Scaffold Generation Methods}: As shown earlier, even though other scaffold generation methods (GSK frameworks and Scaffold Network Generator) differed in their implementation details and produced different numbers of scaffolds for the same molecule, they were roughly equivalent in a qualitative sense with regard to the insights obtained. Due to substantial overlap between sets of scaffolds, ring systems responsible for activity of a molecule were generally revealed by any of the methods. For example, the insights mentioned in \sref{scafwalk} were more or less consistent across the three methods. However, there were cases where the Frameworks revealed negative information about a fragment being not important for activity that is also useful for a drug discovery scientist. For example, in \fref{frameswalk} a substructure is highlighted that is on the aggregate inactive and could be removed or substituted. This insight is not available from the other methods since they don't define or find that fragment as a scaffold.
 
 \begin{figure}
-\includegraphics[width=6in]{fig/mol1_frames_scafpie.png}
-\caption{Using GSK Frameworks instead of NCATS R-group tool in the Scaffold Pies visualization. One framework is highlighted that has no equivalent in the NCATS scaffolds, but is shown on the average to reduce activity since related molecules that contain it are less active than the parent molecule.   The star symbol is added to show the location of the parent molecule in this Related Molecules plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and +Y axes).}      
+\includegraphics[width=5in]{fig/mol1_frames_scafpie.png}
+\caption{Using GSK Frameworks with the Scaffold Pies visualization. One framework is highlighted that has no equivalent in the NCATS scaffolds, but is shown to reduce activity as related molecules containing it are less active than the parent molecule.   The star symbol shows the location of the parent molecule in this Related Molecules plot, and the compass device at the origin shows the direction of favorable properties (+X and +Y axes).}      
 \label{fig:frameswalk}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=6in]{fig/mol2_SNG_relmol_trellis.png}
-\caption{Using Scaffold Network Generator to find Related Molecules a few hops away in the Scaffold Network that have a desirable property, in this case activity against the resistant DD2 strain of P.~falc.  The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and +Y axes).}
+\includegraphics[width=5in]{fig/mol2_SNG_relmol_trellis.png}
+\caption{Using SNG to find Related Molecules a few hops away in the Scaffold Network that have a desirable property, in this case activity against the resistant DD2 strain of P.~falc.  The star symbol shows the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (+X and +Y axes).}
 \label{fig:SNGwalk}
 \end{figure}
 
@@ -934,15 +849,15 @@ On the other hand, there are also some compounds, highlighted on the left side o
 
 
 \begin{itemize}
-\item \sout{Discuss performance - scaffold generation is usually a one time procedure
-  for a given screening deck. Furthermore, the scaffold generating process will
-  associate compounds with scaffolds, so looking up scaffold membership is very
-  fast. When considering scaffold similarity, usual performance bottlenecks
-  occur, same as for other similarity applications. Can we include some
-  performance numbers?}
-\item \sout{we haven't discussed removal of promiscuous compounds/chemotypes,
-  undesirable chemotypes (ie PAINS etc), these are generally a separate and
-  independent step from the scaffold identification process}
+%\item \sout{Discuss performance - scaffold generation is usually a one time procedure
+%  for a given screening deck. Furthermore, the scaffold generating process will
+%  associate compounds with scaffolds, so looking up scaffold membership is very
+%  fast. When considering scaffold similarity, usual performance bottlenecks
+%  occur, same as for other similarity applications. Can we include some
+%  performance numbers?}
+%\item \sout{we haven't discussed removal of promiscuous compounds/chemotypes,
+%  undesirable chemotypes (ie PAINS etc), these are generally a separate and
+%  independent step from the scaffold identification process}
 \item Ranking scaffolds is a key step in prioritizing hits in a scaffold-based
   approach. Still a subjective issue and many ways to do it. Not clear that
   there is a single optimal way. Discussion points could include
@@ -974,12 +889,18 @@ On the other hand, there are also some compounds, highlighted on the left side o
   but usually one identifies such privileged scaffolds in a
   retrospective fashion, across multiple HTS campaigns. Relevance /
   importance to scaffold based triage?
-\item \sout{The last point also suggests that intuition and experience play
-  an important role and also present a possible source of bias. A
-  chemist with a ``favorite'' scaffold may (unconciously) tend to
-  ignore other scaffolds. To combat such human biases, data driven
-  summaries and navigation are vital}
 \end{itemize}
+
+We observed in the Kinase X scaffold prioritization use case that aggregate statistics on overlapping scaffolds can be a powerful tool to find your best compounds and progress them based on the statistics of overlapping scaffolds rather than non-overlapping clusters. Spotfire can interactively be used to drill down from aggregate properties to individual compounds, so decisions are still made using real and individual compound data after using aggregate data as a filter. 
+
+We also observed from the Kinase X data fusion use case that an ELT dataset with no activity fields and virtual molecules can be combined with disparate other datasets. These datasets need not have common activity fields, and disparate activity fields if present may be normalized to a common scale.  Such datasets can then be combined and merged at the scaffold level to derive insights such as:
+\begin{itemize}
+\item Are there regions of chemical space that are unique to one dataset and should be explored further to enrich the chemical diversity available?
+\item Conversely, are there chemotypes that substantially overlap between the datasets?  This might increase confidence in otherwise noisy screening data and provide a coherent SAR picture (including defining series) that might not be available from individual datasets.
+\item Can active or otherwise interesting scaffolds from one or a few datasets point to latent or unmeasured actives in other datasets that can then be synthesized (if virtual) or measured (if available) to confirm their activity or add a SAR data point. 
+\item If there is a common chemical motif behind several actives, the method will reveal it automatically without relying on a chemist's having seen and flagged the similarity, even if the molecules concerned are disparate looking, few, and scattered across multiple datasets.
+\item A cohesive view of actives, inactives, and SAR from a set of screening campaigns helps to summarize the effort and return to it if needed without relying on memory, lab notebooks or manual effort in collating and remining the data.   
+\end{itemize} 
 
 Anecdotal comparison of overlapping scaffolds to commonly used partition-based clustering methods such as complete linkage clustering shows that the latter methods may divide very similar molecules arbitrarily into two different clusters, after which the two sets of molecules remain distinct and manual compilation of sets of related clusters is necessary to see all molecules related to a single one. With overlapping scaffolds, if two molecules share a common substructure, these methods will find it -- provided of course that it is a legitimate scaffold for a particular method and thresholds have not been set on scaffold count or complexity that exclude small groups or simple substructures. 
 
@@ -993,7 +914,9 @@ the goals of chemists to find interesting active molecules related to
 a hit. As mentioned earlier they also extend the applicability of
 methods to compare the output of different partitioning clustering
 methods such as \citeauthor{Torres2009}, allowing them to be used for
-non-overlapping fuzzy clusters. For large structure collections, the
+non-overlapping fuzzy clusters.
+
+For large structure collections, the
 primary bottleneck is the fragmentation step. However, scaffold
 generation is usually a one-time procedure. Furthermore, after
 scaffold generation, the compound-scaffold associations reduce to
@@ -1018,7 +941,10 @@ Our method for quantifying structure-activity overlap via NormCP is
 novel, though similar in spirit and purpose to local hit rate
 calculations that have been proposed for HTS triage\cite{Posner2009},
 with a comprehensive structural neighbor metric based on overlapping
-scaffolds.
+scaffolds. We hope it will be explored more as a means of HTS triage and hit
+set prioritization.
+
+
 
 
 \begin{acknowledgement}

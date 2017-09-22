@@ -3,6 +3,7 @@
 
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thesection}{S\arabic{section}}
+\newcommand*\ie{i.e.,~}
 
 \setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
@@ -126,8 +127,151 @@ complexity metric described by Barone and Channon \cite{Barone2001}.
 \textit{Complexity} can be used to prune away scaffolds that are too
 simple, by setting a cutoff such as 100.
 
+\newpage 
+
+\section{NCATS R-group tool input preprocessing}
+\label{sec:ncats-prepro}
+Here are the implementation details specific to summarizing screening datasets such as TCAMS and Kinase X successfully with the NCATS R-group tool:
+\begin{itemize}
+
+\item Convert ligand efficiency columns (LE/LLE) to LE\_x10 (multiply by 10). Otherwise it will be rounded to one decimal place while summarizing (eg. 0.3 ± 0.1), which isn t useful. The conversion was done using a formula in Excel prior to converting the dataset from CSV to SDF. Summarized LE\_x10 columns may be back-converted to LE by dividing by 10 in a Spotfire calculated column.  
+
+\item Convert integer columns that we are interested in summarizing to floating point format, \ie append a ``.0'' to these integer values. Since Pubchem IDs are integers, there is logic build into the NCATS scaffold summarization code to ignore columns containing integers. However, percentage inhibition, IFI (percent), and many other measurements that are useful to aggregate are expressed as integers.  We got around this by matching a pattern in the SDF file and replacing a PCT\_INHIBITION column followed by an integer with the same number followed by ``.0'' using a Unix sed script. This technique helps work around assumptions made by the NCATS code that integers are compound IDs, and aggregate these columns.
+  
+\item If the dataset contains Encoded Library Technology features or similar molecules, ensure that pendant  R-atoms  at building block attachment points are deleted rather than turned to Carbon. We implemented this conversion using a MOE SVL script ``db\_deleteatoms.svl'' written by Barbara Sander at Chemical Computing group. The script will loop through a MOE database and delete all atoms named  A  in a database molecule entry, which are the R-atoms.   
+\end{itemize}
+
+\newpage 
+
+\section{GSK data-driven frameworks input preprocessing}
+\label{sec:gskfw-prepro}
+
+The steps to build GSK Bemis-Murcko-like and Recap fragments from datasets within the GSK computational chemistry environment follows the method described in  \cite{Harper2004DDclus}:
+\begin{itemize}
+\item Start with a two column space separated SMILES file, \ie chemblntd\_gsk2\_spc.smi which contains molecule parent smiles (no salt forms) and IDs separated by a space. 
+\item Run a Python script build\_dd.py to generate various descriptors for each molecule in this dataset, including Detail Frameworks (chemblntd\_gsk2\_spc\_df.db) and Recap (chemblntd\_gsk2\_spc\_recap.db). These tab-delimited files contain one line per fragment found in any molecule, listing the fragment SMILES and the molecule ID, with all fragments found in the first molecule before all in the second, and so on.
+\item Convert the two db files into files listing fragments shared by more than one molecule and not unique to a molecule. The resulting file is sorted so that all molecules containing the same fragment are on contiguous lines. Example Unix script for detailed frameworks:
+  \begin{verbatim}
+    cat chemblntd_gsk2_spc_df.db | sort -V -t \t -k 1
+    | awk '{print $2, $1}' | uniq -D -f 1
+    > chemblntd_gsk2_spc_frames_shared.txt
+  \end{verbatim}
+\item As an optional step that we did not implement, a scoring function based on aggregate activity of a fragment may be computed and used to triage frameworks as was done for scaffolds from the NCATS R-group tool.   
+    
+\end{itemize}
+
+\newpage 
+
+\section{SNG output postprocessing}
+\label{sec:ncats-SNGprep}
+We wrote a Unix sed script to split the comma-separated subscaffold list among multiple lines, with
+the other fields duplicated, since this format is more amenable to Spotfire
+integration as described in the next section.  This script works as follows:
+\begin{verbatim}
+alias gg="sed 's/^\([0-9]*\t[0-9]*\t[^\t]*\)\t\([0-9]*\)\,\(.*\)$/\1\t\2\
+n\1\t\3/g'"
+cat ChemblNTD.network | gg | gg | gg | gg | gg | gg | awk -F, '{print $1}' 
+    > ChemblNTD_scaffold_multiline.txt
+\end{verbatim} 
+
+
+
+\newpage 
+
+\section{Implementation Detail of linking Spotfire tables with different scaffold generation methods}
+\label{sec:scaf-table-spotfire}
+
+{\bf Complete Linkage Clustering} adds a Cluster Number to the primary data table. To get the Related Molecules, we simply add a duplicate copy of the primary data table and link it to the original via Scaffold ID. In other words, a Table Relation is entered into Spotfire so that $Main.CLink = Main(2).CLink$.  
+
+{\bf GSK Frameworks} are similar to Clusters, except the one-to-many rather than one-to-one mapping of molecules to frameworks. To get the Related Molecules, we add an original and a duplicate copy of this mapping, and set Relations so that:  
+\begin{itemize}
+\item $Main.Molecule\_ID = Frames(2).Molecule\_ID$
+\item $Frames(2).Framework\_ID = Frames.Framework\_ID$
+\end{itemize}
+
+{\bf NCATS R-group Tool} adds an additional Annotation layer, \ie the
+scaffold-level summaries in addition to the R-group decomposition
+table. In order to enable bidirectional navigation from scaffolds to
+molecules, we add both these tables and also a duplicate copy of the
+R-group decomposition table. Then Relations are set up as follows
+within Spotfire:
+\begin{itemize}
+\item $Main.Molecule\_ID = RGdecomp(2).Molecule\_ID$
+\item $RGdecomp(2).Scaffold\_ID = Scaffolds.Scaffold\_ID$
+\item $Scaffolds.Scaffold\_ID = RGdecomp.Scaffold\_ID$
+\end{itemize}   
+
+{\bf Scaffold-Network Generator} adds several additional layers of
+complexity to the preceding methods. The Molecule ID in the primary
+dataset is linked only to the Top-Level Scaffold ID in the ID Map
+file; there exists no reverse mapping from subscaffolds with fewer
+rings deep within the network to related Molecule IDs. Thus we create
+one by assuming one wants to explore at most three levels deeper than
+the top level scaffold, but not connect to other molecules that share
+only a single ring (rather than a larger system of two or more rings)
+with the parent molecule. Thus we add six (three in each direction)
+copies of the Scaffold Network table, two of the ID Map table, and two
+of the primary data table, connecting them using the following logic:
+\begin{itemize}
+\item In the three Forward instances of the Network table, the
+  Scaffold to Subscaffold Mapping already exists. Modify it by
+  truncating (assigning a null subscaffold) when the number of rings
+  is 2 or 1.  \subitem Define a new column that maps a null
+  subscaffold to the same scaffold, to be able to follow the link to
+  downstream tables without diving deeper.
+\item In the three Reverse instances of the Network table, the
+  Subscaffold to Superscaffold mapping needs to be defined by
+  inverting the provided mapping. Thus: \subitem We define in each
+  network table a duplicate scaffold ID field, dupID, so that one
+  instance of the ID can be used to map in either direction without
+  introducing a cycle.  \subitem The mapping from scaffolds in one
+  table ($A$) to superscaffolds in one table higher ($B$) is then
+  recast as one from scaffolds in $B$ to subscaffolds in $A$, using a
+  different set of IDs from the upward links.
+\item The Table Relations are then set up as follows to link Molecules
+  to Related Molecules in the scaffold network: \subitem
+  $Main.Molecule\_ID = ID\_Map(2).Molecule\_ID$ \subitem
+  $ID\_Map.Top\_Level\_Scaffold = NetworkDown(3).Scaffold$ \subitem
+  $NetworkDown(3).SubScaffold = NetworkDown(2).Scaffold$ \subitem
+  $NetworkDown(2).SubScaffold = NetworkDown.Scaffold$ \subitem
+  $NetworkDown.Scaffold = NetworkUp.SubScaffold$ \subitem
+  $NetworkUp.Scaffold = NetworkUp(2).SubScaffold$ \subitem
+  $NetworkUp(2).Scaffold = NetworkUp(3).SubScaffold$ \subitem
+  $NetworkUp(3).Scaffold = ID\_Map.Top\_Level\_Scaffold$ \subitem
+  $ID\_Map.Molecule\_ID = Related
+  Molecules(Copy~of~Main).Molecule\_ID$
+\end{itemize}   
+
+% We emphasize that this approach is just one solution to the problem of
+% linking related molecules in Spotfire.  Several other solutions have
+% been explored by our colleagues, which include: duplicating columns
+% rather than tables; joining and merging all data into one giant table
+% rather than maintaining multiple linked tables; linking up molecules
+% directly to lists of other molecules in a preprocess that happens
+% outside Spotfire (\eg in a script that integrates the data); and using
+% various add-ins for Spotfire such as the internally developed GSK SAR
+% Toolkit and commercial tools from Discngine SA.
+ 
+\newpage 
+
+\section{Spotfire alternate visualizations and usability tips}
+\label{sec:spotviz-trick}
+The following additional visualizations have been considered and found useful for NCATS scaffolds and R-groups in analyzing data for GSK projects. They are briefly mentioned below:
+\begin{enumerate}
+\item {\bf Cross-tables} have been used to list scaffold IDs, compute statistics such as min, max and median activity for each, filter by maximum activity to remove wholly inactive scaffolds, and then prioritize the remaining by drilling down into individual properties
+\item {\bf Profile plots} are line graphs used as a visual drill-down mechanism to examine a suite of related assays across all compounds containing a scaffold.They typically have compounds on the X-axis, properties on the Y and are colored by assay name. Figure 6(b) in the main paper shows a profile plot on Kinase X data.
+\item {\bf Box plots} are used to visualize the distribution of values of an activity or property for separate scaffolds. Scaffold ID is typically on the X-axis and properties on the Y, allowing multiple scaffolds to be compared side-by-side at a deeper level than just their aggregate activities. 
+\end{enumerate}
+
+A few Spotfire techniques were employed to make the users' experience with our Spotfire files more friendly. These have all been tested in TIBCO Spotfire 7.0.2, the version installed at GSK when this work was being concluded.
+\begin{itemize}
+\item {\bf Structure Visualization:} GSK has a plugin from ChemAxon to visualize structures in tables, labels and tooltips in addition to a dedicated Structure Viewer window. Tooltips were widely employed as they are interactive and allow us to add multiple structure columns, typically a scaffold and the full structure. Labels were used to mark interesting compounds, and structures of cores, R-groups and full molecules depicted in tables helped us create SAR tables directly in Spotfire.
+\item {\bf Filtering between related tables:} In addition to creating Table Relations among the Molecules, Scaffolds and Related Molecules tables, we often want to display only scaffolds matching selected molecules of interest, or show only molecules that contain a selected set of scaffolds. This can be achieved by setting the ``Filtering on Related Data Tables'' to either Include Filtered Rows or Exclude Filtered Out Rows.
+\item {\bf Tagging:} Used to mark scaffolds selected by the user as being of interest, fulfilling various criteria verified by drilling down into the data behind those molecules.    
+\end{itemize}
 
 \newpage
+
 
 \bibliographystyle{unsrt}
 \bibliography{bibliography}
