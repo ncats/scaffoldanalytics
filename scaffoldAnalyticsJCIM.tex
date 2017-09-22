@@ -391,10 +391,14 @@ The original NCATS R-group tool focused on scaffold decomposition and
 the subsequent generation of R-group tables for each scaffold. Since
 then it has been extended to support scaffold hopping as well as
 providing contextual data (\eg literature references, activity
-summaries) and network visualizations of scaffold relationships. In
-this study we employ the latest version (available from
-~\url{http://tripod.nih.gov/ws/rgroupbeta/rgrouptool11.jar}). When
-running from the command-line, ensuring 16G of memory (via
+summaries) and network visualizations of scaffold relationships. All
+results from this study were generated in version 8 of the R-group tool,
+~\url{http://tripod.nih.gov/ws/rgroupbeta/rgrouptool8.jar}). The
+latest version available at time of writing is
+~\url{http://tripod.nih.gov/ws/rgroupbeta/rgrouptool11.jar}), which has been
+tested and produces substantially similar output.
+
+When running from the command-line, ensuring 16G of memory (via
 \texttt{-Xmx16G}) enables datasets of upto ~40k compounds with a
 handful of numeric activity columns to be analyzed without running out
 of memory. The scaffolds along with R-group tables for each scaffold
@@ -572,7 +576,8 @@ In this section we define the statistical methods used to compare the
 scaffold generation methods in the context of annotating molecules in
 a screening dataset with multiple, possibly overlapping scaffolds (as
 opposed to partitioning the set of molecules into non-overlapping
-categories, a.k.a. clustering). 
+categories, a.k.a. clustering). The code to implement these methods is released
+as part of the Supplementary Material in Section S8.
 
 The similarities and differences between non-overlapping clusterings
 have been analyzed in the literature, and one example is the method of

@@ -1,6 +1,16 @@
 \documentclass[11pt,letterpaper]{article}
 \usepackage{ctable}
 
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@verbatim}
+  {\verbatim@font}
+  {\verbatim@font\small}
+  {}{}
+\makeatother
+
+
+
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thesection}{S\arabic{section}}
 \newcommand*\ie{i.e.,~}
@@ -138,7 +148,7 @@ Here are the implementation details specific to summarizing screening datasets s
 
 \item Convert integer columns that we are interested in summarizing to floating point format, \ie append a ``.0'' to these integer values. Since Pubchem IDs are integers, there is logic build into the NCATS scaffold summarization code to ignore columns containing integers. However, percentage inhibition, IFI (percent), and many other measurements that are useful to aggregate are expressed as integers.  We got around this by matching a pattern in the SDF file and replacing a PCT\_INHIBITION column followed by an integer with the same number followed by ``.0'' using a Unix sed script. This technique helps work around assumptions made by the NCATS code that integers are compound IDs, and aggregate these columns.
   
-\item If the dataset contains Encoded Library Technology features or similar molecules, ensure that pendant  R-atoms  at building block attachment points are deleted rather than turned to Carbon. We implemented this conversion using a MOE SVL script ``db\_deleteatoms.svl'' written by Barbara Sander at Chemical Computing group. The script will loop through a MOE database and delete all atoms named  A  in a database molecule entry, which are the R-atoms.   
+\item If the dataset contains Encoded Library Technology features or similar molecules, ensure that pendant  R-atoms  at building block attachment points are deleted rather than turned to Carbon. We implemented this conversion using a MOE SVL script ``db\_deleteatoms.svl'' written by Barbara Sander at Chemical Computing group. The script will loop through a MOE database and delete all atoms named  A  in a database molecule entry, which are the R-atoms. The same thing can be accomplished in the reader's favorite cheminformatics package if they have to deal with molecules with pending R-atoms.  
 \end{itemize}
 
 \newpage 
@@ -269,6 +279,135 @@ A few Spotfire techniques were employed to make the users' experience with our S
 \item {\bf Filtering between related tables:} In addition to creating Table Relations among the Molecules, Scaffolds and Related Molecules tables, we often want to display only scaffolds matching selected molecules of interest, or show only molecules that contain a selected set of scaffolds. This can be achieved by setting the ``Filtering on Related Data Tables'' to either Include Filtered Rows or Exclude Filtered Out Rows.
 \item {\bf Tagging:} Used to mark scaffolds selected by the user as being of interest, fulfilling various criteria verified by drilling down into the data behind those molecules.    
 \end{itemize}
+
+\newpage 
+
+\section{R code for statistical comparison of scaffold generation methods}
+\label{sec:ncats-SNGprep}
+
+The code below expects two files, DDframes.txt (from data-driven framework clustering, Method A in the results) and RGD.txt (NCATS R-group tool decomposition, Method B). They both have a column named Compound\_ID. DDframes.txt has a column StrucUniqueID which is computed for example using the DenseRank function in Spotfire, assigning a unique numerical ID to each fragment having different Canonical SMILES.  RGD.txt has a column SCAFFOLD\_ID that is already numerically distinct for each separate scaffold. The code can be generalized for any pair of methods as long as the map from numerical compound IDs to scaffold IDs exists in the input data. 
+
+\begin{verbatim}
+#Note: To do the calculations comparing 2 fragmentation methods
+#took about 10 minutes of computer time.
+
+#Set working directory to location of the data files
+setwd("C:\\Work\\Consulting\\MDR\\Other MDR Issues\\CSC\\FragmentOntologies")
+#####################
+rm(list = ls()) #Erase anything in R's working memory
+
+DDData <- read.table("DDframes.txt", header = T, sep = "\t")
+RGData <- read.table("RGD.txt", header = T, sep = "\t")
+
+#Create a list of compounds shared between two datasets.
+#Scores will not make sense if we include non-common compounds
+
+DDCompounds <- unique(DDData$COMPOUND_ID)
+RGCompounds <- unique(RGData$COMPOUND_ID)
+
+Compounds <- intersect(DDCompounds, RGCompounds)
+# Compounds <- as.numeric(as.character(intersect(DDCompounds, RGCompounds)))
+N <- length(Compounds)
+
+#Calculate PI's and common proportions for each compound
+  
+  #Proportions by compound
+
+PropByCompound <- data.frame(CompoundID = rep(NA, N),
+			     FragA = rep(NA, N),
+			     FragB = rep(NA, N),
+                             Ca = rep(NA, N),
+                             Cb = rep(NA, N),
+                             IntAB = rep(NA, N),
+                             UnionAB = rep(NA, N),
+                             CommonProp = rep(NA, N),
+                             PIa = rep(NA, N),
+                             PIb = rep(NA, N),
+                             PIaU = rep(NA, N),
+                             PIbU = rep(NA, N),
+                            FragEffA = rep(NA, N),
+                            FragEffB = rep(NA, N))
+
+for (index in 1:N){
+  
+  PropByCompound$CompoundID[index] <- Compounds[index]
+  
+  MethodABelongsTo <- DDData[DDData$COMPOUND_ID == Compounds[index],
+                            "StrucUniqueID"]
+  MethodBBelongsTo <- RGData[RGData$COMPOUND_ID == Compounds[index],
+                            "SCAFFOLD_ID"]
+							
+  PropByCompound$FragA[index] <- length(unique(MethodABelongsTo))
+  PropByCompound$FragB[index] <- length(unique(MethodBBelongsTo))
+  
+  MethodACompoundCluster <- unique(DDData[DDData$StrucUniqueID %in% MethodABelongsTo,
+                                   "COMPOUND_ID"])
+  MethodBCompoundCluster <- unique(RGData[RGData$SCAFFOLD_ID %in% MethodBBelongsTo,
+                                   "COMPOUND_ID"])
+  
+  PropByCompound$Ca[index] <- length(MethodACompoundCluster)
+  PropByCompound$Cb[index] <- length(MethodBCompoundCluster)
+  PropByCompound$IntAB[index] <- length(intersect(MethodACompoundCluster,
+                                                  MethodBCompoundCluster))
+  PropByCompound$UnionAB[index] <- length(union(MethodACompoundCluster,
+                                                    MethodBCompoundCluster))
+  PropByCompound$CommonProp[index] <- PropByCompound$IntAB[index]/
+                                      PropByCompound$UnionAB[index]
+  PropByCompound$PIa[index] <- PropByCompound$Ca[index]/PropByCompound$UnionAB[index]
+  PropByCompound$PIb[index] <- PropByCompound$Cb[index]/PropByCompound$UnionAB[index]
+  PropByCompound$PIaU[index] <- 1 - PropByCompound$Cb[index]/PropByCompound$UnionAB[index]
+  PropByCompound$PIbU[index] <- 1 - PropByCompound$Ca[index]/PropByCompound$UnionAB[index]
+  PropByCompound$FragEffA[index] <- PropByCompound$Ca[index]/PropByCompound$FragA[index]
+  PropByCompound$FragEffB[index] <- PropByCompound$Cb[index]/PropByCompound$FragB[index]
+  
+}
+
+#Create output -- averages, quantiles, and histograms
+
+ACP <- mean(PropByCompound$CommonProp, na.rm = T)
+APIaU <- mean(PropByCompound$PIaU, na.rm = T)
+APIbU <- mean(PropByCompound$PIbU, na.rm = T)
+AFragEffA <- mean(PropByCompound$FragEffA, na.rm = T)
+AFragEffB <- mean(PropByCompound$FragEffB, na.rm = T)
+
+CP95 <- quantile(PropByCompound$CommonProp, c(0.05,0.25,0.5,0.75, 0.95))
+PIaU95 <- quantile(PropByCompound$PIaU, na.rm = T, c(0.05,0.25,0.5,0.75, 0.95))
+PIbU95 <- quantile(PropByCompound$PIbU, na.rm = T, c(0.05,0.25,0.5,0.75, 0.95))
+FragEffA95 <- quantile(PropByCompound$FragEffA, na.rm = T, c(0.05,0.25,0.5,0.75, 0.95))
+FragEffB95 <- quantile(PropByCompound$FragEffB, na.rm = T, c(0.05,0.25,0.5,0.75, 0.95))
+
+ACP
+APIaU
+APIbU
+AFragEffA
+AFragEffB
+
+CP95
+PIaU95
+PIbU95
+AFragEffA95
+AFragEffB95
+
+write.table(PropByCompound,"PropByCompound.txt",sep="\t",row.name=F,col.name=T)
+#########################################################################################
+
+################# Plot #####################
+attach(PropByCompound)
+
+hist(FragA,main="FragA")
+hist(FragB,main="FragB")
+hist(CommonProp,main="CommonProp")
+
+plot(CommonProp~UnionAB)
+plot(CommonProp~IntAB)
+plot(Ca~Cb)
+
+plot(UnionAB, IntAB)
+plot(FragA + FragB, CommonProp)
+
+detach(PropByCompound)
+
+\end{verbatim}
 
 \newpage
 
