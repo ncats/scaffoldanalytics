@@ -852,95 +852,80 @@ On the other hand, there are also some compounds, highlighted on the left side o
 \section{Discussion}
 \label{sec:discussion}
 
+While threshold-based hit selection is a prevalent approach in the
+analysis of high throughput screening datasets, it is simplistic and
+ignores the extra information encoded in chemical structure. Thus
+scaffold based analysis of high throughput screening datasets
+represents a truly data-driven approach to hit triage that attempts to
+make use of \emph{all} the data collected from a high throughput
+screen.
 
-\begin{itemize}
-%\item \sout{Discuss performance - scaffold generation is usually a one time procedure
-%  for a given screening deck. Furthermore, the scaffold generating process will
-%  associate compounds with scaffolds, so looking up scaffold membership is very
-%  fast. When considering scaffold similarity, usual performance bottlenecks
-%  occur, same as for other similarity applications. Can we include some
-%  performance numbers?}
-%\item \sout{we haven't discussed removal of promiscuous compounds/chemotypes,
-%  undesirable chemotypes (ie PAINS etc), these are generally a separate and
-%  independent step from the scaffold identification process}
-\item Ranking scaffolds is a key step in prioritizing hits in a scaffold-based
-  approach. Still a subjective issue and many ways to do it. Not clear that
-  there is a single optimal way. Discussion points could include
-  \begin{itemize}
-  \item Size and complexity - depending on the application (and
-    dataset) smaller scaffolds maybe more relevant or useful than
-    larger scaffolds. Scaffold key approach \cite{Ertl:2014eu}
-    quantifies this aspect. In some scenarios, the dataset may consist
-    of small scaffolds in general (\eg fragment screening
-    libraries). Complexity may also play a role in the practicality of
-    using a scaffold - highly complex scaffolds may not be easily
-    synthesizable or purchasable.
-  \item Promiscuity of the scaffold (does it show up in many active
-    compounds across different assays?) itself or do the scaffold
-    members, in aggregate, show high degree of promiscuity?
-  \item Do the members of a scaffold represent a SAR (``SARability'')?
-    Could be characterized quantitatively, but such approaches would
-    be hampered by the size of the member set. Larger scaffolds will
-    tend to have fewer members.  Alternatively, characterize the
-    activity landscape of the scaffold member set - overly smooth or
-    overly rough landscapes are not useful. But still tricky to decide
-    what a sufficiently smooth (or rough) landscape is.
-  \item Alternatively, in absence of SAR, does a given scaffold show
-    an enrichment of activity (or just actives) compared to other
-    scaffolds (after having taken parent-relationships in to account -
-    similar to GO enrichment analyses).
-  \end{itemize}
-\item Privileged scaffolds - sometimes could go in looking for them,
-  but usually one identifies such privileged scaffolds in a
-  retrospective fashion, across multiple HTS campaigns. Relevance /
-  importance to scaffold based triage?
-\end{itemize}
+Ranking scaffolds is a key step in prioritizing hits in a
+scaffold-based approach, and while there are many ways to generate a
+ranking, it is not obvious which method is optimal (or whether there
+is an single, optimal method).  Some features that are maybe
+considered include the size and complexity of a scaffold, which is
+usually application dependent (as noted by Ertl et al
+\cite{Ertl:2014eu}). Complexity can be important as highly complex
+scaffolds may not be easily purchasable or synthesizable. Scaffolds
+can also be characterized in terms of promiscuity - does a scaffold
+contain many active compounds within an assay or across multiple
+assays? Finally, a reasonable expectation is that members of a
+scaffold exhibit an SAR and scaffolds for which no SAR is observed
+could be used to deprioritize compounds containing that scaffold.
 
-We observed in the Kinase X scaffold prioritization use case that aggregate statistics on overlapping scaffolds can be a powerful tool to find your best compounds and progress them based on the statistics of overlapping scaffolds rather than non-overlapping clusters. Spotfire can interactively be used to drill down from aggregate properties to individual compounds, so decisions are still made using real and individual compound data after using aggregate data as a filter. 
+In this study we have presented some alternate approaches to scaffold
+prioritization that make use of aggregate statistics based on
+overlapping scaffolds. We observe that this method, applied to the
+kinase XXX dataset can be a powerful tool to identify promising
+hits. While a simple procedure, the use of the Spotfire workflow
+allows interactive drill down from aggregate properties to individual
+compounds. In essence, the workflow described here enables decisions
+on individual compounds, but using the aggregated data as a
+filter. Another advantage of the workflow described here is that it
+supports the inclusion of ``virtual datasets'', where there is no
+measured activity, as highlighted in the data fusion use
+case.  Inclusion of such datasets can be useful as they provide an
+opportunity to directly higlight untested regions of chemical
+space. When multiple datasets, with measured activities, are included
+in the data fusion, it provides the opportunity to increase confidence
+in noisy data by merging data for scaffolds across the datasets.
 
-We also observed from the Kinase X data fusion use case that an ELT dataset with no activity fields and virtual molecules can be combined with disparate other datasets. These datasets need not have common activity fields, and disparate activity fields if present may be normalized to a common scale.  Such datasets can then be combined and merged at the scaffold level to derive insights such as:
-\begin{itemize}
-\item Are there regions of chemical space that are unique to one dataset and should be explored further to enrich the chemical diversity available?
-\item Conversely, are there chemotypes that substantially overlap between the datasets?  This might increase confidence in otherwise noisy screening data and provide a coherent SAR picture (including defining series) that might not be available from individual datasets.
-\item Can active or otherwise interesting scaffolds from one or a few datasets point to latent or unmeasured actives in other datasets that can then be synthesized (if virtual) or measured (if available) to confirm their activity or add a SAR data point. 
-\item If there is a common chemical motif behind several actives, the method will reveal it automatically without relying on a chemist's having seen and flagged the similarity, even if the molecules concerned are disparate looking, few, and scattered across multiple datasets.
-\item A cohesive view of actives, inactives, and SAR from a set of screening campaigns helps to summarize the effort and return to it if needed without relying on memory, lab notebooks or manual effort in collating and remining the data.   
-\end{itemize} 
+Compared to partitioning-based clustering methods (e.g., complete
+linkage clustering), the overlapping scaffold approach described here
+avoids the phenomenon of similar molecules being arbitrary assigned to
+exclusive clusters.  Instead, using overlapping scaffolds, will
+consider such molecules as a single group.
 
-Anecdotal comparison of overlapping scaffolds to commonly used partition-based clustering methods such as complete linkage clustering shows that the latter methods may divide very similar molecules arbitrarily into two different clusters, after which the two sets of molecules remain distinct and manual compilation of sets of related clusters is necessary to see all molecules related to a single one. With overlapping scaffolds, if two molecules share a common substructure, these methods will find it -- provided of course that it is a legitimate scaffold for a particular method and thresholds have not been set on scaffold count or complexity that exclude small groups or simple substructures. 
+Given the different ways to generate scaffolds and the compute
+overlapping scaffolds, a quantitative approach to characterizing
+differences in these approaches is necessary. The use of common
+proportion ($CP$), fragment efficiency ($FragEff$) and PIU places such
+comparisons on a sound statistical basis, allowing for an objective
+comparison of fragmentation methods for given goal. As mentioned
+earlier they also extend the applicability of methods to compare the
+output of different partitioning clustering methods such as
+\citeauthor{Torres2009}, allowing them to be used for non-overlapping
+fuzzy clusters.
 
-Our statistical methods for quantifying the similarity and differences
-between different methods of computing ovrelapping scaffolds we hope
-are a useful contribution in their own right. Common proportion,
-proportion of information unique to a method, fragment efficiency and
-normalized common proportion give practitioners simple and objective
-ways to determine which fragmentation methods work best for meeting
-the goals of chemists to find interesting active molecules related to
-a hit. As mentioned earlier they also extend the applicability of
-methods to compare the output of different partitioning clustering
-methods such as \citeauthor{Torres2009}, allowing them to be used for
-non-overlapping fuzzy clusters.
+We note that the approaches described here assume a set of precomputed
+fragments. While fragmentation could be done on the fly, it is
+prohibitive for large screening collections. However, given that the
+fragmentation needs to be computed once (followed by updates as new
+compounds are added to the collection), this is not overly
+burdensome. Precomputed compound-scaffold memberships reduce to
+fixed-time lookups, using appropriate database indexing methods.
 
-For large structure collections, the
-primary bottleneck is the fragmentation step. However, scaffold
-generation is usually a one-time procedure. Furthermore, after
-scaffold generation, the compound-scaffold associations reduce to
-fixed time lookups and thus assesing scaffold membership (\eg
-computing structure groups or activity groups) is very fast.
+In summary, the combination of anecdotal and statistical methods to
+compare scaffold schemes and the resultant analysis of HTS datasets
+highlights the fact that no single fuzzy clustering methods is
+optimal, and the most appropriate approach should be selected based on
+the types of analyses described here. It is a given that chemical
+intuition plays a role when examining scaffolds, yet such intuition
+can lead to biased selections of scaffolds and subsequently of
+leads. The data driven approach coupled with intuitive visualizations,
+as described in this study provides a way to combat such biases.
 
-
-We hope our use of anecdotal and statistical methods to quantify
-similarities and differences has convinced the reader that there is no
-one fuzzy clustering method that is superior to others in all
-situations. Instead, different methods bring nuances and slightly
-different sets of SAR insights to the table, and the reader may
-evaluate which performs the best on their own dataset. At the same it
-is important to realize the importance of a chemists intuition and
-experience, which can often bias scaffold and subsequent lead
-selection. Thus a chemist with a ``favorite'' scaffold may
-(unconciously) tend to downplay or ignore other scaffolds. While this
-is unavoidable, visual and data-driven approaches such as described
-here may help to combat such biases.
 
 Our method for quantifying structure-activity overlap via NormCP is
 novel, though similar in spirit and purpose to local hit rate
