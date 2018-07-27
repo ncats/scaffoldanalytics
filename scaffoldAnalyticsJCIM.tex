@@ -858,38 +858,30 @@ ignores the extra information encoded in chemical structure. Thus
 scaffold based analysis of high throughput screening datasets
 represents a truly data-driven approach to hit triage that attempts to
 make use of \emph{all} the data collected from a high throughput
-screen.
-
-Ranking scaffolds is a key step in prioritizing hits in a
+screen. Ranking scaffolds is a key step in prioritizing hits in a
 scaffold-based approach, and while there are many ways to generate a
 ranking, it is not obvious which method is optimal (or whether there
-is an single, optimal method).  Some features that are maybe
-considered include the size and complexity of a scaffold, which is
-usually application dependent (as noted by Ertl et al
-\cite{Ertl:2014eu}). Complexity can be important as highly complex
-scaffolds may not be easily purchasable or synthesizable. Scaffolds
-can also be characterized in terms of promiscuity - does a scaffold
-contain many active compounds within an assay or across multiple
-assays? Finally, a reasonable expectation is that members of a
-scaffold exhibit an SAR and scaffolds for which no SAR is observed
-could be used to deprioritize compounds containing that scaffold.
+is even a single, optimal method).
 
 In this study we have presented some alternate approaches to scaffold
 prioritization that make use of aggregate statistics based on
-overlapping scaffolds. We observe that this method, applied to the
-kinase XXX dataset can be a powerful tool to identify promising
-hits. While a simple procedure, the use of the Spotfire workflow
-allows interactive drill down from aggregate properties to individual
-compounds. In essence, the workflow described here enables decisions
-on individual compounds, but using the aggregated data as a
-filter. Another advantage of the workflow described here is that it
-supports the inclusion of ``virtual datasets'', where there is no
-measured activity, as highlighted in the data fusion use
-case.  Inclusion of such datasets can be useful as they provide an
-opportunity to directly higlight untested regions of chemical
-space. When multiple datasets, with measured activities, are included
-in the data fusion, it provides the opportunity to increase confidence
-in noisy data by merging data for scaffolds across the datasets.
+overlapping scaffolds, with the goal of provide a quantitative basis
+for the comparison of different scaffold-based analysis schemes. 
+
+We observe that this approach, applied to the kinase ``X'' dataset can
+be a powerful tool to identify promising hits. While a simple
+procedure, the use of the Spotfire workflow allows interactive drill
+down from aggregate properties to individual compounds. In essence,
+the workflow described here enables decisions on individual compounds,
+but using the aggregated data as a filter. Another advantage of the
+workflow described here is that it supports the inclusion of ``virtual
+datasets'', where there is no measured activity, as highlighted in the
+data fusion use case.  Inclusion of such datasets can be useful as
+they provide an opportunity to directly higlight untested regions of
+chemical space. When multiple datasets, with measured activities, are
+included in the data fusion, it provides the opportunity to increase
+confidence in noisy data by merging data for scaffolds across the
+datasets.
 
 Compared to partitioning-based clustering methods (e.g., complete
 linkage clustering), the overlapping scaffold approach described here
@@ -900,41 +892,28 @@ consider such molecules as a single group.
 Given the different ways to generate scaffolds and the compute
 overlapping scaffolds, a quantitative approach to characterizing
 differences in these approaches is necessary. The use of common
-proportion ($CP$), fragment efficiency ($FragEff$) and PIU places such
-comparisons on a sound statistical basis, allowing for an objective
-comparison of fragmentation methods for given goal. As mentioned
-earlier they also extend the applicability of methods to compare the
-output of different partitioning clustering methods such as
-\citeauthor{Torres2009}, allowing them to be used for non-overlapping
-fuzzy clusters.
-
-We note that the approaches described here assume a set of precomputed
-fragments. While fragmentation could be done on the fly, it is
-prohibitive for large screening collections. However, given that the
-fragmentation needs to be computed once (followed by updates as new
-compounds are added to the collection), this is not overly
-burdensome. Precomputed compound-scaffold memberships reduce to
-fixed-time lookups, using appropriate database indexing methods.
+proportion ($\textrm{CP}$), fragment efficiency ($\textrm{FragEff}$)
+and PIU places such comparisons on a sound statistical basis, allowing
+for an objective comparison of fragmentation methods for given
+screen. As mentioned earlier they also extend the applicability of
+methods to compare the output of different partitioning clustering
+methods such as \citeauthor{Torres2009}, allowing them to be used for
+non-overlapping fuzzy clusters. Furthermore quantifying
+structure-activity overlap using $\textrm{NormCP}$ is a novel
+contribution, though similar in spirit and purpose to local hit rate
+calculations that have been proposed for HTS triage\cite{Posner2009},
+with a comprehensive structural neighbor metric based on overlapping
+scaffolds.
 
 In summary, the combination of anecdotal and statistical methods to
 compare scaffold schemes and the resultant analysis of HTS datasets
-highlights the fact that no single fuzzy clustering methods is
-optimal, and the most appropriate approach should be selected based on
-the types of analyses described here. It is a given that chemical
+highlights the fact that no single fuzzy clustering method is optimal,
+and the most appropriate approach should be selected based on the
+types of analyses described here. It is a given that chemical
 intuition plays a role when examining scaffolds, yet such intuition
 can lead to biased selections of scaffolds and subsequently of
 leads. The data driven approach coupled with intuitive visualizations,
-as described in this study provides a way to combat such biases.
-
-
-Our method for quantifying structure-activity overlap via NormCP is
-novel, though similar in spirit and purpose to local hit rate
-calculations that have been proposed for HTS triage\cite{Posner2009},
-with a comprehensive structural neighbor metric based on overlapping
-scaffolds. We hope it will be explored more as a means of HTS triage and hit
-set prioritization.
-
-
+as described in this study, provides a way to combat such biases.
 
 
 \begin{acknowledgement}
