@@ -562,7 +562,7 @@ following elements:
   important or unimportant for activity.
 
 \item {\bf Scaffolds and R-groups Tab}: This tab, currently specific to the NCATS R-group tool method for generating scaffolds, contains two visualizations, as illustrated for the TCAMS dataset in \fref{spotviz}(b)--(c):  
-  \subitem The first is a scatter plot display of the Scaffolds table, displaying scaffolds Complexity and Count and aggregate activity of each scaffold either on the axes or using the Size and Shape dimensions.  Here scaffolds of lesser interest (for example with low complexity or count) can be identified and tagged to remove them from the analysis. Conversely, scaffolds of high interest, for example with many active members or high aggregate ligand efficiency, may be tagged into separate categories.
+  \subitem The first is a scatter plot display of the Scaffolds table, displaying scaffold Complexity and Count and aggregate activity of each scaffold either on the axes or using the Size and Shape dimensions.  Here scaffolds of lesser interest (for example with low complexity or count) can be identified and tagged to remove them from the analysis. Conversely, scaffolds of high interest, for example with many active members or high aggregate ligand efficiency, may be tagged into separate categories.
 \subitem The second plot is an R-group table, \ie a Table view of the {RG}decomp table limited to data records that have been marked, \ie molecules that lie in scaffolds currently marked. The table is sorted first by scaffold and then by primary activity, and molecular fields such as Scaffold SMILES, Molecule SMILES and R-groups $R\_1..R\_n$ are rendered using an appropriate depiction package - at GSK this is {JChem}.  This table may be exported to Excel as an on-the-fly R-group table of the scaffolds of interest.
 
 \end{itemize}
@@ -639,7 +639,7 @@ In constrast, the Proportion of Information Unique to $A, PIU_A$ uses the set di
  PIU_A(C) = \| C_A \setminus C_B \| / \| C_A \cup C_B \| = 1 - PI_c(B)
  \end{equation}
   
-When comparing one fragmentation method against another, we often see that one method utilizes a vastly greater number of shared fragments than the other in order to connect compound $C$ to a very similarly sized structure group. To capture this tendency and reward methods that connect molecules to related ones efficiently rather than exhaustively, we define a Fragment Efficiency measure as follows. Let $frag_A(C)$ be the set of fragments of compound $C$ in ontology $A$ that connects $C$ to its structure group $C_A$. Similarly define $frag_B(C)$ for ontology $B$. Then: 
+When comparing one fragmentation method against another, we often see that one method utilizes a larger number of shared fragments than the other in order to connect compound $C$ to a very similarly sized structure group. To capture this tendency and reward methods that connect molecules to related ones efficiently rather than exhaustively, we define a Fragment Efficiency measure as follows. Let $frag_A(C)$ be the set of fragments of compound $C$ in ontology $A$ that connects $C$ to its structure group $C_A$. Similarly define $frag_B(C)$ for ontology $B$. Then: 
 \begin{equation}
 FragEff_A(C) = \| C_A \| / \| frag_A(C) \|
 \end{equation}
