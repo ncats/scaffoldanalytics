@@ -820,21 +820,22 @@ We compare the Common Proportion, Proportion of Information Unique (PIU) and Fra
 
 
 \begin{figure}
-\includegraphics[width=6in]{fig/statcompare_frames_RGtool.png}
-\caption{Comparison of the Common Proportion, PIU and FragEff statistics (described in the text) between GSK Frameworks (method ``{\bf A}'') and NCATS R-group Tool (``{\bf B}'') for all molecules in TCAMS. PIU of A and B are on the X and Y axes, and the points are colored by the log ratio of FragEff(B) to FragEff(A) and sizes by Common Proportion.}
+\includegraphics[width=6in]{fig/statcompare_frames_RGtool_transparent_density.png}
+\caption{Comparison of the Common Proportion, PIU and FragEff statistics (described in the text) between GSK Frameworks (method ``{\bf A}'') and NCATS R-group Tool (``{\bf B}'') for all molecules in TCAMS. PIU of A and B are on the X and Y axes, and the points are colored by the log ratio of FragEff(B) to FragEff(A) and sized by Common Proportion.}
 \label{fig:statcompare}
 \end{figure}
  
 We can make a few observations from this data and plot:
 \begin{enumerate} 
-\item The two methods allow one to access different sets of molecules starting from any molecule in TCAMS - the average overlap in their coverage is 40\%.
-\item On the average, one can link to about twice as many molecules with the GSK frameworks; however, this is because on the average there are 6 times more frameworks than NCATS scaffolds, so the fragment efficiency is actually 3 times greater for NCATS scaffolds. One could also argue that many of the framework-only links (\eg variously decorated benzene rings) are not useful.
+\item The two methods allow one to access different sets of molecules starting from any molecule in TCAMS - the average overlap in their coverage is 40\%.  Molecules with almost complete overlap in coverage have high Common Proportion and lie towards the bottom left of \fref{statcompare}. 
+\item On the average, frameworks connected to a compound add more unique information than NCATS scaffolds connected to the same compound - this is seen in the higher density near the X-axis in \fref{statcompare}.   
+\item On the average, one can link to about twice as many molecules with the GSK frameworks; however, this is because on the average there are 6 times more frameworks than NCATS scaffolds. %, \ie NCATS scaffolds are three times more fragment-efficient for this dataset.  %, so the fragment efficiency is actually 3 times greater for NCATS scaffolds. %One could also argue that many of the framework-only links (\eg variously decorated benzene rings) are not useful.
 \item The outliers are interesting. At one end, compounds in a rare tautomer are unified with the dominant one by the NCATS tool (high fragment efficiency), but left as singletons by the frameworks (low fragment efficiency). And compounds whose only link with other molecules would be a benzene ring or similar low complexity scaffold remain singletons with the R-group tool (lower fragment efficiency).
 \end{enumerate}
 
 \subsection{Statistical Basis of Structure-Activity Relationships (SAR)}\label{sec:statSAR}
 
-We have also explored the Common Proportion measure to get at the overlap between structure and activity, \ie to investigate the statistical basis of SAR based on overlapping scaffolds. To do this, we define an Activity Group of compound $C$, $C_{act}$ as a set of compounds with activity bordering that of $C$ (in this case pIC50 in the 3D7 antimalarial assay). The activity group of each compound $C$ is defined to be the same size as the structure group, denoted $C_A$ or $C_B$ above, and generalized here as $C_{str}$.  This is done arbitrarily for ease of statistical calculations, being cognizant that it may soimetimes lead to issues such as breaking a large list of compounds with the same activity arbitrarily, especially when picking a small list of activity neighbors for compounds with a small structure group.
+We have also explored the Common Proportion measure to get at the overlap between structure and activity, \ie to investigate the statistical basis of SAR based on overlapping scaffolds. To do this, we define an Activity Group of compound $C$, $C_{act}$ as a set of compounds with activity bordering that of $C$ (in this case pIC50 in the 3D7 antimalarial assay). The activity group of each compound $C$ is defined to be the same size as the structure group, denoted $C_A$ or $C_B$ above, and generalized here as $C_{str}$.  This is done arbitrarily for ease of statistical calculations, being cognizant that it may sometimes lead to issues such as breaking a large list of compounds with the same activity arbitrarily, especially when picking a small list of activity neighbors for compounds with a small structure group.
 
 The structure-activity common proportion, $CP_{str,act}(C)$ then measures the overlap between the structure neighbors of $C$, \ie compounds sharing any scaffold with $C$, and its activity neighbors, \ie compounds in a similar activity range.
 \begin{equation}
@@ -883,33 +884,34 @@ overlapping scaffolds, with the goal of provide a quantitative basis
 for the comparison of different scaffold-based analysis schemes. 
 
 We observe that this approach, applied to the kinase ``X'' dataset can
-be a powerful tool to identify promising hits. While a simple
-procedure, the use of the Spotfire workflow allows interactive drill
+be a powerful tool to identify promising hits. While simple to implement,
+the use of the Spotfire workflow allows interactive drill
 down from aggregate properties to individual compounds. In essence,
 the workflow described here enables decisions on individual compounds,
 but using the aggregated data as a filter. Another advantage of the
 workflow described here is that it supports the inclusion of ``virtual
-datasets'', where there is no measured activity, as highlighted in the
+datasets'' where there is no measured activity, as highlighted in the
 data fusion use case.  Inclusion of such datasets can be useful as
-they provide an opportunity to directly higlight untested regions of
-chemical space. When multiple datasets, with measured activities, are
-included in the data fusion, it provides the opportunity to increase
+they provide an opportunity to directly highlight untested regions of
+chemical space. When multiple datasets are included in the data fusion, 
+some with more accurately measured activities, it provides the opportunity to increase
 confidence in noisy data by merging data for scaffolds across the
 datasets.
 
 Compared to partitioning-based clustering methods (e.g., complete
 linkage clustering), the overlapping scaffold approach described here
-avoids the phenomenon of similar molecules being arbitrary assigned to
+avoids the phenomenon of similar molecules being arbitrarily assigned to
 exclusive clusters.  Instead, using overlapping scaffolds, will
-consider such molecules as a single group.
+consider such molecules in the same group.
 
-Given the different ways to generate scaffolds and the compute
+Given the different ways to generate scaffolds and to compute
 overlapping scaffolds, a quantitative approach to characterizing
 differences in these approaches is necessary. The use of common
 proportion ($\textrm{CP}$), fragment efficiency ($\textrm{FragEff}$)
-and PIU places such comparisons on a sound statistical basis, allowing
-for an objective comparison of fragmentation methods for given
-screen. As mentioned earlier they also extend the applicability of
+and proportion of information unique to a method ($\textrm{PIU}$) 
+places such differences within a sound statistical framework, allowing
+for an objective comparison of fragmentation methods for a given
+screen. They also extend the applicability of
 methods to compare the output of different partitioning clustering
 methods such as \citeauthor{Torres2009}, allowing them to be used for
 non-overlapping fuzzy clusters. Furthermore quantifying
@@ -923,8 +925,8 @@ In summary, the combination of anecdotal and statistical methods to
 compare scaffold schemes and the resultant analysis of HTS datasets
 highlights the fact that no single fuzzy clustering method is optimal,
 and the most appropriate approach should be selected based on the
-types of analyses described here. It is a given that chemical
-intuition plays a role when examining scaffolds, yet such intuition
+types of analyses described here. It is received wisdom among screening scientists 
+that ``chemical intuition'' plays a role when examining scaffolds, yet such intuition
 can lead to biased selections of scaffolds and subsequently of
 leads. The data driven approach coupled with intuitive visualizations,
 as described in this study, provides a way to combat such biases.
