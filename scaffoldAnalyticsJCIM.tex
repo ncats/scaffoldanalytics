@@ -215,42 +215,42 @@ scaffolds.
 
 \subsection{Related Work}
 While there are many ways to generate a set of scaffolds from a
-compound collection, a key step is to identify a
-relevant subset of them or else aggregate them in a way that leads to a useful
-clustering of active and inactive compounds. While the term ``useful'' is rather
-subjective, it is easy to identify cases that are not useful. Thus, 5- or
-6-member undecorated rings are likely not useful since they will occur in the
-majority of compounds in a screening collection. At the other extreme, large,
-extended scaffolds that are associated with very few compounds are also likely
-not useful.
+compound collection, a key step is to identify a relevant subset of
+them or else aggregate them in a way that leads to a useful clustering
+of active and inactive compounds. While the term ``useful'' is rather
+subjective, it is easy to identify cases that are not useful. Thus, 5-
+or 6-member undecorated rings are likely not useful since they will
+occur in the majority of compounds in a screening collection. At the
+other extreme, large, extended scaffolds that are associated with very
+few compounds are also likely not useful.
 
-As a result, many approaches to scaffold aggregation have been described. A
-natural approach is to consider a hierarchical aggregation. The Scaffold
-Tree\cite{Ertl2011ScaffoldTree} and Scaffold Network\cite{Varin2011ScafNet}
-define a hierarchical decomposition from more specialized larger scaffolds to
-more inclusive smaller scaffolds. While the Scaffold Tree splits each larger
-scaffold in exactly one way into two scaffolds with fewer rings, the Scaffold
-Network performs an exhaustive decomposition into all possible smaller scaffolds
-with fewer rings.  Since some subscaffolds are shared with neighboring
-scaffolds, this produces a network or graph rather than a tree. The Scaffold
-Network Generator program\cite{Matlock2013SNG} is a fast, easy-to-use public
-command line implementation of Scaffold Networks that can scale to millions of
-compounds via aggregation of scaffolds from split datasets and parallel
-execution.  \citeauthor{Harper2004DDclus} use exhaustive enumeration to find all
-Bemis-Murcko like frameworks in each molecule, and then recursively retain those
-frameworks with highest aggregate activity and remove molecules that contain
-them until a threshold is met, yielding a set of disjoint frameworks.  Other
-methods have used multiple common substructure (MCS), first proposed for finding
-protein structural similarity\cite{Koch1997MCSprot}, for example
-\citeauthor{Quintus2009MCS} and the ChemAxon product LibraryMCS. 
+As a result, many approaches to scaffold aggregation have been
+described. A natural approach is to consider a hierarchical
+aggregation. The Scaffold Tree\cite{Ertl2011ScaffoldTree} and Scaffold
+Network\cite{Varin2011ScafNet} define a hierarchical decomposition
+from more specialized larger scaffolds to more inclusive smaller
+scaffolds. While the Scaffold Tree splits each larger scaffold in
+exactly one way into two scaffolds with fewer rings, the Scaffold
+Network performs an exhaustive decomposition into all possible smaller
+scaffolds with fewer rings.  Since some subscaffolds are shared with
+neighboring scaffolds, this produces a network or graph rather than a
+tree.  \citeauthor{Harper2004DDclus} use exhaustive enumeration to
+find all Bemis-Murcko like frameworks in each molecule, and then
+recursively retain those frameworks with highest aggregate activity
+and remove molecules that contain them until a threshold is met,
+yielding a set of disjoint frameworks.  Other methods have used
+multiple common substructure (MCS), first proposed for finding protein
+structural similarity\cite{Koch1997MCSprot}, for example
+\citeauthor{Quintus2009MCS} and the ChemAxon product LibraryMCS.
 
-To overcome the effect of small variations in heteroatoms (eg. O to S) mapping
-otherwise similar molecules to different scaffolds, generalized or consolidated
-scaffold representations have been proposed, such as the Reduced
-Graph\cite{Barker2003RG}, the Bemis-Murcko scaffold\cite{BemisMurcko1996} and
-the topological or 2D pharmacophore\cite{Schneider1999ScafHopTP}. Bemis-Murcko
-like frameworks \cite{Harper2004DDclus} are generalized Bemis-Murcko scaffolds
-where atom types and/or bond orders may be retained.
+% To overcome the effect of small variations in heteroatoms (eg. O to S)
+% mapping otherwise similar molecules to different scaffolds,
+% generalized or consolidated scaffold representations have been
+% proposed, such as the Reduced Graph\cite{Barker2003RG}, the
+% Bemis-Murcko scaffold\cite{BemisMurcko1996} and the topological or 2D
+% pharmacophore\cite{Schneider1999ScafHopTP}. Bemis-Murcko like
+% frameworks \cite{Harper2004DDclus} are generalized Bemis-Murcko
+% scaffolds where atom types and/or bond orders may be retained.
 
 Multiple scaffolds if present in a dataset can be inferred from the
 scaffold tree decomposition\cite{ClarkLabute2008SAReport}. However in
