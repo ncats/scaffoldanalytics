@@ -297,7 +297,7 @@ clustering of multiple overlapping scaffolds per molecule.
 The datasets used to illustrate and visualize our methods were picked
 to represent the kinds of screening datasets we expect the method to
 be used on in practice. For example, the TCAMS dataset\cite{Gamo2010}
-consists of 13.5k diverse hits from an antimalarial screen at GSK,
+consists of 13,500 diverse hits from an antimalarial screen at GSK,
 along with pIC50 against a susceptible strain of the malarial parasite
 (3D7), percentage inhibition against a resistant strain (DD2), Hep G2
 hepatotoxicity, a few physical chemical properties (\eg molecular
@@ -422,11 +422,13 @@ Molecular Frameworks is subtly different, and its use has been
 described in \citeauthor{Harper2004DDclus}. The two types of framework
 we retain for this study are Bemis-Murcko-like\cite{BemisMurcko1996}
 (with atom and bond orders retained) and
-RECAP\cite{Lewell:1998aa}. Other fragmentation methods described by
-\citeauthor{Harper2004DDclus} such as reduced graphs and classic
-Bemis-Murcko scaffolds (without atom types and bond orders) were
-skipped for the purposes of comparison; however there is no reason
-these could not be included in the technique we are proposing.
+RECAP\cite{Lewell:1998aa}. 
+
+% Other fragmentation methods described by
+% \citeauthor{Harper2004DDclus} such as reduced graphs and classic
+% Bemis-Murcko scaffolds (without atom types and bond orders) were
+% skipped for the purposes of comparison; however there is no reason
+% these could not be included in the technique we are proposing.
 
 The input for the GSK frameworks code is a comma separated text file
 with molecules encoded in a SMILES field.  The code was modified by
@@ -434,10 +436,10 @@ adding scripts to export the fuzzy clusters in a tabular format rather
 than prioritize them into mutually exclusive scaffolds as in
 \citeauthor{Harper2004DDclus}. This step produces a file similar to
 the R-group decomposition format described for the NCATS R-group tool
-in \sref{rgtool}, including the following key columns: framework ID, framework SMILES, molecule ID, SMILES
-and properties/activities.  There are no R-group
-columns simply because this is not a default computation in the GSK
-frameworks code.
+in \sref{rgtool}, including the following key columns: \emph{framework
+  ID, framework SMILES, molecule ID, SMILES} and
+\emph{properties/activities}.  There are no R-group columns simply
+because this is not a default computation in the GSK frameworks code.
 
 The GSK frameworks found within the same molecule from TCAMS are shown
 in \fref{scafmethod}(c).  The reader will observe several differences
@@ -612,7 +614,7 @@ methods we can evaluate the overall similarity of the two
 fragmentation schemes, and also independently score the usefulness of
 $A$ and $B$ to connect compound(s) of interest to related molecules. 
 
-For any compound $C$ and ontology $A$, define the structure group of
+For any compound $C$ and fragmentation $A$, define the structure group of
 $C$ under $A$, $C_A$ as the set of compounds that share fragments from
 $A$ with compound $C$. Similarly define the structure group of $C$
 under $B$, $C_B$ as the set of compounds that share fragments from
@@ -637,13 +639,27 @@ In constrast, the Proportion of Information Unique to $A, PIU_A$ uses the set di
  PIU_A(C) = \| C_A \setminus C_B \| / \| C_A \cup C_B \| = 1 - PI_c(B)
  \end{equation}
   
-When comparing one fragmentation method against another, we often see that one method utilizes a larger number of shared fragments than the other in order to connect compound $C$ to a very similarly sized structure group. To capture this tendency and reward methods that connect molecules to related ones efficiently rather than exhaustively, we define a Fragment Efficiency measure as follows. Let $frag_A(C)$ be the set of fragments of compound $C$ in ontology $A$ that connects $C$ to its structure group $C_A$. Similarly define $frag_B(C)$ for ontology $B$. Then: 
+ When comparing one fragmentation method against another, we often see
+ that one method utilizes a larger number of shared fragments than the
+ other in order to connect compound $C$ to a very similarly sized
+ structure group. To capture this tendency and reward methods that
+ connect molecules to related ones efficiently rather than
+ exhaustively, we define a Fragment Efficiency measure as follows. Let
+ $frag_A(C)$ be the set of fragments of compound $C$ in fragmentation
+ $A$ that connects $C$ to its structure group $C_A$. Similarly define
+ $frag_B(C)$ for fragmentation $B$. Then:
 \begin{equation}
 FragEff_A(C) = \| C_A \| / \| frag_A(C) \|
 \end{equation}
 
 
-These statistics can be averaged over all compounds in a dataset to yield the Average Common Proportion (ACP), Average Proportion of Information (API), Average Proportion of Information Unique to A (APIU) or Average Fragment Efficiency (AFE).  Other statistics can also be applied to the distribution of $CP$, $PI$ or $PIU$ to characterize the dataset and overlapping scaffolds used to characterize it.
+These statistics can be averaged over all compounds in a dataset to
+yield the Average Common Proportion (ACP), Average Proportion of
+Information (API), Average Proportion of Information Unique to A
+(APIU) or Average Fragment Efficiency (AFE).  Other statistics can
+also be applied to the distribution of $CP$, $PI$ or $PIU$ to
+characterize the dataset and overlapping scaffolds used to
+characterize it.
 
 Our methods extend the similarity score of \citeauthor{Torres2009} to
 overlapping clusters by using a set of clusters derived from them,
@@ -661,7 +677,14 @@ defined as follows:
 Here we illustrate some of our key findings and use cases on a few datasets. 
 
 \subsection{Use Case: Scaffold Progression and Prioritization}
-Aggregate statistics such as maximum, minimum, mean and standard deviation, computed at a per scaffold level, may be useful in prioritizing scaffolds. For example, \fref{RGTaggr} shows the six scaffolds contained within a tricyclic molecule from TCAMS (Molecule 2, CID: 533945) ranked by average activity and IFI. This ordering may be used to determine which substructures are most important for the molecule's activity, and use this information to design or test further compounds.
+Aggregate statistics such as maximum, minimum, mean and standard
+deviation, computed at a per scaffold level, may be useful in
+prioritizing scaffolds. For example, \fref{RGTaggr} shows the six
+scaffolds contained within a tricyclic molecule from TCAMS (Molecule
+2, CID: 533945) ranked by average activity and IFI. This ordering may
+be used to determine which substructures are most important for the
+molecule's activity, and use this information to design or test
+further compounds.
 
 \begin{figure}
   \includegraphics[width=5in]{fig/RGT_aggr_prop2.png}
