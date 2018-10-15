@@ -180,8 +180,8 @@ actives\cite{Shanmugasundaram:2005aa}, enrichment based
 approaches\cite{Varin2010CSE,Pu:2012wf}, ranges of physicochemical
 properties\cite{Cox:2012qy}, crowdsourcing\cite{Peng:2013qp} and
 removal of promiscuous or otherwise undesirable chemotypes
-\cite{Dahlin:2014fp}. See \citeauthor{Shun:2011sy} and
-\citeauthor{Langer:2009mw} for a review of HTS triage approaches.
+\cite{Dahlin:2014fp}. See \citet{Shun:2011sy} and
+\citet{Langer:2009mw} for a review of HTS triage approaches.
 
 A key challenge in the triage step is to identify structure-activity
 series - sets of compounds with similar or analogous structures that
@@ -191,7 +191,7 @@ in the presence of a structure-activity relationship amongst the
 active compounds which enables a more efficient exploration of the
 chemical space around the selected hits. A good review of
 computational methods to extract SAR from screening datasets can be
-found in \citeauthor{Wawer2010review}.
+found in \citet{Wawer2010review}.
 
 Given that a SAR series is defined in terms of a core structure along
 with various decorations, the first step in the triage process is to
@@ -231,14 +231,14 @@ exactly one way into two scaffolds with fewer rings, the Scaffold
 Network performs an exhaustive decomposition into all possible smaller
 scaffolds with fewer rings.  Since some subscaffolds are shared with
 neighboring scaffolds, this produces a network or graph rather than a
-tree.  \citeauthor{Harper2004DDclus} use exhaustive enumeration to
+tree.  \citet{Harper2004DDclus} use exhaustive enumeration to
 find all Bemis-Murcko like frameworks in each molecule, and then
-recursively retain those frameworks with highest aggregate activity
-and remove molecules that contain them until a threshold is met,
+recursively retain those with highest aggregate activity,
+removing molecules that contain them until a threshold is met,
 yielding a set of disjoint frameworks.  Other methods have used
 multiple common substructure (MCS), first proposed for finding protein
 structural similarity\cite{Koch1997MCSprot}, for example
-\citeauthor{Quintus2009MCS} and the ChemAxon product LibraryMCS.
+\citet{Quintus2009MCS} and the ChemAxon product LibraryMCS.
 
 % To overcome the effect of small variations in heteroatoms (eg. O to S)
 % mapping otherwise similar molecules to different scaffolds,
@@ -251,14 +251,14 @@ structural similarity\cite{Koch1997MCSprot}, for example
 
 Multiple scaffolds if present in a dataset can be inferred from the
 scaffold tree decomposition\cite{ClarkLabute2008SAReport}. However in
-practice, the thresholds used by \citeauthor{ClarkLabute2008SAReport}
+practice, the thresholds used by \citet{ClarkLabute2008SAReport}
 miss common scaffolds in HTS-like diverse chemical compound
-sets. \citeauthor{Bandyopadhyay2012ACS} used a common fragment
+sets. \citet{Bandyopadhyay2012ACS} used a common fragment
 decomposition plug-in for SAReport in order to find and export
-scaffolds for diverse datasets, such as the GSK Natural Products
-Set\cite{Coma2014}.  This approach assigns at most one scaffold for
+scaffolds for diverse datasets.  This approach assigns at most one scaffold for
 each molecule, based on the order they are selected by the user from a
-prioritized list.
+prioritized list.  The user interaction in this analysis introduces subjectivity and
+reduces repeatability.
 
 \begin{figure}
 \includegraphics[width=5.5in]{fig/singletons.png}
@@ -266,33 +266,30 @@ prioritized list.
 \label{fig:platypus}
 \end{figure}
 
-Assigning each molecule to a single group partitions the dataset into
-disparate, non-overlapping groups (also termed a hard clustering).
-This is also the way most fingerprint-based agglomerative clustering
-methods such as sphere exclusion, single and complete linkage
-clustering work\cite{Downs2003}. On the other hand, it may be the case
-that a molecule could well be assigned simultaneously to multiple
-clusters, depending on the structural features present. Traditional
-hard clustering methods will not allow this and as a result will tend
-to assign such molecules to their own cluster, thus identifying them
+Assigning each molecule to a single cluster partitions the dataset into
+disparate, non-overlapping groups (also termed a hard clustering;
+agglomerative fingerprint-based clustering methods such as sphere exclusion, single and complete linkage clustering\cite{Downs2003} work this way. On the other hand, a molecule could be assigned simultaneously to multiple clusters, depending on the structural features present. Traditional
+hard clustering methods will not allow this and will assign such molecules
+to their own cluster, thus identifying them
 as singletons.  Such a result can be observed in real chemical datasets
 as well -- for example, the complete-linkage clustering of the TCAMS
 dataset\cite{Gamo2010,Calderon2011} has nearly 25\% of the 2000
-clusters containing just one compound, as shown in \fref{platypus}.
+clusters identified with just one compound, as shown in \fref{platypus}.
 
-In contrast to these partitioning clusters, the methods described
+In contrast to hard clustering, the methods described
 here rely on fuzzy clustering, where a molecule may be assigned to
-multiple clusters. Fuzzy clusters have been rarely used in
+multiple clusters. Fuzzy clusters have rarely been used in
 cheminformatics (for example \cite{Holliday2004,Richmond2013Galois}),
 perhaps because they are hard to visualize and navigate.  In this work
-we provide an intuitive visual framework that we believe can help end
-users easily navigate a diverse chemical dataset described by a fuzzy
-clustering of multiple overlapping scaffolds per molecule.
+we provide an intuitive visualization framework for a fuzzy clustering with
+multiple overlapping scaffolds per molecule. We believe this framework can help end
+users easily navigate a diverse chemical dataset described by a fuzzy clustering.
+
 
 \subsection{Datasets}
 \label{sec:datasets}
 The datasets used to illustrate and visualize our methods were picked
-to represent the kinds of screening datasets we expect the method to
+to represent screening datasets we expect the method to
 be used on in practice. For example, the TCAMS dataset\cite{Gamo2010}
 consists of 13,500 diverse hits from an antimalarial screen at GSK,
 along with pIC50 against a susceptible strain of the malarial parasite
@@ -302,8 +299,18 @@ weight, aromatic ring count, cLogP), and Inhibition Frequency Index
 (IFI, a measure of promiscuity defined as the percentage of screens in
 which a molecule inhibits over 50\%, \cite{Chakravorty2013IFI}).
 
-The in-house GSK kinase dataset shown (``Kinase X''), by contrast, is perhaps less
-diverse but chosen to illustrate the power of this approach in joining
+The in-house GSK kinase dataset shown (``Kinase X''), comprises 9259
+compounds from four screening datasets for a recent kinase program.
+Three of these have associated activity data from several on-target and off-target
+assays: 
+\begin{itemize}
+\item An {\it FBDD} (fragment-based drug design) screen run in 2011 with {\bf 288} hits.
+\item A {\it full HTS} run in 2012 with {\bf 4564} {pIC50s} measured after screening 2 million compounds.
+\item A {\it top-up HTS} run in 2014 with {\bf 3613} {pIC50s} measured after screening 350,000 compounds.
+\end{itemize}
+A fourth dataset comprises {\bf 824} virtual compounds selected from {\it ELT}, a DNA Encoded Library Technology screen\cite{ELT} of 130 combinatorial libraries with billions of potential molecules.
+
+This GSK Kinase dataset was chosen to illustrate the power of this approach in joining
 and merging datasets from multiple screens, combining their SAR to
 design hybrid molecules, and making inferences about unknown activity
 in one screen based on known activity in another screen.
@@ -329,22 +336,21 @@ The typical dataset under consideration is available as a
 comma-separated text file (CSV), whereas most of the scaffold
 decomposition methods described expect MDL SD-files. To convert CSV to
 SDF while preserving non-molecule fields as SDF properties, we have
-created a simple Pipeline Pilot workflow, but this can also be done
-via standard cheminformatics toolkits such as JChem or RDKit. Prior to
+created a simple workflow in Pipeline Pilot\cite{PPilot}, but this can also be done
+via standard cheminformatics toolkits such as JChem\cite{JChem} or RDKit\cite{RDKit}. Prior to
 SDF conversion, activity or property columns that are not to be
 aggregated at the scaffold level should be deleted from the CSV file,
-in order to speed up the analysis and aggregation.  There are some
-further quirks to pre-processing datasets for the NCATS R-group tool
-that will be described in the Supplementary Material in section S3.
+to accelerate analysis and aggregation.  Further quirks specific to the NCATS R-group tool
+will be described in the Supplementary Material in section S3.
 
 \subsection{Partitioning Method: Complete Linkage Clustering}
-We retain the default method used at GSK to visualize groups of
-molecules in our visualizations just for comparison purposes. This
+For comparison purposes, we include the default method used at GSK to visualize groups of
+molecules in our visualizations. This
 method produces an output file in which the unique cluster ID (CLink)
 and number of other molecules in the same cluster (N\_Clink) are added
 as additional fields to the original dataset.  Complete linkage
 chemical clustering is described further in several references such
-as \citeauthor{Jain2010,Downs2003}.
+as \citet{Jain2010,Downs2003}.
 
 \subsection{Fragmentation Method: NCATS R-Group Tool}
 \label{sec:rgtool}
@@ -416,13 +422,13 @@ in Supplementary Tables S1 \& S2.
 The R-group Tool described above uses the NCATS implementation of
 Molecular Frameworks to generate scaffolds. GSK's implementation of
 Molecular Frameworks is subtly different, and its use has been
-described in \citeauthor{Harper2004DDclus}. The two types of framework
+described in \citet{Harper2004DDclus}. The two types of framework
 we retain for this study are Bemis-Murcko-like\cite{BemisMurcko1996}
 (with atom and bond orders retained) and
 RECAP\cite{Lewell:1998aa}. 
 
 % Other fragmentation methods described by
-% \citeauthor{Harper2004DDclus} such as reduced graphs and classic
+% \citet{Harper2004DDclus} such as reduced graphs and classic
 % Bemis-Murcko scaffolds (without atom types and bond orders) were
 % skipped for the purposes of comparison; however there is no reason
 % these could not be included in the technique we are proposing.
@@ -431,7 +437,7 @@ The input for the GSK frameworks code is a comma separated text file
 with molecules encoded in a SMILES field.  The code was modified by
 adding scripts to export the fuzzy clusters in a tabular format rather
 than prioritize them into mutually exclusive scaffolds as in
-\citeauthor{Harper2004DDclus}. This step produces a file similar to
+\citet{Harper2004DDclus}. This step produces a file similar to
 the R-group decomposition format described for the NCATS R-group tool
 in \sref{rgtool}, including the following key columns: \emph{framework
   ID, framework SMILES, molecule ID, SMILES} and
@@ -589,7 +595,7 @@ as part of the Supplementary Material in Section S8.
 
 The similarities and differences between non-overlapping clusterings
 have been analyzed in the literature, and one example is the method of
-\citeauthor{Torres2009}, who provide a similarity measure between
+\citet{Torres2009}, who provide a similarity measure between
 outputs of two partitioning clustering methods. They use Jaccard's
 similarity coefficient $S_{ij}$, defined as the ratio of intersection
 size to union size of two groups $i$ and $j$ in the clustering.  This
@@ -658,7 +664,7 @@ also be applied to the distribution of $CP$, $PI$ or $PIU$ to
 characterize the dataset and overlapping scaffolds used to
 characterize it.
 
-Our methods extend the similarity score of \citeauthor{Torres2009} to
+Our methods extend the similarity score of \citet{Torres2009} to
 overlapping clusters by using a set of clusters derived from them,
 defined as follows:
 \begin{itemize}
@@ -931,7 +937,7 @@ places such differences within a sound statistical framework, allowing
 for an objective comparison of fragmentation methods for a given
 screen. They also extend the applicability of
 methods to compare the output of different partitioning clustering
-methods such as \citeauthor{Torres2009}, allowing them to be used for
+methods such as \citet{Torres2009}, allowing them to be used for
 non-overlapping fuzzy clusters. Furthermore quantifying
 structure-activity overlap using $\textrm{NormCP}$ is a novel
 contribution, though similar in spirit and purpose to local hit rate
