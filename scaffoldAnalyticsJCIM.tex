@@ -144,14 +144,14 @@
   scaffold decomposition of the screening deck, that is used to drive
   the hit triage process. Progression decisions can be made using
   aggregate scaffold parameters and data from multiple datasets merged
-  at the scaffold level.  This visualization easily reveals overlaps
+  at the scaffold level.  This visualization reveals overlaps
   that help prioritize hits, highlight tractable series and posit ways
   to combine aspects of multiple hits.  The SAR of a large and complex
   hit is automatically mapped onto all constituent scaffolds making it
   possible to navigate, via any shared scaffold, to all related hits.
   This scaffold ``walking'' helps address bias toward a handful of
   potent and ligand-efficient molecules at the expense of coverage of
-  chemical space.  We considered two scaffold generation methods and
+  chemical space.  We consider two scaffold generation methods and
   explored their similarities and differences both qualitatively and
   quantitatively.  The workflow of a Spotfire visualization used in
   combination with fuzzy clustering and structure annotation provides
@@ -193,18 +193,16 @@ chemical space around the selected hits. A good review of
 computational methods to extract SAR from screening datasets can be
 found in \citeauthor{Wawer2010review}.
 
-Given that a SAR series is, ideally, defined in terms of a core structure along
+Given that a SAR series is defined in terms of a core structure along
 with various decorations, the first step in the triage process is to
-identify these core structures, termed scaffolds. Usually this starts by
+identify these core structures, or scaffolds. This starts by
 decomposing the structures in the screening collection, either exhaustively or
-else using one of the many methods to decompose structures into fragments such
-as the Bemis-Murcko\cite{BemisMurcko1999,BemisMurcko1996} or RECAP
-methods\cite{Lewell:1998aa}. These methods lead to a large number of
+else using one of the many methods to fragment molecules such
+as Bemis-Murcko\cite{BemisMurcko1999,BemisMurcko1996} or RECAP\cite{Lewell:1998aa}. These methods lead to a large number of
 fragments ranging from trivial ones such as a benzene ring to very complex
-multiring structures. Thus a key step involves identifying the \emph{relevant} set of
-scaffolds and their associated compounds. This can be challenging since a given
-compound can contain multiple scaffolds and which scaffolds are
-deemed relevant can be a subjective decision\cite{Hu:2016aa}.
+multiring structures. Thus, a key step involves identifying the \emph{relevant} set of
+scaffolds and the associated exemplars. This can be challenging since a given
+compound can contain multiple scaffolds and scaffold relevance can be a subjective decision\cite{Hu:2016aa}.
 
 In this work we present a HTS triage workflow based on navigating the
 scaffold-activity landscape of a screening collection using a fuzzy
@@ -215,13 +213,12 @@ scaffolds.
 
 \subsection{Related Work}
 While there are many ways to generate a set of scaffolds from a
-compound collection, a key step is to identify a relevant subset of
-them or else aggregate them in a way that leads to a useful clustering
+compound collection, a key step is to identify a relevant subset or else aggregate them in a way that leads to a {\it useful} clustering
 of active and inactive compounds. While the term ``useful'' is rather
-subjective, it is easy to identify cases that are not useful. Thus, 5-
-or 6-member undecorated rings are likely not useful since they will
+subjective, it is easy to identify cases that are not actionable by chemistry teams.
+For example, 5- or 6-member undecorated rings are likely not useful since they will
 occur in the majority of compounds in a screening collection. At the
-other extreme, large, extended scaffolds that are associated with very
+other extreme, large, extended scaffolds associated with very
 few compounds are also likely not useful.
 
 As a result, many approaches to scaffold aggregation have been
