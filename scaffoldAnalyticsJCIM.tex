@@ -304,11 +304,13 @@ compounds from four screening datasets for a recent kinase program.
 Three of these have associated activity data from several on-target and off-target
 assays: 
 \begin{itemize}
-\item An {\it FBDD} (fragment-based drug design) screen run in 2011 with {\bf 288} hits.
+\item An {\it FBDD}\cite{FBDD} (fragment-based drug design) screen run in 2011 with {\bf 288} hits.
 \item A {\it full HTS} run in 2012 with {\bf 4564} {pIC50s} measured after screening 2 million compounds at a single concentration (10 uM).
 \item A {\it top-up HTS} run in 2014 with {\bf 3613} {pIC50s} from screening 350,000 compounds.
 \end{itemize}
-A fourth dataset comprises {\bf 824} virtual compounds selected from {\it ELT}, a DNA Encoded Library Technology screen\cite{ELT} of 130 combinatorial libraries with billions of potential molecules.
+A fourth dataset comprises {\bf 824} virtual compounds selected from
+{\it ELT}, a DNA Encoded Library screen\cite{ELT} of 130
+combinatorial libraries with billions of potential molecules.
 
 This GSK Kinase dataset was chosen to illustrate the power of this approach in joining
 and merging datasets from multiple screens, combining their SAR to
@@ -717,7 +719,13 @@ In the previous section and \fref{KinaseX}, we noted that the 8 molecules sharin
 
 In this way, Scaffold-Based analytics may be used to combine multiple datasets using the scaffold as the common unit of comparison and merging, with dataset labels identifying molecules in the resulting merged dataset. If the datasets have comparable activities, as the Kinase X HTS datasets did, aggregate statistics are easy to compute. If they do not, \eg if one dataset has $pIC_{50}$ and others primary screening activity or a different measure of desirability, normalized activities may be computed to enable aggregation at the scaffold level.
 
-Sometimes one of the datasets does not contain activities at all, \eg in the case of virtual molecules from an Encoded Library Technology screen, or for molecules from a vendor catalog that are yet to be ordered and assayed. In \fref{ELT} we show an example where two computed properties, Molecular Weight and PFI were used to identify promising virtual molecules from the ELT dataset to make, and untested molecules from the FBDD (Fragment-Based Drug Design) dataset to test.    
+Sometimes one of the datasets does not contain activities at all, \eg
+in the case of virtual molecules from a DNA Encoded Library\cite{ELT}
+(DEL) screen, or for molecules from a vendor catalog that are yet to
+be ordered and assayed. In \fref{ELT} we show an example where two
+computed properties, Molecular Weight and PFI were used to identify
+promising virtual molecules from the DEL dataset to make, and untested
+molecules from the FBDD\cite{FBDD} (Fragment-Based Drug Design) dataset to test.
 
 \begin{figure}
 \includegraphics[width=6in]{fig/KinaseX_ELT.png}
