@@ -419,15 +419,14 @@ can be exported in a set of TSV files or a single JSON file. In the
 current work we employed the TSV format which is described in detail
 in Supplementary Tables S1 \& S2.
 
-\subsection{Fragmentation Method: GSK Frameworks}
+\subsection{Fragmentation Method: Molecular Frameworks}
 \label{sec:gskframe}
 The R-group Tool described above uses the NCATS implementation of
-Molecular Frameworks to generate scaffolds. GSK's implementation of
-Molecular Frameworks is subtly different, and its use has been
-described in \citet{Harper2004DDclus}. The two types of framework
-we retain for this study are Bemis-Murcko-like\cite{BemisMurcko1996}
-(with atom and bond orders retained) and
-RECAP\cite{Lewell:1998aa}. 
+Molecular Frameworks to generate scaffolds. We compare it to the
+\citet{Harper2004DDclus} implementation of Molecular Frameworks.
+The method generates many framework types, from which we retain two that
+most resemble NCATS scaffolds for analysis: Bemis-Murcko-like\cite{BemisMurcko1996}
+(with atom and bond orders retained) and RECAP\cite{Lewell:1998aa}. 
 
 % Other fragmentation methods described by
 % \citet{Harper2004DDclus} such as reduced graphs and classic
@@ -435,29 +434,32 @@ RECAP\cite{Lewell:1998aa}.
 % skipped for the purposes of comparison; however there is no reason
 % these could not be included in the technique we are proposing.
 
-The input for the GSK frameworks code is a comma separated text file
-with molecules encoded in a SMILES field.  The code was modified by
-adding scripts to export the fuzzy clusters in a tabular format rather
-than prioritize them into mutually exclusive scaffolds as in
-\citet{Harper2004DDclus}. This step produces a file similar to
-the R-group decomposition format described for the NCATS R-group tool
-in \sref{rgtool}, including the following key columns: \emph{framework
-  ID, framework SMILES, molecule ID, SMILES} and
-\emph{properties/activities}.  There are no R-group columns simply
-because this is not a default computation in the GSK frameworks code.
+% the below was moved to SI.. maybe we want it back?
+%The input for our implementation of frameworks is a comma separated text file
+%with molecules encoded in a SMILES field.  The code was modified by
+%adding scripts to export the fuzzy clusters in a tabular format rather
+%than prioritize them into mutually exclusive scaffolds as in
+%\citet{Harper2004DDclus}. This step produces a file similar to
+%the R-group decomposition format described for the NCATS R-group tool
+%in \sref{rgtool}, including the following key columns: \emph{framework
+%  ID, framework SMILES, molecule ID, SMILES} and
+%\emph{properties/activities}.  There are no R-group columns simply
+%because this is not a default computation in our frameworks code.
 
-The GSK frameworks found within the same molecule from TCAMS are shown
+
+The frameworks found within the same molecule from TCAMS are shown
 in \fref{scafmethod}(c).  The reader will observe several differences
 from the R-group tool: there are more scaffolds found, some clipped in
 the middle of a linker rather than at a ring, and some redundancy
-between multiple scaffolds. Also the current implementation does not
+between multiple scaffolds. The current implementation does not
 convert or unify tautomers among scaffolds, again leading to larger
 numbers of scaffolds. % We will see in Section \ref{sec:results} that
 %comprehensive coverage of fragments within each molecule can be both
 %good and bad.
 
-Further details on how to set up and run the GSK frameworks code are
-provided in the Supplementary Material Section S4. %\textbf{\textcolor{red}{TODO}}
+Further details on how we applied 
+% input and output formats and how to set up and run
+the frameworks code are provided in the Supplementary Material Section S4. 
 
 %\subsection{Fragmentation Method: Scaffold Network Generator}
 %\label{sec:SNG}
@@ -491,7 +493,7 @@ provided in the Supplementary Material Section S4. %\textbf{\textcolor{red}{TODO
 
 Next, we describe how tabular scaffold output generated using the
 NCATS R-group tool and other comparable methods is integrated into
-Spotfire, our visualization tool of choice at GSK. 
+Spotfire, a visualization tool of choice at many companies. 
 
 \subsection{Data Table Generation and Linking}
 
@@ -508,10 +510,9 @@ Spotfire, our visualization tool of choice at GSK.
 
 \fref{detaildevil} shows how the data tables output by the scaffold
 generation methods considered here are layered onto the primary data
-table in Spotfire. This primary data table is usually a direct import
-of tabular molecule and activity data generated at GSK or available
-from public datasets. What gets added is by and large similar,
-following the schema ``Molecule --> Scaffold (including Annotation)
+table in Spotfire. This primary data table is usually a direct database
+import of tabular molecule and activity data or available from public
+datasets. What gets added follows the schema ``Molecule --> Scaffold (including Annotation)
 --> Related Molecules'' shown in the figure. For each Molecule in the
 dataset, we connect it to every Scaffold/Framework/Cluster it
 contains, and then to every other molecule containing any of these
@@ -526,7 +527,7 @@ that contain the same scaffolds. This interface consists of the
 following elements:
 \begin{itemize}
 \item {\bf Main Window}: Views defined that allow one to explore the
-  Primary Data Table (with no scaffold information) in the most useful
+  Primary Data Table (with no scaffold information) in the most interpretable
   way for each dataset.  In the canonical example, key activity,
   selectivity, ligand efficiency and molecular properties may be
   highlighted on the X, Y, shape, size and color axes on a scatter
@@ -568,7 +569,7 @@ following elements:
 
 \item {\bf Scaffolds and R-groups Tab}: This tab, currently specific to the NCATS R-group tool method for generating scaffolds, contains two visualizations, as illustrated for the TCAMS dataset in \fref{spotviz}(b)--(c):  
   \subitem The first is a scatter plot display of the Scaffolds table, displaying scaffold Complexity and Count and aggregate activity of each scaffold either on the axes or using the Size and Shape dimensions.  Here scaffolds of lesser interest (for example with low complexity or count) can be identified and tagged to remove them from the analysis. Conversely, scaffolds of high interest, for example with many active members or high aggregate ligand efficiency, may be tagged into separate categories.
-\subitem The second plot is an R-group table, \ie a Table view of the {RG}decomp table limited to data records that have been marked, \ie molecules that lie in scaffolds currently marked. The table is sorted first by scaffold and then by primary activity, and molecular fields such as Scaffold SMILES, Molecule SMILES and R-groups $R\_1..R\_n$ are rendered using an appropriate depiction package - at GSK this is {JChem}.  This table may be exported to Excel as an on-the-fly R-group table of the scaffolds of interest.
+\subitem The second plot is an R-group table, \ie a Table view of the {RG}decomp table limited to data records that have been marked, \ie molecules that lie in scaffolds currently marked. The table is sorted first by scaffold and then by primary activity, and molecular fields such as Scaffold SMILES, Molecule SMILES and R-groups $R\_1..R\_n$ are rendered using an appropriate depiction package - at GSK this is {JChem}\cite{JChem}.  This table may be exported to Excel as an on-the-fly R-group table of the scaffolds of interest.
 
 \end{itemize}
 
@@ -720,11 +721,11 @@ In the previous section and \fref{KinaseX}, we noted that the 8 molecules sharin
 In this way, Scaffold-Based analytics may be used to combine multiple datasets using the scaffold as the common unit of comparison and merging, with dataset labels identifying molecules in the resulting merged dataset. If the datasets have comparable activities, as the Kinase X HTS datasets did, aggregate statistics are easy to compute. If they do not, \eg if one dataset has $pIC_{50}$ and others primary screening activity or a different measure of desirability, normalized activities may be computed to enable aggregation at the scaffold level.
 
 Sometimes one of the datasets does not contain activities at all, \eg
-in the case of virtual molecules from a DNA Encoded Library\cite{ELT}
-(DEL) screen, or for molecules from a vendor catalog that are yet to
+in the case of virtual molecules from a DNA Encoded Library Technology\cite{ELT}
+(ELT) screen, or for molecules from a vendor catalog that are yet to
 be ordered and assayed. In \fref{ELT} we show an example where two
 computed properties, Molecular Weight and PFI were used to identify
-promising virtual molecules from the DEL dataset to make, and untested
+promising virtual molecules from the ELT dataset to make, and untested
 molecules from the FBDD\cite{FBDD} (Fragment-Based Drug Design) dataset to test.
 
 \begin{figure}
@@ -966,9 +967,8 @@ as described in this study, provides a way to combat such biases.
 
 \begin{acknowledgement}
   The GSK authors thank Subhas Chakravorty, Neysa Nevins, Ami Lakdawala Shah,
-  Eric Manas, Todd Graybill, Stan Martens, Mike Ouellette, Tony Jurewicz and Rob
-  Young for valuable feedback and suggestions while developing the method and
-  visualizations.
+  Eric Manas, Todd Graybill, Stan Martens, Mike Ouellette, Tony Jurewicz, Rob
+  Young, Ken Lind and Jeff Messer for valuable feedback and suggestions while developing the method and visualizations. We dedicate this work to the memory of Christopher Louer, our colleague and cheminformatics wizard at GSK who always encouraged us to innovate in order to help chemists.  
 \end{acknowledgement}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

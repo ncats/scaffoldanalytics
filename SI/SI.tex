@@ -134,7 +134,7 @@ relatively close to the scaffold and cover a large fraction of the
 input set.
 
 The \textit{Complexity} metric is an implemention of the empirical
-complexity metric described by Barone and Channon \cite{Barone2001}.
+complexity metric described by \citet{Barone2001}.
 \textit{Complexity} can be used to prune away scaffolds that are too
 simple, by setting a cutoff such as 100.
 
@@ -147,17 +147,28 @@ Here are the implementation details specific to summarizing screening datasets s
 
 \item Convert ligand efficiency columns (LE/LLE) to LE\_x10 (multiply by 10). Otherwise it will be rounded to one decimal place while summarizing (eg. $0.3 \pm  0.1$), which isn't useful. The conversion was done using a formula in Excel prior to converting the dataset from CSV to SDF. Summarized LE\_x10 columns may be back-converted to LE by dividing by 10 in a Spotfire calculated column.  
 
-\item Convert integer columns that we are interested in summarizing to floating point format, \ie append a ``.0'' to these integer values. Since Pubchem IDs are integers, there is logic build into the NCATS scaffold summarization code to ignore columns containing integers. However, percentage inhibition, IFI (percent), and many other measurements that are useful to aggregate are expressed as integers.  We got around this by matching a pattern in the SDF file and replacing a PCT\_INHIBITION column followed by an integer with the same number followed by ``.0'' using a Unix sed script. This technique helps work around assumptions made by the NCATS code that integers are compound IDs, and aggregate these columns.
+\item Convert integer columns that we are interested in summarizing to floating point format, \ie append a ``.0'' to these integer values. Since Pubchem IDs are integers, there is logic built into the NCATS scaffold summarization code to ignore columns containing integers. However, percentage inhibition, IFI (percent), and many other measurements that are useful to aggregate are expressed as integers.  We got around this by matching a pattern in the SDF file and replacing a PCT\_INHIBITION column followed by an integer with the same number followed by ``.0'' using a Unix sed script. This technique helps work around assumptions made by the NCATS code that integers are compound IDs, and aggregate these columns.
   
 \item If the dataset contains Encoded Library Technology features or similar molecules, ensure that pendant  R-atoms  at building block attachment points are deleted rather than turned to Carbon. We implemented this conversion using a MOE SVL script ``db\_deleteatoms.svl'' written by Barbara Sander at Chemical Computing group. The script will loop through a MOE database and delete all atoms named  A  in a database molecule entry, which are the R-atoms. The same thing can be accomplished in the reader's favorite cheminformatics package if they have to deal with molecules with pending R-atoms.  
 \end{itemize}
 
 \newpage 
 
-\section{GSK data-driven frameworks input preprocessing}
+\section{Molecular frameworks input and preprocessing}
 \label{sec:gskfw-prepro}
+% maybe this moves back?
+The input for our implementation of frameworks is a comma separated text file
+with molecules encoded in a SMILES field.  The code was modified by
+adding scripts to export the fuzzy clusters in a tabular format rather
+than prioritize them into mutually exclusive scaffolds as in
+\citet{Harper2004DDclus}. This step produces a file similar to
+the R-group decomposition format described for the NCATS R-group tool
+in \sref{ncats-r-group}, including the following key columns: \emph{framework
+  ID, framework SMILES, molecule ID, SMILES} and
+\emph{properties/activities}.  There are no R-group columns simply
+because this is not a default computation in our frameworks code.
 
-The steps to build GSK Bemis-Murcko-like and Recap fragments from datasets within the GSK computational chemistry environment follows the method described in  \cite{Harper2004DDclus}:
+The steps to build Bemis-Murcko-like and Recap fragments from datasets within the GSK computational chemistry environment follows the method described in  \cite{Harper2004DDclus}:
 \begin{itemize}
 \item Start with a two column space separated SMILES file, \ie chemblntd\_gsk2\_spc.smi which contains molecule parent smiles (no salt forms) and IDs separated by a space. 
 \item Run a Python script to generate various framework descriptors for each molecule in this dataset; at GSK this script is called build\_dd.py and uses {JChem} library functions, but in general it is easy to put together an equivalent one from the reader's cheminformatics toolkit of choice.  The descriptors output by build\_dd.py include Detail Frameworks (chemblntd\_gsk2\_spc\_df.db) and Recap (chemblntd\_gsk2\_spc\_recap.db). These tab-delimited files contain one line per fragment found in any molecule, listing the fragment SMILES and the molecule ID, with all fragments found in the first molecule before all in the second, and so on.
