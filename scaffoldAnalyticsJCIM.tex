@@ -312,7 +312,9 @@ A fourth dataset comprises {\bf 824} virtual compounds selected from
 {\it ELT}, a DNA Encoded Library screen\cite{ELT} of 130
 combinatorial libraries with billions of potential molecules.
 
-This GSK Kinase dataset was chosen to illustrate the power of this approach in joining
+The GSK Kinase dataset also contains physico-chemical properties of interest for
+developability, notably the Property Forecast Index (PFI\cite{Young2011}). 
+We chosen this dataset to illustrate the power of Scaffold Analytics in joining
 and merging datasets from multiple screens, combining their SAR to
 design hybrid molecules, and making inferences about unknown activity
 in one screen based on known activity in another screen.
@@ -530,10 +532,8 @@ following elements:
   Primary Data Table (with no scaffold information) in the most interpretable
   way for each dataset.  In the canonical example, key activity,
   selectivity, ligand efficiency and molecular properties may be
-  highlighted on the X, Y, shape, size and color axes on a scatter
-  plot. This window is not illustrated in the interests of space, and
-  since the reader familiar with screening datasets may already have seen a similar view.
-  %The main window is illustrated for the TCAMS dataset in \fref{spotviz}(a).
+  highlighted on the X, Y, shape, size and color axes on a scatter  plot.
+  This view is depicted in compressed form in the top half of \fref{spotviz}(a).
 \item {\bf Related Molecules Tab}: The purpose of this tab is to
   implement the Scaffold Walking navigation described briefly earlier.
   The setup is described for the NCATS R-group Tool decomposition,
@@ -700,7 +700,7 @@ further compounds.
 
 For the in-house kinase dataset, the program team were looking for hit series with activity in a range of orthogonal on-target assays, selectivity against a mutant counter-screen, and good properties to predict developability.  We aggregated the activity in each of the primary assays, selectivity, and Property Forecast Index (PFI~\cite{Young2011}), using the mean values as filters to identify promising scaffolds.  A plot of aggregate selectivity \vs PFI is shown in \fref{KinaseX}(a).
 
-Once a promising scaffold was identified, one could drill down with a single click into detailed activities and properties of the molecules containing the scaffold, to decide whether to pursue the series further. For example, the
+Once a promising scaffold is identified, one can drill down with a single click into detailed activities and properties of the molecules containing the scaffold to decide whether to pursue the series further. For example, the
 the scaffold with ID 2988, marked in \fref{KinaseX}(a) has on the aggregate good selectivity (1.4 log units) and also low PFI (6.7). The activity profiles for 8
 molecules sharing this scaffold are shown in \fref{KinaseX}(b). Clear differentiation is observed between an orthogonal suite of native protein assays and the mutant assay, marking the scaffold as a good one to explore making additional molecules.
 
@@ -716,7 +716,7 @@ molecules sharing this scaffold are shown in \fref{KinaseX}(b). Clear differenti
 To conclude, we have observed how scaffold-based analytics allows us to make decisions based on the aggregate (average, SD, median, min, max, ...) properties of molecules in scaffolds. An entire scaffold may be rejected or prioritized at a time instead of keeping track of individual molecules. It is important to note that rejecting a scaffold does not reject all molecules containing that scaffold - otherwise rejecting the benzene ring would remove a large percentage of valid leads. Also at any time we are able to drill down into the data for individual compounds in interesting scaffolds, whether in an R-group table or a custom plot, and incorporate that into our prioritization.   
 
 \subsection{Use Case: Dataset Fusion and Hybridization}
-In the previous section and \fref{KinaseX}, we noted that the 8 molecules sharing scaffold 2988 came from two datasets, \viz HTS hits from 2012 and 2014. This is significant since the 5 molecules found during the 2012 campaign were not prioritized since they did not jump to the top using visual inspection, clustering or other methods used to triage the hits -- this Scaffold-Based Analytics method was not available. However, when the hits from both screens were combined and analyzed with this method in 2014, the pattern of activity, selectivity and properties that made these desirable hits to pursue was automatically found and readily flagged.
+In the previous section and \fref{KinaseX}(b), we noted that the 8 molecules sharing scaffold 2988 came from two datasets, \viz HTS hits from 2012 and 2014. This is significant since the 5 molecules found during the 2012 campaign were not prioritized since they did not jump to the top using visual inspection, clustering or other methods used to triage the hits -- this Scaffold-Based Analytics method was not available. However, when the hits from both screens were combined and analyzed with this method in 2014, the pattern of activity, selectivity and properties that made these desirable hits to pursue was automatically found and readily flagged.
 
 In this way, Scaffold-Based analytics may be used to combine multiple datasets using the scaffold as the common unit of comparison and merging, with dataset labels identifying molecules in the resulting merged dataset. If the datasets have comparable activities, as the Kinase X HTS datasets did, aggregate statistics are easy to compute. If they do not, \eg if one dataset has $pIC_{50}$ and others primary screening activity or a different measure of desirability, normalized activities may be computed to enable aggregation at the scaffold level.
 
