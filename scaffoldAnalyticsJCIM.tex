@@ -399,7 +399,7 @@ the TCAMS dataset.
 (b)\includegraphics[width=5in]{fig/tcam1_RGscaf.png}\\
 \vspace{0.1in}
 (c)\includegraphics[width=5in]{fig/tcam1_GSKframes.png}
-\caption{Scaffold Decompositions for (a) Molecule $1$ from the TCAMS dataset with Compound ID 536182 (PubChem CID 44522854). (b) 5 scaffolds from NCATS R-Group Tool; (c) 24 frameworks -- first 21 Bemis-Murcko Like and last 3 in the bottom row RECAP.}
+\caption{Scaffold Decompositions for (a) Molecule 1 from the TCAMS dataset with Compound ID 536182 (PubChem CID 44522854). (b) 5 scaffolds from NCATS R-Group Tool; (c) 24 frameworks -- first 21 Bemis-Murcko Like and last 3 in the bottom row RECAP.}
 \label{fig:scafmethod}
 \end{figure}
 
@@ -688,7 +688,7 @@ Here we illustrate some of our key findings and use cases on a few datasets.
 Aggregate statistics such as maximum, minimum, mean and standard
 deviation, computed at a per scaffold level, may be useful in
 prioritizing scaffolds. For example, \fref{RGTaggr} shows the six
-scaffolds contained within a tricyclic molecule from TCAMS (Molecule
+scaffolds contained within a tricyclic molecule (Molecule
 2, TCAMS Compound ID: 541564, PubChem CID: 44531725)
 ranked by average activity and IFI. This ordering may
 be used to determine which substructures are most important for the
@@ -696,12 +696,13 @@ molecule's activity, and use this information to design or test
 further compounds.
 
 \begin{figure}
-  \includegraphics[width=5in]{fig/RGT_aggr_prop2.png}
-  \caption{All \~5000 scaffolds from the TCAMS dataset ranked by
+  (a)\includegraphics[width=2in]{fig/tcam2_mol_541564.png}
+  (b)\includegraphics[width=5in]{fig/RGT_aggr_prop2.png}
+  \caption{(a) Molecule 2 (TCAMS Compound ID: 541564; PubChem CID: 44531725).
+    (b) All \~5000 scaffolds from the TCAMS dataset ranked by
     average pIC50 in the P.~falciparum 3D7 strain and Inhibition
     Frequency Index. The six scaffolds contained in Molecule 2
-    (TCAMS Compound ID: 541564; PubChem CID: 44531725) are shown in increasing
-    order of average pIC50.}
+    are shown in increasing order of average pIC50.}
 \label{fig:RGTaggr}   
 \end{figure}
 
@@ -749,11 +750,11 @@ Two scaffolds with ID 1920 (pyridophenyl) and 3116 (benzimidazole) shown in a tr
 Scaffold Walking is our term for navigating from molecule(s) through scaffolds (implicitly) to Related Molecules. This contrasts with Scaffold Hopping, which is usually defined as a complete replacement of a scaffold by another 2D-dissimilar but 3D-similar or bioisosteric scaffold. Scaffold Walking is meant to be a gradual change to the molecule, at each step retaining at least one element of its maximal Murcko scaffold (\ie at least one among the multiple scaffolds it shares with other molecules in the dataset).  In the process the SAR gets deconvoluted in terms of these scaffolds, allowing us to determine visually both the most essential scaffolds in a molecule and the best Related Molecules containing them.       
 \begin{figure}
 \includegraphics[width=6in]{fig/mol1_RGtool_scafpie.png}
-\caption{Related Molecules scaffold pies visualization for Molecule 1 (Compound ID: 536182). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
+\caption{Related Molecules scaffold pies visualization for Molecule 1 (TCAMS Compound ID: 536182, PubChem CID 44522854). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
 \label{fig:scafwalk1}
 \end{figure}
 
-As an example, consider Molecule 1 (TCAMS Compound ID: 536182) in \fref{scafwalk1}, as a hit that we want to explore SAR of and optimize. This molecule contains 5 scaffolds as determined by the NCATS R-group tool. Using the Scaffold Pie visualization, we observe that the naphthyl scaffold (\#978, cyan) is by itself only moderately active.  The dihydrotriazine (\#4719, blue) scaffold is observed to always occur where the dihydrotriazine-phenethyl-ether (\#2467, pink) one does, implying the substructure relationship between them visually even if one did not know it beforehand. Scaffold \#4719 also exists and is active without \#2467, implying that the phenethyl ether can be substituted and the dihydrotriazine may be sufficient for activity by itself.
+As an example, consider Molecule 1 (TCAMS Compound ID: 536182, PubChem CID 44522854) in \fref{scafwalk1}, as a hit that we want to explore SAR of and optimize. This molecule contains 5 scaffolds as determined by the NCATS R-group tool. Using the Scaffold Pie visualization, we observe that the naphthyl scaffold (\#978, cyan) is by itself only moderately active.  The dihydrotriazine (\#4719, blue) scaffold is observed to always occur where the dihydrotriazine-phenethyl-ether (\#2467, pink) one does, implying the substructure relationship between them visually even if one did not know it beforehand. Scaffold \#4719 also exists and is active without \#2467, implying that the phenethyl ether can be substituted and the dihydrotriazine may be sufficient for activity by itself.
 
 \begin{figure}
 \includegraphics[width=6in]{fig/mol2_RGtool_scafpie2.png}
@@ -765,7 +766,7 @@ Molecule 3 in \fref{scafwalk2} is another case where we might want to optimize t
 
 \begin{figure}
 \includegraphics[width=5.5in]{fig/mol3_RGtool_scafpie_iter.png}
-\caption{Iterative Related Molecules scaffold pies visualization for Molecule 4 (TCAMS Compound ID: 541531, PubChem CID: 44531903), a scaffold hop from Molecule 2 shown in \fref{scafwalk2}. Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
+\caption{Iterative Related Molecules scaffold pies visualization for Molecule 4 (TCAMS Compound ID: 541531, PubChem CID: 44531903), a scaffold hop from Molecule 3 shown in \fref{scafwalk2}. Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
 \label{fig:scafwalk3}
 \end{figure}
 
@@ -790,7 +791,7 @@ if any two molecules share a common substructure that meets the standards requir
 
 \begin{figure}
 \includegraphics[width=5in]{fig/mol1_frames_scafpie.png}
-\caption{Using GSK Frameworks with the Scaffold Pies visualization. One framework is highlighted that has no equivalent in the NCATS scaffolds, but is shown to reduce activity as related molecules containing it are less active than the parent molecule.   The star symbol shows the location of the parent molecule in this Related Molecules plot, and the compass device at the origin shows the direction of favorable properties (+X and +Y axes).}      
+\caption{Using Frameworks with the Scaffold Pies visualization. One framework is highlighted that has no equivalent in the NCATS scaffolds, but is shown to reduce activity as related molecules containing it are less active than the parent molecule.   The star symbol shows the location of the parent molecule in this Related Molecules plot, and the compass device at the origin shows the direction of favorable properties (+X and +Y axes).}      
 \label{fig:frameswalk}
 \end{figure}
 
@@ -802,14 +803,14 @@ if any two molecules share a common substructure that meets the standards requir
 %
 %Using the Scaffold Network to visualize Related Molecules, one is able to deconvolute scaffolds with different numbers of rings (which serves as the level in the hierarchy) by trellising on it, and thus gather together substructures of comparable size. As shown in \fref{SNGwalk}, with the same tricyclic molecule as in \fref{scafwalk2}, we use Scaffold Networks to solve a selectivity issue. Members of the original scaffold, shown in light brown, tend to have some activity against the susceptible 3D7 strain of $P.~falciparum$ but be inactive against the multidrug-resistant DD7 strain. Using the scaffold network to go one level down (to molecules with two rings) and then two levels up (up to 5 rings) we obtain many new molecules that are a few hops away from the top-level tricyclic scaffold while still sharing some aspect of it. Looking at where these new Related Molecules are placed, we mark one scaffold with 3 rings that has a quinazoline linked to a phenyl, and one with 4 rings that contains an indoloquinazoline (also discovered by scaffold walking with the NCATS R-group tool as described above) linked to a phenyl. These two scaffolds are highlighted since their members consistently have high activity against the resistant DD2 strain, and thus this would be a desirable scaffold hop (or walk) towards chemical space that is more useful in overcoming resistance from the malarial parasite.  
 
-%To summarize, all three multiple-scaffold decomposition methods considered in this study, \ie NCATS R-group Tool, GSK Frameworks  and Scaffold Network Generator give comparable insights when exploring the TCAMS dataset, with some differences stemming from individual substructures that are considered shared scaffolds or not by the individual methods.  We now explore these overlaps, similarities and differences in the aggregate using the statistical methods described earlier in \sref{statmethod}.
+%To summarize, all three multiple-scaffold decomposition methods considered in this study, \ie NCATS R-group Tool, Frameworks  and Scaffold Network Generator give comparable insights when exploring the TCAMS dataset, with some differences stemming from individual substructures that are considered shared scaffolds or not by the individual methods.  We now explore these overlaps, similarities and differences in the aggregate using the statistical methods described earlier in \sref{statmethod}.
 
-To summarize, both multiple-scaffold decomposition methods considered in this study, \ie NCATS R-group Tool and GSK Frameworks give comparable insights when exploring the TCAMS dataset, with some differences stemming from individual substructures that are considered shared scaffolds or not by the individual methods.  We now explore these overlaps, similarities and differences in the aggregate using the statistical methods described earlier in \sref{statmethod}.
+To summarize, both multiple-scaffold decomposition methods considered in this study, \ie NCATS R-group Tool and Frameworks give comparable insights when exploring the TCAMS dataset, with some differences stemming from individual substructures that are considered shared scaffolds or not by the individual methods.  We now explore these overlaps, similarities and differences in the aggregate using the statistical methods described earlier in \sref{statmethod}.
 
 
 \subsection{Statistical Comparison of Scaffold-Generation Methods}\label{sec:statcomp}
 
-Recall the concepts of structure group and common proportion defined in \sref{statmethod}.  Let us now apply these to analyze and compare the scaffold generation methods GSK Frameworks ($A$) and NCATS R-group tool ($B$). As an illustration, \fref{strucgroup} (a)-(c) shows the structure group of the compound $C$ with Compound ID 541564. 
+Recall the concepts of structure group and common proportion defined in \sref{statmethod}.  Let us now apply these to analyze and compare the scaffold generation methods Frameworks ($A$) and NCATS R-group tool ($B$). As an illustration, \fref{strucgroup} (a)-(c) shows the structure group of the compound $C$ with Compound ID 541564 (PubChem CID: 44531725). 
 \begin{figure}
 \centering
   \begin{minipage}[b][0.2\textheight][s]{0.3\textwidth}
@@ -818,12 +819,12 @@ Recall the concepts of structure group and common proportion defined in \sref{st
   (b)\includegraphics[width=1.5in]{fig/howmany_scaf.png}
   \end{minipage}
   (c)\includegraphics[width=3.5in]{fig/structure_group_C.png}
-  \caption{(a) Compound $C$, chosen here as Compound ID 541564 from previous figures, has 6 fragments derived using the NCATS R-group tool. (b) Distribution of number of fragments, out of nearly 6000 total, found in each molecule. (c) Scaffold pie plot showing the structure group of $C$, restricted here to only compounds that share two or more substructures with $C$. This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.}
+  \caption{(a) Compound $C$, chosen here as Molecule 2 (TCAMS Compound ID 541564, PubChem CID: 44531725) from previous figures, has 6 fragments derived using the NCATS R-group tool. (b) Distribution of number of fragments, out of nearly 6000 total, found in each molecule. (c) Scaffold pie plot showing the structure group of $C$, restricted here to only compounds that share two or more substructures with $C$. This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.}
     \label{fig:strucgroup}
 \end{figure}
 
 
-Comparing the GSK Frameworks and NCATS R-Group Tool for the TCAMS dataset using the above mentioned statistical metrics, we show the aggregate statistics over the entire dataset in \fref{statcomparetable}.  
+Comparing the Frameworks and NCATS R-Group Tool for the TCAMS dataset using the above mentioned statistical metrics, we show the aggregate statistics over the entire dataset in \fref{statcomparetable}.  
 
 \begin{figure}
   \begin{minipage}[c]{\linewidth}
@@ -855,13 +856,13 @@ Comparing the GSK Frameworks and NCATS R-Group Tool for the TCAMS dataset using 
 \end{figure}
 
 
-We compare the Common Proportion, Proportion of Information Unique (PIU) and Fragment Efficiency (FragEff) statistics for the GSK Frameworks (method ``A'') and the NCATS R-group tool (method ``B'') for all the 13.5k compounds in TCAMS in \fref{statcompare}.  This figure has PIU of methods $A$ and $B$ on the axes, is sized by ratio of Fragment Efficiencies for all 13.5k molecules.   
+We compare the Common Proportion, Proportion of Information Unique (PIU) and Fragment Efficiency (FragEff) statistics for the Frameworks (method ``A'') and the NCATS R-group tool (method ``B'') for all the 13.5k compounds in TCAMS in \fref{statcompare}.  This figure has PIU of methods $A$ and $B$ on the axes, is sized by ratio of Fragment Efficiencies for all 13.5k molecules.   
 
 
 
 \begin{figure}
 \includegraphics[width=6in]{fig/statcompare_frames_RGtool_transparent_density.png}
-\caption{Comparison of the Common Proportion, PIU and FragEff statistics (described in the text) between GSK Frameworks (method ``{\bf A}'') and NCATS R-group Tool (``{\bf B}'') for all molecules in TCAMS. PIU of A and B are on the X and Y axes, and the points are colored by the log ratio of FragEff(B) to FragEff(A) and sized by Common Proportion.}
+\caption{Comparison of the Common Proportion, PIU and FragEff statistics (described in the text) between Frameworks (method ``{\bf A}'') and NCATS R-group Tool (``{\bf B}'') for all molecules in TCAMS. PIU of A and B are on the X and Y axes, and the points are colored by the log ratio of FragEff(B) to FragEff(A) and sized by Common Proportion.}
 \label{fig:statcompare}
 \end{figure}
  
