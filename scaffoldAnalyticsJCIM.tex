@@ -397,7 +397,7 @@ the TCAMS dataset.
 (b)\includegraphics[width=5in]{fig/tcam1_RGscaf.png}\\
 \vspace{0.1in}
 (c)\includegraphics[width=5in]{fig/tcam1_GSKframes.png}
-\caption{Scaffold Decompositions for a molecule (a) from the TCAMS dataset with PubChem Compound ID 536182. (b) 5 scaffolds from NCATS R-Group Tool; (c) 24 GSK frameworks -- first 21 Bemis-Murcko Like and last 3 in the bottom row RECAP.}
+\caption{Scaffold Decompositions for a molecule (a) from the TCAMS dataset with Compound ID 536182. (b) 5 scaffolds from NCATS R-Group Tool; (c) 24 GSK frameworks -- first 21 Bemis-Murcko Like and last 3 in the bottom row RECAP.}
 \label{fig:scafmethod}
 \end{figure}
 
@@ -687,14 +687,14 @@ Aggregate statistics such as maximum, minimum, mean and standard
 deviation, computed at a per scaffold level, may be useful in
 prioritizing scaffolds. For example, \fref{RGTaggr} shows the six
 scaffolds contained within a tricyclic molecule from TCAMS (Molecule
-2, CID: 533945) ranked by average activity and IFI. This ordering may
+2, Compound ID: 533945, ) ranked by average activity and IFI. This ordering may
 be used to determine which substructures are most important for the
 molecule's activity, and use this information to design or test
 further compounds.
 
 \begin{figure}
   \includegraphics[width=5in]{fig/RGT_aggr_prop2.png}
-  \caption{All \~5000 scaffolds from the TCAMS dataset ranked by average pIC50 in the P.~falciparum 3D7 strain and Inhibition Frequency Index. The six scaffolds contained in Molecule 2 (CID: 533945) are shown in increasing order of average pIC50.}
+  \caption{All \~5000 scaffolds from the TCAMS dataset ranked by average pIC50 in the P.~falciparum 3D7 strain and Inhibition Frequency Index. The six scaffolds contained in Compound C (Compound ID: 541564) are shown in increasing order of average pIC50.}
 \label{fig:RGTaggr}   
 \end{figure}
 
@@ -742,23 +742,23 @@ Two scaffolds with ID 1920 (pyridophenyl) and 3116 (benzimidazole) shown in a tr
 Scaffold Walking is our term for navigating from molecule(s) through scaffolds (implicitly) to Related Molecules. This contrasts with Scaffold Hopping, which is usually defined as a complete replacement of a scaffold by another 2D-dissimilar but 3D-similar or bioisosteric scaffold. Scaffold Walking is meant to be a gradual change to the molecule, at each step retaining at least one element of its maximal Murcko scaffold (\ie at least one among the multiple scaffolds it shares with other molecules in the dataset).  In the process the SAR gets deconvoluted in terms of these scaffolds, allowing us to determine visually both the most essential scaffolds in a molecule and the best Related Molecules containing them.       
 \begin{figure}
 \includegraphics[width=6in]{fig/mol1_RGtool_scafpie.png}
-\caption{Related Molecules scaffold pies visualization for Molecule 1 (CID: 536182). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
+\caption{Related Molecules scaffold pies visualization for Molecule 1 (Compound ID: 536182). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
 \label{fig:scafwalk1}
 \end{figure}
 
-As an example, consider Molecule 1 (PubChem CID: 536182) in \fref{scafwalk1}, as a hit that we want to explore SAR of and optimize. This molecule contains 5 scaffolds as determined by the NCATS R-group tool. Using the Scaffold Pie visualization, we observe that the naphthyl scaffold (\#978, cyan) is by itself only moderately active.  The dihydrotriazine (\#4719, blue) scaffold is observed to always occur where the dihydrotriazine-phenethyl-ether (\#2467, pink) one does, implying the substructure relationship between them visually even if one did not know it beforehand. Scaffold \#4719 also exists and is active without \#2467, implying that the phenethyl ether can be substituted and the dihydrotriazine may be sufficient for activity by itself.
+As an example, consider Molecule 1 (ChemblNTD Compound ID: 536182) in \fref{scafwalk1}, as a hit that we want to explore SAR of and optimize. This molecule contains 5 scaffolds as determined by the NCATS R-group tool. Using the Scaffold Pie visualization, we observe that the naphthyl scaffold (\#978, cyan) is by itself only moderately active.  The dihydrotriazine (\#4719, blue) scaffold is observed to always occur where the dihydrotriazine-phenethyl-ether (\#2467, pink) one does, implying the substructure relationship between them visually even if one did not know it beforehand. Scaffold \#4719 also exists and is active without \#2467, implying that the phenethyl ether can be substituted and the dihydrotriazine may be sufficient for activity by itself.
 
 \begin{figure}
 \includegraphics[width=6in]{fig/mol2_RGtool_scafpie2.png}
-\caption{Related Molecules scaffold pies visualization for Molecule 2 (CID: 533945). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
+\caption{Related Molecules scaffold pies visualization for Molecule 2 (Compound ID: 533945). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
 \label{fig:scafwalk2}
 \end{figure}
 
-Molecule 2 in \fref{scafwalk2} is another case where we might want to optimize the physical and chemical properties of the molecule without sacrificing activity or increasing promiscuity. Since solubility has been shown to go down with number of aromatic rings independent of lipophilicity\cite{Hill2010}, walks that remove one or more of the three fused rings might be productive. By exploring the Related Molecules, we observe the SAR for three scaffolds: quinazolines (\#305, brown), indazoloquinazolines (\#574, blue) and indazoles (\#3822, pink). We observe from the plot a few more molecules containing all three scaffolds (tricolored pies, \ie exact analogs of the parent molecule); all of these are less active than the parent. The indazoles when they occur alone (pink circles) are far less active than the parent, suggesting they do not contribute significantly to activity and may be substituted. Lastly the quinazolines (brown) include several analogs that are more active and also less promiscuous than the parent. Drilling down into these structures, we observe several that contain only two aromatic rings (\ie no more are either fused or attached); these provide novel, active and ligand-efficient templates on which to build new analogs with enhanced solubility or other properties. Suggestions for which analogs to make can often be obtained by examining the SAR -- for example, disparate aliphatic and aromatic analogs at two adjacent positions on the quinazoline phenyl are active, which suggests hybridizing them or designing further analogs substituted at these positions.
+Molecule 2 in \fref{scafwalk2} is another case where we might want to optimize the physical and chemical properties of the molecule without sacrificing activity or increasing promiscuity. Since solubility has been shown to go down with number of aromatic rings independent of lipophilicity\cite{Hill2010}, walks that remove one or more of the three fused rings might be beneficial. By exploring the Related Molecules, we observe the SAR for three scaffolds: quinazolines (\#305, brown), indazoloquinazolines (\#574, blue) and indazoles (\#3822, pink). We observe from the plot a few more molecules containing all three scaffolds (tricolored pies, \ie exact analogs of the parent molecule); all of these are less active than the parent. The indazoles when they occur alone (pink circles) are far less active than the parent, suggesting they do not contribute significantly to activity and may be substituted. Lastly the quinazolines (brown) include several analogs that are more active and also less promiscuous than the parent. Drilling down into these structures, we observe several that contain only two aromatic rings (\ie no more are either fused or attached); these provide novel, active and ligand-efficient templates on which to build new analogs with enhanced solubility or other properties. Suggestions for which analogs to make can often be obtained by examining the SAR -- for example, disparate aliphatic and aromatic analogs at two adjacent positions on the quinazoline phenyl are active, which suggests hybridizing them or designing further analogs substituted at these positions.
 
 \begin{figure}
 \includegraphics[width=5.5in]{fig/mol3_RGtool_scafpie_iter.png}
-\caption{Iterative Related Molecules scaffold pies visualization for Molecule 3 (CID: 541531), a scaffold hop from Molecule 2 shown in \fref{scafwalk2}. Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
+\caption{Iterative Related Molecules scaffold pies visualization for Molecule 3 (Compound ID: 541531), a scaffold hop from Molecule 2 shown in \fref{scafwalk2}. Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
 \label{fig:scafwalk3}
 \end{figure}
 
@@ -802,7 +802,7 @@ To summarize, both multiple-scaffold decomposition methods considered in this st
 
 \subsection{Statistical Comparison of Scaffold-Generation Methods}\label{sec:statcomp}
 
-Recall the concepts of structure group and common proportion defined in \sref{statmethod}.  Let us now apply these to analyze and compare the scaffold generation methods GSK Frameworks ($A$) and NCATS R-group tool ($B$). As an illustration, \fref{strucgroup} (a)-(c) shows the structure group of the compound $C$ with PubChem ID 536182. 
+Recall the concepts of structure group and common proportion defined in \sref{statmethod}.  Let us now apply these to analyze and compare the scaffold generation methods GSK Frameworks ($A$) and NCATS R-group tool ($B$). As an illustration, \fref{strucgroup} (a)-(c) shows the structure group of the compound $C$ with Compound ID 541564. 
 \begin{figure}
 \centering
   \begin{minipage}[b][0.2\textheight][s]{0.3\textwidth}
@@ -811,7 +811,7 @@ Recall the concepts of structure group and common proportion defined in \sref{st
   (b)\includegraphics[width=1.5in]{fig/howmany_scaf.png}
   \end{minipage}
   (c)\includegraphics[width=3.5in]{fig/structure_group_C.png}
-  \caption{(a) Compound $C$, chosen here as PubChem ID 536182 from previous figures, has 6 fragments derived using the NCATS R-group tool. (b) Distribution of number of fragments, out of nearly 6000 total, found in each molecule. (c) Scaffold pie plot showing the structure group of $C$, restricted here to only compounds that share two or more substructures with $C$. This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.}
+  \caption{(a) Compound $C$, chosen here as Compound ID 541564 from previous figures, has 6 fragments derived using the NCATS R-group tool. (b) Distribution of number of fragments, out of nearly 6000 total, found in each molecule. (c) Scaffold pie plot showing the structure group of $C$, restricted here to only compounds that share two or more substructures with $C$. This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.}
     \label{fig:strucgroup}
 \end{figure}
 
@@ -889,7 +889,7 @@ We computed this NormCP measure for all compounds, which fit a normal distributi
   (c)\includegraphics[width=1.5in]{fig/NormCP=42_5_pIC50=8_49_CID524739.png}
   (d)\includegraphics[width=1.5in]{fig/NormCP=0_17_pIC50=8_22_CID541941.png}
   (e)\includegraphics[width=1.7in]{fig/NormCP=0_16_pIC50=7_73_CID531249.png}  
-  \caption{(a) Normalized common proportion scores between structure (data-driven frameworks) and activity ($pIC50_{3D7}$) for all 13.5k molecules in TCAMS.  The histogram has 1000 bins and a log scale on the X-axis. The top 200 most active compounds ($pIC50_{3D7}$ > 7.6) are marked in red, and occupy many of the outlier bars with high NormCP > 10. (b) Making the distribution of the top 200 active compounds clearer by giving them a separate scale, at the RHS. (c) One of the 23 compounds with NormCP = 42.5, PubChem CID 524739. (d)--(e) two active compounds with low NormCP in the 0.16-0.17 range: (d) CID 542941 and (e) CID 531249. For both compounds, they alone are highly active among a structure group of 96 compounds, raising the probability that these compounds are flagpoles and not worth following up as hits.}
+  \caption{(a) Normalized common proportion scores between structure (data-driven frameworks) and activity ($pIC50_{3D7}$) for all 13.5k molecules in TCAMS.  The histogram has 1000 bins and a log scale on the X-axis. The top 200 most active compounds ($pIC50_{3D7}$ > 7.6) are marked in red, and occupy many of the outlier bars with high NormCP > 10. (b) Making the distribution of the top 200 active compounds clearer by giving them a separate scale, at the RHS. (c) One of the 23 compounds with NormCP = 42.5, Compound ID 524739. (d)--(e) two active compounds with low NormCP in the 0.16-0.17 range: (d) Compound ID 542941 and (e) Compound ID 531249. For both compounds, they alone are highly active among a structure group of 96 compounds, raising the probability that these compounds are flagpoles and not worth following up as hits.}
 \label{fig:NormCP}   
 \end{figure}
 
