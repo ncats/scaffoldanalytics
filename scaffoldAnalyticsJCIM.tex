@@ -297,7 +297,9 @@ along with pIC50 against a susceptible strain of the malarial parasite
 hepatotoxicity, a few physical chemical properties (\eg molecular
 weight, aromatic ring count, cLogP), and Inhibition Frequency Index
 (IFI, a measure of promiscuity defined as the percentage of screens in
-which a molecule inhibits over 50\%, \cite{Chakravorty2013IFI}).
+which a molecule inhibits over 50\%, \cite{Chakravorty2013IFI}). The dataset is available
+as file ``chemblntd\_gsk.txt.gz'' hosted as Dataset 1 on ChEMBL's Neglected Tropical Disease
+(NTD) section (\url{https://chembl.gitbook.io/chembl-ntd}), wherein each compound is identified by a Compound ID that differs from both its ChEMBL and PubChem Compound IDs. 
 
 The in-house GSK kinase dataset shown (``Kinase X''), comprises 9259
 compounds from four screening datasets for a recent kinase program.
@@ -397,7 +399,7 @@ the TCAMS dataset.
 (b)\includegraphics[width=5in]{fig/tcam1_RGscaf.png}\\
 \vspace{0.1in}
 (c)\includegraphics[width=5in]{fig/tcam1_GSKframes.png}
-\caption{Scaffold Decompositions for a molecule (a) from the TCAMS dataset with Compound ID 536182. (b) 5 scaffolds from NCATS R-Group Tool; (c) 24 GSK frameworks -- first 21 Bemis-Murcko Like and last 3 in the bottom row RECAP.}
+\caption{Scaffold Decompositions for (a) Molecule $1$ from the TCAMS dataset with Compound ID 536182 (PubChem CID 44522854). (b) 5 scaffolds from NCATS R-Group Tool; (c) 24 frameworks -- first 21 Bemis-Murcko Like and last 3 in the bottom row RECAP.}
 \label{fig:scafmethod}
 \end{figure}
 
@@ -687,14 +689,19 @@ Aggregate statistics such as maximum, minimum, mean and standard
 deviation, computed at a per scaffold level, may be useful in
 prioritizing scaffolds. For example, \fref{RGTaggr} shows the six
 scaffolds contained within a tricyclic molecule from TCAMS (Molecule
-2, Compound ID: 533945, ) ranked by average activity and IFI. This ordering may
+2, TCAMS Compound ID: 541564, PubChem CID: 44531725)
+ranked by average activity and IFI. This ordering may
 be used to determine which substructures are most important for the
 molecule's activity, and use this information to design or test
 further compounds.
 
 \begin{figure}
   \includegraphics[width=5in]{fig/RGT_aggr_prop2.png}
-  \caption{All \~5000 scaffolds from the TCAMS dataset ranked by average pIC50 in the P.~falciparum 3D7 strain and Inhibition Frequency Index. The six scaffolds contained in Compound C (Compound ID: 541564) are shown in increasing order of average pIC50.}
+  \caption{All \~5000 scaffolds from the TCAMS dataset ranked by
+    average pIC50 in the P.~falciparum 3D7 strain and Inhibition
+    Frequency Index. The six scaffolds contained in Molecule 2
+    (TCAMS Compound ID: 541564; PubChem CID: 44531725) are shown in increasing
+    order of average pIC50.}
 \label{fig:RGTaggr}   
 \end{figure}
 
@@ -746,19 +753,19 @@ Scaffold Walking is our term for navigating from molecule(s) through scaffolds (
 \label{fig:scafwalk1}
 \end{figure}
 
-As an example, consider Molecule 1 (ChemblNTD Compound ID: 536182) in \fref{scafwalk1}, as a hit that we want to explore SAR of and optimize. This molecule contains 5 scaffolds as determined by the NCATS R-group tool. Using the Scaffold Pie visualization, we observe that the naphthyl scaffold (\#978, cyan) is by itself only moderately active.  The dihydrotriazine (\#4719, blue) scaffold is observed to always occur where the dihydrotriazine-phenethyl-ether (\#2467, pink) one does, implying the substructure relationship between them visually even if one did not know it beforehand. Scaffold \#4719 also exists and is active without \#2467, implying that the phenethyl ether can be substituted and the dihydrotriazine may be sufficient for activity by itself.
+As an example, consider Molecule 1 (TCAMS Compound ID: 536182) in \fref{scafwalk1}, as a hit that we want to explore SAR of and optimize. This molecule contains 5 scaffolds as determined by the NCATS R-group tool. Using the Scaffold Pie visualization, we observe that the naphthyl scaffold (\#978, cyan) is by itself only moderately active.  The dihydrotriazine (\#4719, blue) scaffold is observed to always occur where the dihydrotriazine-phenethyl-ether (\#2467, pink) one does, implying the substructure relationship between them visually even if one did not know it beforehand. Scaffold \#4719 also exists and is active without \#2467, implying that the phenethyl ether can be substituted and the dihydrotriazine may be sufficient for activity by itself.
 
 \begin{figure}
 \includegraphics[width=6in]{fig/mol2_RGtool_scafpie2.png}
-\caption{Related Molecules scaffold pies visualization for Molecule 2 (Compound ID: 533945). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
+\caption{Related Molecules scaffold pies visualization for Molecule 3 (TCAMS Compound ID: 533945; PubChem CID: 44531163). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
 \label{fig:scafwalk2}
 \end{figure}
 
-Molecule 2 in \fref{scafwalk2} is another case where we might want to optimize the physical and chemical properties of the molecule without sacrificing activity or increasing promiscuity. Since solubility has been shown to go down with number of aromatic rings independent of lipophilicity\cite{Hill2010}, walks that remove one or more of the three fused rings might be beneficial. By exploring the Related Molecules, we observe the SAR for three scaffolds: quinazolines (\#305, brown), indazoloquinazolines (\#574, blue) and indazoles (\#3822, pink). We observe from the plot a few more molecules containing all three scaffolds (tricolored pies, \ie exact analogs of the parent molecule); all of these are less active than the parent. The indazoles when they occur alone (pink circles) are far less active than the parent, suggesting they do not contribute significantly to activity and may be substituted. Lastly the quinazolines (brown) include several analogs that are more active and also less promiscuous than the parent. Drilling down into these structures, we observe several that contain only two aromatic rings (\ie no more are either fused or attached); these provide novel, active and ligand-efficient templates on which to build new analogs with enhanced solubility or other properties. Suggestions for which analogs to make can often be obtained by examining the SAR -- for example, disparate aliphatic and aromatic analogs at two adjacent positions on the quinazoline phenyl are active, which suggests hybridizing them or designing further analogs substituted at these positions.
+Molecule 3 in \fref{scafwalk2} is another case where we might want to optimize the physical and chemical properties of the molecule without sacrificing activity or increasing promiscuity. Since solubility has been shown to go down with number of aromatic rings independent of lipophilicity\cite{Hill2010}, walks that remove one or more of the three fused rings might be beneficial. By exploring the Related Molecules, we observe the SAR for three scaffolds: quinazolines (\#305, brown), indazoloquinazolines (\#574, blue) and indazoles (\#3822, pink). We observe from the plot a few more molecules containing all three scaffolds (tricolored pies, \ie exact analogs of the parent molecule); all of these are less active than the parent. The indazoles when they occur alone (pink circles) are far less active than the parent, suggesting they do not contribute significantly to activity and may be substituted. Lastly the quinazolines (brown) include several analogs that are more active and also less promiscuous than the parent. Drilling down into these structures, we observe several that contain only two aromatic rings (\ie no more are either fused or attached); these provide novel, active and ligand-efficient templates on which to build new analogs with enhanced solubility or other properties. Suggestions for which analogs to make can often be obtained by examining the SAR -- for example, disparate aliphatic and aromatic analogs at two adjacent positions on the quinazoline phenyl are active, which suggests hybridizing them or designing further analogs substituted at these positions.
 
 \begin{figure}
 \includegraphics[width=5.5in]{fig/mol3_RGtool_scafpie_iter.png}
-\caption{Iterative Related Molecules scaffold pies visualization for Molecule 3 (Compound ID: 541531), a scaffold hop from Molecule 2 shown in \fref{scafwalk2}. Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
+\caption{Iterative Related Molecules scaffold pies visualization for Molecule 4 (TCAMS Compound ID: 541531, PubChem CID: 44531903), a scaffold hop from Molecule 2 shown in \fref{scafwalk2}. Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
 \label{fig:scafwalk3}
 \end{figure}
 
