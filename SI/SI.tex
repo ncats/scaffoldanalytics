@@ -1,4 +1,5 @@
 \documentclass[11pt,letterpaper]{article}
+
 \usepackage{ctable}
 
 \usepackage{etoolbox}
@@ -9,7 +10,14 @@
   {}{}
 \makeatother
 
+\newcommand*\fref[1]{Figure~\ref{fig:#1}}
+\newcommand*\tref[1]{Table~\ref{table:#1}}
+\newcommand*\sref[1]{Section~\ref{sec:#1}}
 
+% failed attempt to use \citet in SI - used successfully in main paper
+% will hard-code the 2 refs where needed
+%\usepackage{natbib}
+%\newcommand*\citet[1]{{\citeauthor{#1}~\cite{#1}}}
 
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thesection}{S\arabic{section}}
@@ -134,7 +142,7 @@ relatively close to the scaffold and cover a large fraction of the
 input set.
 
 The \textit{Complexity} metric is an implemention of the empirical
-complexity metric described by \citet{Barone2001}.
+complexity metric described by Barone and Channon \cite{Barone2001}.
 \textit{Complexity} can be used to prune away scaffolds that are too
 simple, by setting a cutoff such as 100.
 
@@ -161,7 +169,7 @@ The input for our implementation of frameworks is a comma separated text file
 with molecules encoded in a SMILES field.  The code was modified by
 adding scripts to export the fuzzy clusters in a tabular format rather
 than prioritize them into mutually exclusive scaffolds as in
-\citet{Harper2004DDclus}. This step produces a file similar to
+\cite{Harper2004DDclus}. This step produces a file similar to
 the R-group decomposition format described for the NCATS R-group tool
 in \sref{ncats-r-group}, including the following key columns: \emph{framework
   ID, framework SMILES, molecule ID, SMILES} and
