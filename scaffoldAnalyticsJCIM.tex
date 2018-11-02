@@ -297,7 +297,7 @@ along with pIC50 against a susceptible strain of the malarial parasite
 hepatotoxicity, a few physical chemical properties (\eg molecular
 weight, aromatic ring count, cLogP), and Inhibition Frequency Index
 (IFI, a measure of promiscuity defined as the percentage of screens in
-which a molecule inhibits over 50\%, \cite{Chakravorty2013IFI}). The dataset is available in Ch{EMBL}'s Neglected TRopical Disease section\cite{ChEMBLNTD}.
+which a molecule inhibits over 50\%, \cite{Chakravorty2013IFI}). The dataset is available in Ch{EMBL}'s Neglected Tropical Disease section\cite{ChEMBLNTD}.
 %as file ``chemblntd\_gsk.txt.gz'' hosted as Dataset 1 on ChEMBL's Neglected Tropical Disease
 %(NTD) section (\url{https://chembl.gitbook.io/chembl-ntd}), wherein each compound is identified by a Compound ID that differs from both its ChEMBL and PubChem Compound IDs. 
 
@@ -872,7 +872,7 @@ We compare the Common Proportion, Proportion of Information Unique (PIU) and Fra
  
 We can make a few observations from this data and plot:
 \begin{enumerate} 
-\item The two methods allow one to access different sets of molecules starting from any molecule in TCAMS - the average overlap in their coverage ($CP$) is 40\%, seen in Row 3 of \fref{statcomparetable}(a).  The distribution of $CP$ seen in  \fref{statcomparetable}(b) is bimodal with peaks at 0 and 55\%. The few molecules with almost complete overlap in coverage have high Common Proportion, low $PIU$ for both methods $A$ and $B$, and hence are represented by the large swquares towards the bottom left of \fref{statcompare}. 
+\item The two methods allow one to access different sets of molecules starting from any molecule in TCAMS - the average overlap in their coverage ($CP$) is 40\%, seen in Row 3 of \fref{statcomparetable}(a).  The distribution of $CP$ seen in  \fref{statcomparetable}(b) is bimodal with peaks at 0 and 55\%. The few molecules with almost complete overlap in coverage have high Common Proportion, low $PIU$ for both methods $A$ and $B$, and hence are represented by the large squares towards the bottom left of \fref{statcompare}. 
 \item On the average, frameworks connected to a compound add more unique information than NCATS scaffolds connected to the same compound - this is seen in the higher density near the X-axis in \fref{statcompare}, and higher numbers for $PIU_A$ than $PIU_B$ in  \fref{statcomparetable}.   
 \item On the average, one can link to about twice as many molecules with the frameworks, as seen by comparing $C_A$ to $C_B$ in \fref{statcomparetable}(a); however, this is because on the average there are 6 times more frameworks ($Frag_A$) than NCATS scaffolds ($Frag_B$). %, \ie NCATS scaffolds are three times more fragment-efficient for this dataset.  %, so the fragment efficiency is actually 3 times greater for NCATS scaffolds. %One could also argue that many of the framework-only links (\eg variously decorated benzene rings) are not useful.
 \item The outliers are interesting. At one end, compounds in a rare tautomer are unified with the dominant one by the NCATS tool (high fragment efficiency), but left as singletons by the frameworks (low fragment efficiency). And compounds whose only link with other molecules would be a benzene ring or similar low complexity scaffold remain singletons with the R-group tool (lower fragment efficiency).
