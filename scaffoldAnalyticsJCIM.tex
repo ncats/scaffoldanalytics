@@ -297,9 +297,9 @@ along with pIC50 against a susceptible strain of the malarial parasite
 hepatotoxicity, a few physical chemical properties (\eg molecular
 weight, aromatic ring count, cLogP), and Inhibition Frequency Index
 (IFI, a measure of promiscuity defined as the percentage of screens in
-which a molecule inhibits over 50\%, \cite{Chakravorty2013IFI}). The dataset is available
-as file ``chemblntd\_gsk.txt.gz'' hosted as Dataset 1 on ChEMBL's Neglected Tropical Disease
-(NTD) section (\url{https://chembl.gitbook.io/chembl-ntd}), wherein each compound is identified by a Compound ID that differs from both its ChEMBL and PubChem Compound IDs. 
+which a molecule inhibits over 50\%, \cite{Chakravorty2013IFI}). The dataset is available in Ch{EMBL}'s Neglected TRopical Disease section\cite{ChEMBLNTD}.
+%as file ``chemblntd\_gsk.txt.gz'' hosted as Dataset 1 on ChEMBL's Neglected Tropical Disease
+%(NTD) section (\url{https://chembl.gitbook.io/chembl-ntd}), wherein each compound is identified by a Compound ID that differs from both its ChEMBL and PubChem Compound IDs. 
 
 The in-house GSK kinase dataset shown (``Kinase X''), comprises 9259
 compounds from four screening datasets for a recent kinase program.
@@ -816,11 +816,14 @@ Recall the concepts of structure group and common proportion defined in \sref{st
 \centering
   \begin{minipage}[b][0.2\textheight][s]{0.3\textwidth}
   \centering
-  (a)\includegraphics[width=1.5in]{fig/mol_6scaf.png}
-  (b)\includegraphics[width=1.5in]{fig/howmany_scaf.png}
+  (a)\includegraphics[width=1.5in]{fig/howmany_scaf.png}
+  (b)\includegraphics[width=1.5in]{fig/tcam2_mol_541564.png}
   \end{minipage}
-  (c)\includegraphics[width=3.5in]{fig/structure_group_C.png}
-  \caption{(a) Compound $C$, chosen here as Molecule 2 (TCAMS Compound ID 541564, PubChem CID: 44531725) from previous figures, has 6 fragments derived using the NCATS R-group tool. (b) Distribution of number of fragments, out of nearly 6000 total, found in each molecule. (c) Scaffold pie plot showing the structure group of $C$, restricted here to only compounds that share two or more substructures with $C$. This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.}
+  (c)\includegraphics[width=3in]{fig/structure_group_C.png}
+  \includegraphics[width=0.5in]{fig/tcam2_541564_6scaf_col.png}
+  \caption{
+    (a) Distribution of number of fragments, out of nearly 6000 total, found in each molecule in the TCAMS dataset. (b) Compound $C$, chosen here as Molecule 2 (TCAMS Compound ID 541564, PubChem CID: 44531725) from previous figures.
+    (c) Compound $C$ has 6 fragments derived using the NCATS R-group tool, shown in legend at right. The scaffold pie plot shows the structure group of $C$, restricted here to only compounds that share two or more fragments with $C$. This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.}
     \label{fig:strucgroup}
 \end{figure}
 
