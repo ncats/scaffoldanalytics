@@ -176,17 +176,17 @@ in \sref{ncats-r-group}, including the following key columns: \emph{framework
 \emph{properties/activities}.  There are no R-group columns simply
 because this is not a default computation in our frameworks code.
 
-The steps to build Bemis-Murcko-like and Recap fragments from datasets within the GSK computational chemistry environment follows the method described in  \cite{Harper2004DDclus}:
+Bemis-Murcko-like and Recap fragments can be built from datasets within the GSK computational chemistry environment as described in \cite{Harper2004DDclus}:
 \begin{itemize}
 \item Start with a two column space separated SMILES file, \ie chemblntd\_gsk2\_spc.smi which contains molecule parent smiles (no salt forms) and IDs separated by a space. 
-\item Run a Python script to generate various framework descriptors for each molecule in this dataset; at GSK this script is called build\_dd.py and uses {JChem} library functions, but in general it is easy to put together an equivalent one from the reader's cheminformatics toolkit of choice.  The descriptors output by build\_dd.py include Detail Frameworks (chemblntd\_gsk2\_spc\_df.db) and Recap (chemblntd\_gsk2\_spc\_recap.db). These tab-delimited files contain one line per fragment found in any molecule, listing the fragment SMILES and the molecule ID, with all fragments found in the first molecule before all in the second, and so on.
+\item Run a Python script to generate framework descriptors for each molecule in this dataset; at GSK this script is called build\_dd.py and uses {JChem} library functions, but the reader will find it easy to put together an equivalent script using their preferred cheminformatics toolkit.  The descriptors output by build\_dd.py include Detail Frameworks (chemblntd\_gsk2\_spc\_df.db) and Recap (chemblntd\_gsk2\_spc\_recap.db). These tab-delimited files contain one line per fragment found in any molecule, listing the fragment SMILES and the molecule ID, with all fragments in the first molecule before all in the second, and so on.
 \item Convert the two db files into files listing fragments shared by more than one molecule and not unique to a molecule. The resulting file is sorted so that all molecules containing the same fragment are on contiguous lines. Example Unix script for detailed frameworks:
   \begin{verbatim}
     cat chemblntd_gsk2_spc_df.db | sort -V -t \t -k 1
     | awk '{print $2, $1}' | uniq -D -f 1
     > chemblntd_gsk2_spc_frames_shared.txt
   \end{verbatim}
-\item As an optional step that we did not implement, a scoring function based on aggregate activity of a fragment may be computed and used to triage frameworks as was done for scaffolds from the NCATS R-group tool.   
+\item As an optional step we did not implement, a scoring function may be computed from the aggregate activity of a fragment and used to triage frameworks as was done for scaffolds from the NCATS R-group tool.   
     
 \end{itemize}
 
@@ -305,7 +305,7 @@ A few Spotfire techniques were employed to make the users' experience with our S
 \section{R code for statistical comparison of scaffold generation methods}
 \label{sec:statcode-scafcomp}
 
-The code below expects two files, DDframes.txt (from data-driven framework clustering, Method A in the results) and RGD.txt (NCATS R-group tool decomposition, Method B). They both have a column named Compound\_ID. DDframes.txt has a column StrucUniqueID which is computed for example using the DenseRank function in Spotfire, assigning a unique numerical ID to each fragment having different Canonical SMILES.  RGD.txt has a column SCAFFOLD\_ID that is already numerically distinct for each separate scaffold. The code can be generalized for any pair of methods as long as the map from numerical compound IDs to scaffold IDs exists in the input data. 
+The code below expects two files, DDframes.txt (from framework clustering, Method A in the results) and RGD.txt (NCATS R-group tool decomposition, Method B). They both have a column named Compound\_ID. DDframes.txt has a column StrucUniqueID which is computed for example using the DenseRank function in Spotfire, assigning a unique numerical ID to each fragment having different Canonical SMILES.  RGD.txt has a column SCAFFOLD\_ID that is already numerically distinct for each separate scaffold. The code can be generalized for any pair of methods as long as the map from numerical compound IDs to scaffold IDs exists in the input data. 
 
 \begin{verbatim}
 #Note: To do the calculations comparing 2 fragmentation methods

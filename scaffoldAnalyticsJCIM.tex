@@ -76,7 +76,7 @@
 \author{Dac-Trung Nguyen}
 \email{nguyenda@mail.nih.gov}
 \author{Rajarshi Guha}
-\email{guhar@mail.nih.gov}
+\email{rajarshi.guha@gmail.com}
 %\phone{+123 (0)123 4445556}
 %\fax{+123 (0)123 4445557}
 \affiliation[NCATS]{National Center for Advancing Translational
@@ -913,41 +913,26 @@ On the other hand, there are also some compounds, highlighted on the left side o
 \label{sec:discussion}
 
 While threshold-based hit selection is a prevalent approach in the
-analysis of high throughput screening datasets, it is simplistic and
-ignores the extra information encoded in chemical structure. Thus
+analysis of high throughput screening datasets, it
+ignores the extra information encoded in chemical structure. Thus,
 scaffold based analysis of high throughput screening datasets
 represents a truly data-driven approach to hit triage that attempts to
 make use of \emph{all} the data collected from a high throughput
 screen. Ranking scaffolds is a key step in prioritizing hits in a
 scaffold-based approach, and while there are many ways to generate a
-ranking, it is not obvious which method is optimal (or whether there
-is even a single, optimal method).
+ranking, it is not obvious that there is a single, optimal method.
 
 In this study we have presented some alternate approaches to scaffold
 prioritization that make use of aggregate statistics based on
-overlapping scaffolds, with the goal of provide a quantitative basis
-for the comparison of different scaffold-based analysis schemes. 
-
-We observe that this approach, applied to the kinase ``X'' dataset can
-be a powerful tool to identify promising hits. While simple to implement,
-the use of the Spotfire workflow allows interactive drill
-down from aggregate properties to individual compounds. In essence,
-the workflow described here enables decisions on individual compounds,
-but using the aggregated data as a filter. Another advantage of the
-workflow described here is that it supports the inclusion of ``virtual
-datasets'' where there is no measured activity, as highlighted in the
-data fusion use case.  Inclusion of such datasets can be useful as
-they provide an opportunity to directly highlight untested regions of
-chemical space. When multiple datasets are included in the data fusion, 
-some with more accurately measured activities, it provides the opportunity to increase
-confidence in noisy data by merging data for scaffolds across the
-datasets.
-
-Compared to partitioning-based clustering methods (e.g., complete
-linkage clustering), the overlapping scaffold approach described here
+overlapping scaffolds, with the goal of providing a quantitative basis
+for the comparison of different scaffold-based analysis schemes.
+Also, the overlapping scaffold approach described here
 avoids the phenomenon of similar molecules being arbitrarily assigned to
-exclusive clusters.  Instead, using overlapping scaffolds, will
-consider such molecules in the same group.
+exclusive clusters, which affects partitioning-based methods such as
+complete-linkage clustering as shown in \fref{clusterlanes}.
+Instead, using overlapping scaffolds ensures that
+molecules that differ only in decorations off a shared scaffold
+will be considered within the same group.
 
 Given the different ways to generate scaffolds and to compute
 overlapping scaffolds, a quantitative approach to characterizing
@@ -966,15 +951,30 @@ calculations that have been proposed for HTS triage\cite{Posner2009},
 with a comprehensive structural neighbor metric based on overlapping
 scaffolds.
 
+We observe that the approach applied to triage the kinase ``X'' dataset
+can be a powerful tool to identify promising hits.  The Spotfire workflow
+is simple to implement and allows interactive drill-down from
+aggregate properties to individual compounds. In essence,
+the workflow described here enables decisions on individual compounds
+using the aggregated data as a filter. Another advantage of this
+workflow is that it supports the inclusion of ``virtual
+datasets'' where there is no measured activity, as highlighted in the
+data fusion use case.  Inclusion of such datasets can be useful as
+they provide an opportunity to directly highlight untested regions of
+chemical space. When multiple datasets are included in the data fusion, 
+some with more accurately measured activities, it increases
+confidence in noisy data by merging data for scaffolds across the
+datasets.
+
 In summary, the combination of anecdotal and statistical methods to
 compare scaffold schemes and the resultant analysis of HTS datasets
 highlights the fact that no single fuzzy clustering method is optimal,
 and the most appropriate approach should be selected based on the
-types of analyses described here. It is received wisdom among screening scientists 
-that ``chemical intuition'' plays a role when examining scaffolds, yet such intuition
-can lead to biased selections of scaffolds and subsequently of
-leads. The data driven approach coupled with intuitive visualizations,
-as described in this study, provides a way to combat such biases.
+types of analyses described here. Screening scientists have traditionally
+used ``chemical intuition'' to select and examine scaffolds, which can 
+lead to biased selections of scaffolds and subsequently of
+leads. Our Scaffold-Based Analytics approach described in this study
+combines data and intuitive visualizations to help scientists combat such biases. 
 
 
 \begin{acknowledgement}
