@@ -4,7 +4,7 @@
 %% The document class accepts keyval options, which should include
 %% the target journal and optionally the manuscript type.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[journal=jacsat,manuscript=article]{achemso}
+\documentclass[journal=jacsat,biochem,manuscript=article]{achemso}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Place any additional packages needed here.  Only include packages
@@ -14,6 +14,7 @@
 %% servers.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%\usepackage[version=3]{mhchem} % Formula subscripts using \ce{}
+\usepackage{mciteplus}
 \usepackage[T1]{fontenc}       % Use modern font encodings
 \usepackage{hyperref}
 
@@ -820,7 +821,7 @@ Recall the concepts of structure group and common proportion defined in \sref{st
   (b)\includegraphics[width=1.5in]{fig/tcam2_mol_541564.png}
   \end{minipage}
   (c)\includegraphics[width=3in]{fig/structure_group_C.png}
-  \includegraphics[width=0.5in]{fig/tcam2_541564_6scaf_col.png}
+  %%\includegraphics[width=0.5in]{fig/tcam2_541564_6scaf_col.png}
   \caption{
     (a) Distribution of number of fragments, out of nearly 6000 total, found in each molecule in the TCAMS dataset. (b) Compound $C$, chosen here as Molecule 2 (TCAMS Compound ID 541564, PubChem CID: 44531725) from previous figures.
     (c) Compound $C$ has 6 fragments derived using the NCATS R-group tool, shown in legend at right. The scaffold pie plot shows the structure group of $C$, restricted here to only compounds that share two or more fragments with $C$. This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.}
@@ -996,6 +997,7 @@ Supplementary material is available online for this article.
 %% Notice that the class file automatically sets \bibliographystyle
 %% and also names the section correctly.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%\bibliographystyle{achemso}
 \bibliography{bibliography}
 
 \end{document}
