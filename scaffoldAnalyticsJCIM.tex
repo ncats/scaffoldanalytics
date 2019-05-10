@@ -379,7 +379,7 @@ symmetry and additional constraints (\eg reactivity, synthetic
 accessibility). Briefly, the fragments are generated based on the
 following rules:
 \begin{enumerate}
-  \item Generate Bemis-Murcko framework by iteratively pruning all foliage
+  \item Generate Bemis-Murcko framework by iteratively pruning all pendant atoms
     except for carbonyl (or any terminal double bond).
   \item Exhaustively enumerate all possible combinations of ring
     system. This is achieved by iteratively breaking non-aromatic
@@ -542,18 +542,19 @@ following elements:
   selectivity, ligand efficiency and molecular properties may be
   highlighted on the X, Y, shape, size and color axes on a scatter  plot.
   This view is depicted in compressed form in the top half of \fref{spotviz}(a).
-\item {\bf Related Molecules Tab}: The purpose of this tab is to
-  implement the Scaffold Walking navigation described briefly earlier.
+\item {\bf Related Molecules Tab}: The purpose of this tab is to explore the
+  set of Related Molecules to molecule(s) of interest, and thus implement the Scaffold Walking navigation briefly later in \sref{scafwalk}.
   The setup is described for the NCATS R-group Tool decomposition,
   though this tab applies to and can be set up analogously for any
   other decomposition. The tab consists of two visualizations,
-  illustrated for the TCAMS dataset in \fref{spotviz}(a): \subitem The
-  first one is a miniature version of the Main window, allowing the
+  illustrated for the TCAMS dataset in \fref{spotviz}(a):
+  \subitem Miniature version of the {\bf Main window}, allowing the
   user to select (in Spotfire, mark) molecules of interest without
   flipping over to the Main tab. Doing so drives one of the following
   two Details Visualizations on the {RG}decomp table, showing only
   molecules from the scaffolds contained in the marked molecule, \ie
-  Related Molecules: \subitem {\bf Scaffold Trellis}: This scatter
+  Related Molecules.
+  \subitem {\bf Scaffold Trellis}: This scatter
   plot is trellised by Scaffold ID and ideally displays the same
   properties on the axes as the Main visualization above it.  An
   example is shown in \fref{ELT}. The trellis allows us to break up
@@ -565,10 +566,11 @@ following elements:
   groups of points that are laid out similarly across multiple trellis
   panels.  Though some of our users still prefer this approach, we now
   describe a newer solution that better leverages Spotfire's
-  capabilities.  \subitem {\bf Scaffold Pies}: Instead of using a
+  capabilities.
+  \subitem {\bf Scaffold Pies}: Instead of using a
   trellis, the Marker shape is changed to Pies, with Colors (which map
   to pie sectors) by Scaffold ID, and sectors sized by the Count of
-  molecules in each scaffold.  The result is illustrated in
+  molecules containing each scaffold.  The result is illustrated in
   \fref{spotviz}(a). This plot shows only one point per related
   molecule but one sector for each scaffold it shares with the parent
   molecule.  As described in Section \ref{sec:results}, this lets the
@@ -726,8 +728,7 @@ molecules sharing this scaffold are shown in \fref{KinaseX}(b). Clear differenti
 \label{fig:KinaseX}   
 \end{figure}
 
-
-To conclude, we have observed how scaffold-based analytics allows us to make decisions based on the aggregate (average, SD, median, min, max, ...) properties of molecules in scaffolds. An entire scaffold may be rejected or prioritized at a time instead of keeping track of individual molecules. It is important to note that rejecting a scaffold does not reject all molecules containing that scaffold - otherwise rejecting the benzene ring would remove a large percentage of valid leads.
+In summary, scaffold-based analytics allows us to make decisions based on the aggregate (average, SD, median, min, max, ...) properties of molecules in scaffolds. An entire scaffold may be rejected or prioritized at a time instead of keeping track of individual molecules. It is important to note that rejecting a scaffold does not reject all molecules containing that scaffold - otherwise rejecting the benzene ring would remove a large percentage of valid leads.
 %Also at any time we are able to drill down into the data for individual compounds in interesting scaffolds, whether in an R-group table or a custom plot, and incorporate that into our prioritization.   
 
 \subsection{Use Case: Dataset Fusion and Hybridization}
@@ -736,13 +737,9 @@ In the previous section and \fref{KinaseX}(b), we noted that the 8 molecules sha
 In this way, Scaffold-Based analytics may be used to combine multiple datasets using the scaffold as the common unit of comparison and merging, with dataset labels identifying molecules in the resulting merged dataset. If the datasets have comparable activities, as the Kinase X HTS datasets did, aggregate statistics are easy to compute. If they do not, \eg if one dataset has $pIC_{50}$ and others primary screening activity or a different measure of desirability, normalized activities may be computed to enable aggregation at the scaffold level.
 
 Sometimes one of the datasets does not contain activities at all, \eg
-in the case of virtual molecules from a DNA Encoded Library Technology\cite{ELT}
-(ELT) screen, or for molecules from a vendor catalog that are yet to
-be ordered and assayed. In \fref{ELT} we show an example where two
-computed properties, Molecular Weight and PFI were used to identify
-promising virtual molecules from the ELT dataset to make, and untested
-molecules from the FBDD\cite{FBDD} (Fragment-Based Drug Design) dataset to test.
-
+in the case of the ``virtual'' hits from DNA Encoded Library Technology\cite{ELT}
+(ELT) screening that are yet to be synthesized off-DNA, or for molecules from a vendor catalog that are yet to be ordered and assayed. In \fref{ELT} we show an example where two computed properties, Molecular Weight and PFI were used to identify promising untested molecules to make (ELT dataset) or test (FBDD dataset\cite{FBDD}).
+ 
 \begin{figure}
 \includegraphics[width=6in]{fig/KinaseX_ELT.png}
 \caption{
@@ -754,7 +751,7 @@ Two scaffolds with ID 1920 (pyridophenyl) and 3116 (benzimidazole) shown in a tr
 
 \subsection{Use Case: Scaffold Walking Navigation}
 \label{sec:scafwalk}
-Scaffold Walking is our term for navigating from molecule(s) through scaffolds (implicitly) to Related Molecules. This contrasts with Scaffold Hopping, which is usually defined as a complete replacement of a scaffold by another 2D-dissimilar but 3D-similar or bioisosteric scaffold. Scaffold Walking is meant to be a gradual change to the molecule, at each step retaining at least one element of its maximal Murcko scaffold (\ie at least one among the multiple scaffolds it shares with other molecules in the dataset).  In the process the SAR gets deconvoluted in terms of these scaffolds, allowing us to determine visually both the most essential scaffolds in a molecule and the best Related Molecules containing them.       
+Scaffold Walking is our term for navigating from molecule(s) through scaffolds (implicitly) to Related Molecules. This contrasts with Scaffold Hopping, which is usually defined as a complete replacement of a scaffold by another 2D-dissimilar but 3D-similar or bioisosteric scaffold. Scaffold Walking is meant to be a gradual change to the molecule, at each step retaining at least one element of its maximal Murcko scaffold (\ie at least one among the multiple scaffolds it shares with other molecules in the dataset). The concept is similar to using Graph Edit Distance\cite{GH2019GED}. In the process the SAR gets deconvoluted in terms of these scaffolds, allowing us to determine visually both the most essential scaffolds in a molecule and the best Related Molecules containing them.       
 \begin{figure}
 \includegraphics[width=6in]{fig/mol1_RGtool_scafpie.png}
 \caption{Related Molecules scaffold pies visualization for Molecule 1 (TCAMS Compound ID: 536182, PubChem CID 44522854). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
@@ -763,23 +760,7 @@ Scaffold Walking is our term for navigating from molecule(s) through scaffolds (
 
 As an example, consider Molecule 1 (TCAMS Compound ID: 536182, PubChem CID 44522854) in \fref{scafwalk1}, as a hit that we want to explore SAR of and optimize. This molecule contains 5 scaffolds as determined by the NCATS R-group tool. Using the Scaffold Pie visualization, we observe that the naphthyl scaffold (\#978, cyan) is by itself only moderately active.  The dihydrotriazine (\#4719, blue) scaffold is observed to always occur where the dihydrotriazine-phenethyl-ether (\#2467, pink) one does, implying the substructure relationship between them visually even if one did not know it beforehand. Scaffold \#4719 also exists and is active without \#2467, implying that the phenethyl ether can be substituted and the dihydrotriazine may be sufficient for activity by itself.
 
-\begin{figure}
-\includegraphics[width=6in]{fig/mol2_RGtool_scafpie2.png}
-\caption{Related Molecules scaffold pies visualization for Molecule 3 (TCAMS Compound ID: 533945; PubChem CID: 44531163). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
-\label{fig:scafwalk2}
-\end{figure}
-
-Molecule 3 in \fref{scafwalk2} is another case where we might want to optimize the physical and chemical properties of the molecule without sacrificing activity or increasing promiscuity. Since solubility has been shown to decrease with number of aromatic rings independent of lipophilicity\cite{Hill2010}, walks that remove one or more of the three fused rings might be beneficial. By exploring the Related Molecules, we observe the SAR for three scaffolds: quinazolines (\#305, brown), indazoloquinazolines (\#574, blue) and indazoles (\#3822, pink). We observe from the plot a few more molecules containing all three scaffolds (tricolored pies, \ie exact analogs of the parent molecule); all of these are less active than the parent. The indazoles when they occur alone (pink circles) are far less active than the parent, suggesting they do not contribute significantly to activity and may be substituted. Lastly the quinazolines (brown) include several analogs that are more active and also less promiscuous than the parent. Drilling down into these structures, we observe several that contain only two aromatic rings (\ie no more are either fused or attached); these provide novel, active and ligand-efficient templates on which to build new analogs with enhanced solubility or other properties. Suggestions for which analogs to make can often be obtained by examining the SAR -- for example, disparate aliphatic and aromatic analogs at two adjacent positions on the quinazoline phenyl are active, which suggests hybridizing them or designing further analogs substituted at these positions.
-
-\begin{figure}
-\includegraphics[width=5.5in]{fig/mol3_RGtool_scafpie_iter.png}
-\caption{Iterative Related Molecules scaffold pies visualization for Molecule 4 (TCAMS Compound ID: 541531, PubChem CID: 44531903), a scaffold hop from Molecule 3 shown in \fref{scafwalk2}. Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
-\label{fig:scafwalk3}
-\end{figure}
-
-Another intriguing result is seen by observing a new tricyclic series that shares the quinazoline but adds an indole instead of indazole as the third fused ring. This alternative tricyclic template, while it may not confer solubility advantages, opens up a new area of chemical space. By iteratively seeking the Related Molecules for this new hit as shown in \fref{scafwalk3}, we observed that most of the active quinazoline analogs have this new tricyclic scaffold (\#1824, tan wedges in tricolored pies) and relatively few contain only quinazolines (\#305, brown circles). Also, indoles by themselves (\#1188, blue circles) do not much better than indazoles, so this is a new synergistic effect discovered by scaffold walking from the original hit.            
-
-% I WAS HERE
+Further examples of the value of Scaffold Walking are in the Supplementary Material Section S9.
 
 \subsection{Statistical Comparison of Scaffold-Generation Methods}\label{sec:statcomp}
 
