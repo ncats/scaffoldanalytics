@@ -8,19 +8,19 @@ setwd("C:/Work/git/NIH/scaffoldanalytics/stats")
 #####################
 rm(list = ls()) #Erase anything in R's working memory
 
-# DDData <- read.table("DDframes.txt", header = T, sep = "\t")
+DDData <- read.table("DDframes.txt", header = T, sep = "\t")
 RGData <- read.table("RGD.txt", header = T, sep = "\t")
 CLData <- read.table("CLinkClusters.txt", header = T, sep = "\t") 
 
 #Create a list of compounds shared between two datasets.
 #Scores will not make sense if we include non-common compounds
 
-# DDCompounds <- unique(DDData$COMPOUND_ID)
+DDCompounds <- unique(DDData$COMPOUND_ID)
 RGCompounds <- unique(RGData$COMPOUND_ID)
 CLCompounds <- unique(CLData$COMPOUND_ID)  
 
 # Compounds <- intersect(DDCompounds, RGCompounds)
-Compounds <- intersect(RGCompounds, CLCompounds)
+Compounds <- intersect(intersect(RGCompounds, DDCompounds), CLCompounds)
 
 # Compounds <- as.numeric(as.character(intersect(DDCompounds, RGCompounds)))
 N <- length(Compounds)
@@ -86,30 +86,54 @@ for (index in 1:N){
 #Create output -- averages, quantiles, and histograms
 
 ACP <- mean(PropByCompound$CommonProp, na.rm = T)
+APIa <- mean(PropByCompound$PIa, na.rm = T)
+APIb <- mean(PropByCompound$PIb, na.rm = T)
 APIaU <- mean(PropByCompound$PIaU, na.rm = T)
 APIbU <- mean(PropByCompound$PIbU, na.rm = T)
+AFragA <- mean(PropByCompound$FragA, na.rm = T)
+AFragB <- mean(PropByCompound$FragB, na.rm = T)
 AFragEffA <- mean(PropByCompound$FragEffA, na.rm = T)
 AFragEffB <- mean(PropByCompound$FragEffB, na.rm = T)
+ACa <- mean(PropByCompound$Ca, na.rm = T)
+ACb <- mean(PropByCompound$Cb, na.rm = T)
 
-CP95 <- quantile(PropByCompound$CommonProp, c(0.05,0.25,0.5,0.75, 0.95))
-PIaU95 <- quantile(PropByCompound$PIaU, na.rm = T, c(0.05,0.25,0.5,0.75, 0.95))
-PIbU95 <- quantile(PropByCompound$PIbU, na.rm = T, c(0.05,0.25,0.5,0.75, 0.95))
-FragEffA95 <- quantile(PropByCompound$FragEffA, na.rm = T, c(0.05,0.25,0.5,0.75, 0.95))
-FragEffB95 <- quantile(PropByCompound$FragEffB, na.rm = T, c(0.05,0.25,0.5,0.75, 0.95))
+CP90 <- quantile(PropByCompound$CommonProp, c(0.1,0.5,0.9))
+PIa90 <- quantile(PropByCompound$PIa, na.rm = T , c(0.1,0.5,0.9))
+PIb90 <-  quantile(PropByCompound$PIb, na.rm = T , c(0.1,0.5,0.9)) 
+PIaU90 <- quantile(PropByCompound$PIaU, na.rm = T , c(0.1,0.5,0.9))
+PIbU90 <- quantile(PropByCompound$PIbU, na.rm = T, c(0.1,0.5,0.9))
+FragA90 <- quantile(PropByCompound$FragA, na.rm = T, c(0.1,0.5,0.9))
+FragB90 <- quantile(PropByCompound$FragB, na.rm = T, c(0.1,0.5,0.9))
+FragEffA90 <- quantile(PropByCompound$FragEffA, na.rm = T, c(0.1,0.5,0.9))
+FragEffB90 <- quantile(PropByCompound$FragEffB, na.rm = T, c(0.1,0.5,0.9))
+Ca90 <- quantile(PropByCompound$Ca, na.rm = T, c(0.1,0.5,0.9))
+Cb90 <- quantile(PropByCompound$Cb, na.rm = T, c(0.1,0.5,0.9))
 
 ACP
+APIa
+APIb
 APIaU
 APIbU
+AFragA
+AFragB
 AFragEffA
 AFragEffB
+ACa
+ACb
 
-CP95
-PIaU95
-PIbU95
-AFragEffA95
-AFragEffB95
+CP90
+PIa90
+PIb90
+PIaU90
+PIbU90
+FragA90
+FragB90
+FragEffA90
+FragEffB90
+Ca90
+Cb90
 
-write.table(PropByCompound,"PropByCompound.txt",sep="\t",row.name=F,col.name=T)
+write.table(PropByCompound,"PropByCompound_RGD_Cluster.txt",sep="\t",row.name=F,col.name=T)
 #########################################################################################
 
 ################# Plot #####################

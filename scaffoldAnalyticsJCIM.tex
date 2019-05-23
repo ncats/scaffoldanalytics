@@ -669,23 +669,26 @@ FragEff_A(C) = \| C_A \| / \| frag_A(C) \|
 \end{equation}
 
 
-These statistics can be averaged over all compounds in a dataset to
-yield the Average Common Proportion (ACP), Average Proportion of
-Information (API), Average Proportion of Information Unique to A
-(APIU) or Average Fragment Efficiency (AFE).  Other statistics can
-also be applied to the distribution of $CP$, $PI$ or $PIU$ to
-characterize the dataset and overlapping scaffolds used to
-characterize it.
+The distribution of these statistical measures for our dataset is
+used to compare the overlapping clustering methods (NCATS RG-Decomposition and Molecular Frameworks) and a partitioning clustering method (Complete linkage) in \sref{statcomp}.
+%complete-
+%can be averaged over all compounds in a dataset to
+%yield the Average Common Proportion (ACP), Average Proportion of
+%Information (API), Average Proportion of Information Unique to A
+%(APIU) or Average Fragment Efficiency (AFE).  Other statistics can
+%also be applied to the distribution of $CP$, $PI$ or $PIU$ to
+%characterize the dataset and partitioning or overlapping scaffolds used to
+%characterize it.
 
-Our methods extend the similarity score of \citet{Torres2009} to
-overlapping clusters by using a set of clusters derived from them,
-defined as follows:
-\begin{itemize}
-\item Replace the original clusters by new clusters, one for each item
-  in any cluster (in this case, any compound in the dataset).
-\item The cluster for Compound $C$ contains all compounds that appear
-  with Compound $C$ in any cluster, \ie $C_A$.
-\end{itemize}
+%Our methods extend the similarity score of \citet{Torres2009} to
+%overlapping clusters by using a set of clusters derived from them,
+%defined as follows:
+%\begin{itemize}
+%\item Replace the original clusters by new clusters, one for each item
+%  in any cluster (in this case, any compound in the dataset).
+%\item The cluster for Compound $C$ contains all compounds that appear
+%  with Compound $C$ in any cluster, \ie $C_A$.
+%\end{itemize}
 
 
 \section{Results}
@@ -762,9 +765,9 @@ As an example, consider Molecule 1 (TCAMS Compound ID: 536182, PubChem CID 44522
 
 Further examples of the value of Scaffold Walking are in the Supplementary Material Section S9.
 
-\subsection{Statistical Comparison of Scaffold-Generation Methods}\label{sec:statcomp}
+\subsection{Statistical Comparison of Scaffold-Generation Methods and Clustering}\label{sec:statcomp}
 
-Recall the concepts of structure group and common proportion defined in \sref{statmethod}.  Let us now apply these to analyze and compare the scaffold generation methods Frameworks ($A$) and NCATS R-group tool ($B$). As an illustration, \fref{strucgroup} (a)-(c) shows the structure group of the compound $C$ with Compound ID 541564 (PubChem CID: 44531725). 
+Recall the concepts of structure group and common proportion defined in \sref{statmethod}.  Let us now apply these to analyze and compare the scaffold generation methods Frameworks (denoted $A$ below) and NCATS R-group tool ($B$), and compare $B$ with clustering method Complete-Linkage clustering ($D$). As an illustration, \fref{strucgroup} (a)-(c) shows the structure group of the compound $C$ with Compound ID 541564 (PubChem CID: 44531725). 
 \begin{figure}
 \centering
   \begin{minipage}[b][0.2\textheight][s]{0.3\textwidth}
@@ -781,14 +784,15 @@ Recall the concepts of structure group and common proportion defined in \sref{st
 \end{figure}
 
 
-Comparing the Frameworks and NCATS R-Group Tool for the TCAMS dataset using the above mentioned statistical metrics, we show the aggregate statistics over the entire dataset in \fref{statcomparetable}.  
+Comparing these methods for the TCAMS dataset, we show the aggregate statistics over the entire dataset in \fref{statcomparetable}.  
 
 \begin{figure}
   \begin{minipage}[c]{\linewidth}
-\vspace{0pt}
-\centering
-\scalebox{.8}{
-(a)\begin{tabular}{|c|ccc|c|}
+    \small
+    \vspace{0pt}
+    \centering
+    \scalebox{0.7}{
+      (a)\begin{tabular}{|c|ccc|c|}
     \hline
     {\bf Column} & {\bf P10} & {\bf Median} & {\bf P90} & {\bf Avg} \\
     \hline    
@@ -806,9 +810,30 @@ Comparing the Frameworks and NCATS R-Group Tool for the TCAMS dataset using the 
     \hline
   \end{tabular}
  }
-(b)\includegraphics[width=2in]{fig/CP_TCAMS_GSKFW_RGT.png}
+    \scalebox{0.7}{
+      (a)\begin{tabular}{|c|ccc|c|}
+    \hline
+    {\bf Column} & {\bf P10} & {\bf Median} & {\bf P90} & {\bf Avg} \\
+    \hline    
+    {\bf $C_D$} & 3.00 & 17.00 & 88.00 & 33.07 \\
+    {\bf $C_B$} & 82.00 & 888.00 & 2151.00 & 1047.29 \\
+    {\bf $CP$} & 0.00 & 0.02 & 0.17 & 0.07 \\
+    {\bf $PI_D$} & 0.00 & 0.02 & 0.2 & 0.09 \\
+    {\bf $PI_B$} & 0.98 & 1.00 & 1.00 & 0.98 \\
+    {\bf $PIU_D$} & 0.00 & 0.00 & 0.02 & 0.02 \\
+    {\bf $PIU_B$} & 0.79 & 0.98 & 1.00 & 0.91 \\
+    {\bf $Frag_D$} & 1.00 & 1.00 & 1.00 & 1.00 \\
+    {\bf $Frag_B$} & 2.00 & 5.00 & 11.00 & 5.93 \\
+    {\bf $FragEff_D$} & 3.00 & 17.00 & 88.00 & 33.08 \\
+    {\bf $FragEff_B$} & 21.17 & 150.67 & 454.00 & 211.80 \\
+    \hline
+  \end{tabular}
+ }\\
+    (c)\includegraphics[width=2in]{fig/CP_TCAMS_GSKFW_RGT.png}
+    (d)\includegraphics[width=2in]{fig/CP_TCAMS_GSKFW_RGT.png}\\
+    
   \end{minipage}
-  \caption{Statistics computed for 10th/90th percentile, median and average value for structure group size ($Ca$/$Cb$), common proportion, proportional information unique to A and B, number of fragments in and fragment efficiency of method A (frameworks) and B (NCATS R-group tool).}
+  \caption{(a) Statistics computed for 10th/90th percentile, median and average value for structure group size ($Ca$/$Cb$), common proportion, proportional information unique to A and B, number of fragments in and fragment efficiency of method A (frameworks) and B (NCATS R-group tool). (b) Same comparison for B (NCATS R-group tool) and D (Complete-Linkage Clustering).}
 \label{fig:statcomparetable}
 \end{figure}
 
