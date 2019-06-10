@@ -241,7 +241,7 @@ multiple common substructure (MCS), first proposed for finding protein
 structural similarity\cite{Koch1997MCSprot}, for example
 \citet{Quintus2009MCS} and the ChemAxon product LibraryMCS. Recent work
 has leveraged the Graph Edit Distance to define the MCS\cite{SmallWorld},
-and calculated it on reduced graphs(\cite{GH2019GED}, \cite{Harper2004DDclus})
+and calculated it on reduced graphs(\cite{GH2019GED},\cite{Harper2004DDclus})
 as a more general way to define similarity and retrieve analogs.  
 
 % To overcome the effect of small variations in heteroatoms (eg. O to S)
@@ -601,9 +601,9 @@ user. %\textbf{\textcolor{red}{TODO}}
 \label{sec:statmethod}
 In this section we define the statistical methods used to compare the
 scaffold generation methods in the context of annotating molecules in
-a screening dataset with multiple, possibly overlapping scaffolds (as
-opposed to partitioning the set of molecules into non-overlapping
-categories, a.k.a. clustering). The code to implement these methods is released
+a screening dataset with multiple, possibly overlapping scaffolds -- a
+generalization of partitioning the set of molecules into non-overlapping
+categories, a.k.a. clustering. The code to implement these methods is released
 as part of the Supplementary Material in Section S8.
 
 The similarities and differences between non-overlapping clusterings
@@ -652,7 +652,7 @@ PI_A(C) = \| C_A \| / \| C_A \cup C_B \|
 In constrast, the Proportion of Information Unique to $A, PIU_A$ uses the set difference between $C_A$ and $C_B$ to get at the question: if I have $B$, do I still need $A$? 
 
 \begin{equation}
- PIU_A(C) = \| C_A \setminus C_B \| / \| C_A \cup C_B \| = 1 - PI_c(B)
+ PIU_A(C) = \| C_A \setminus C_B \| / \| C_A \cup C_B \| = 1 - PI_B(C)
  \end{equation}
   
  When comparing one fragmentation method against another, we often see
@@ -756,33 +756,18 @@ Two scaffolds with ID 1920 (pyridophenyl) and 3116 (benzimidazole) shown in a tr
 \label{sec:scafwalk}
 Scaffold Walking is our term for navigating from molecule(s) through scaffolds (implicitly) to Related Molecules. This contrasts with Scaffold Hopping, which is usually defined as a complete replacement of a scaffold by another 2D-dissimilar but 3D-similar or bioisosteric scaffold. Scaffold Walking is meant to be a gradual change to the molecule, at each step retaining at least one element of its maximal Murcko scaffold (\ie at least one among the multiple scaffolds it shares with other molecules in the dataset). The concept is similar to using Graph Edit Distance\cite{GH2019GED}. In the process the SAR gets deconvoluted in terms of these scaffolds, allowing us to determine visually both the most essential scaffolds in a molecule and the best Related Molecules containing them.       
 \begin{figure}
-\includegraphics[width=6in]{fig/mol1_RGtool_scafpie.png}
+\includegraphics[width=6in]{fig/mol1_RGtool_scafpie_v2.png}
 \caption{Related Molecules scaffold pies visualization for Molecule 1 (TCAMS Compound ID: 536182, PubChem CID 44522854). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
 \label{fig:scafwalk1}
 \end{figure}
 
-As an example, consider Molecule 1 (TCAMS Compound ID: 536182, PubChem CID 44522854) in \fref{scafwalk1}, as a hit that we want to explore SAR of and optimize. This molecule contains 5 scaffolds as determined by the NCATS R-group tool. Using the Scaffold Pie visualization, we observe that the naphthyl scaffold (\#978, cyan) is by itself only moderately active.  The dihydrotriazine (\#4719, blue) scaffold is observed to always occur where the dihydrotriazine-phenethyl-ether (\#2467, pink) one does, implying the substructure relationship between them visually even if one did not know it beforehand. Scaffold \#4719 also exists and is active without \#2467, implying that the phenethyl ether can be substituted and the dihydrotriazine may be sufficient for activity by itself.
+As an example, consider Molecule 1 (TCAMS Compound ID: 536182, PubChem CID 44522854) in \fref{scafwalk1}, as a hit that we want to explore SAR of and optimize. This molecule contains 5 scaffolds as determined by the NCATS R-group tool. Using the Scaffold Pie visualization, we observe that the naphthyl scaffold (\#978, yellow) is by itself only moderately active.  The dihydrotriazine (\#4719, blue) scaffold is observed to always occur where the dihydrotriazine-phenethyl-ether (\#2467, pink) one does, implying the substructure relationship between them visually even if one did not know it beforehand. Scaffold \#4719 also exists and is active without \#2467, implying that the phenethyl ether can be substituted and the dihydrotriazine may be sufficient for activity by itself.
 
 Further examples of the value of Scaffold Walking are in the Supplementary Material Section S9.
 
 \subsection{Statistical Comparison of Scaffold-Generation Methods and Clustering}\label{sec:statcomp}
 
-Recall the concepts of structure group and common proportion defined in \sref{statmethod}.  Let us now apply these to analyze and compare the scaffold generation methods Frameworks (denoted $A$ below) and NCATS R-group tool ($B$), and compare $B$ with clustering method Complete-Linkage clustering ($D$). As an illustration, \fref{strucgroup} (a)-(c) shows the structure group of the compound $C$ with Compound ID 541564 (PubChem CID: 44531725). 
-\begin{figure}
-\centering
-  \begin{minipage}[b][0.2\textheight][s]{0.3\textwidth}
-  \centering
-  (a)\includegraphics[width=1.5in]{fig/howmany_scaf.png}
-  (b)\includegraphics[width=1.5in]{fig/tcam2_mol_541564.png}
-  \end{minipage}
-  (c)\includegraphics[width=3in]{fig/structure_group_C.png}
-  %%\includegraphics[width=0.5in]{fig/tcam2_541564_6scaf_col.png}
-  \caption{
-    (a) Distribution of number of fragments, out of nearly 6000 total, found in each molecule in the TCAMS dataset. (b) Compound $C$, chosen here as Molecule 2 (TCAMS Compound ID 541564, PubChem CID: 44531725) from previous figures.
-    (c) Compound $C$ has 6 fragments derived using the NCATS R-group tool, shown in legend at right. The scaffold pie plot shows the structure group of $C$, restricted here to only compounds that share two or more fragments with $C$. This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.}
-    \label{fig:strucgroup}
-\end{figure}
-
+Recall the concepts of structure group and common proportion defined in \sref{statmethod}.  Let us now apply these to analyze and compare the scaffold generation methods Frameworks (denoted $A$ below) and NCATS R-group tool ($B$), and compare $B$ with clustering method Complete-Linkage clustering ($D$).
 
 Comparing these methods for the TCAMS dataset, we show the aggregate statistics over the entire dataset in \fref{statcomparetable}.  
 
@@ -829,31 +814,39 @@ Comparing these methods for the TCAMS dataset, we show the aggregate statistics 
     \hline
   \end{tabular}
  }\\
-    (c)\includegraphics[height=1.6in]{fig/CP_TCAMS_GSKFW_RGT.png}
-    (d)\includegraphics[height=1.6in]{fig/CP_TCAMS_CLink_RGT_v2.png}\\
+    (c)\includegraphics[height=1.3in]{fig/CP_TCAMS_GSKFW_RGT_v2.png}
+    (d)\includegraphics[height=1.25in]{fig/CP_TCAMS_CLink_RGT_v3.png}\\
     
   \end{minipage}
-  \caption{(a) Statistics computed for 10th/90th percentile, median and average value for structure group size ($Ca$/$Cb$), common proportion, proportional information unique to A and B, number of fragments in and fragment efficiency of method A (frameworks) and B (NCATS R-group tool). (b) Same comparison for B (NCATS R-group tool) and D (Complete-Linkage Clustering).}
+  \caption{(a) Statistics computed for 10th/90th percentile, median and average value for structure group size ($Ca$/$Cb$), common proportion, proportional information unique to $A$ and $B$, number of fragments in and fragment efficiency of method $A$ (frameworks) and $B$ (NCATS R-group tool). (b) Same comparison for $B$ (NCATS R-group tool) and $D$ (Complete-Linkage Clustering).}
 \label{fig:statcomparetable}
 \end{figure}
 
 
-We compare the Common Proportion, Proportion of Information Unique (PIU) and Fragment Efficiency (FragEff) statistics for the Frameworks (method ``A'') and the NCATS R-group tool (method ``B'') for all the 13.5k compounds in TCAMS in \fref{statcompare}.  This figure has PIU of methods $A$ and $B$ on the axes, and is sized by the ratio of their Fragment Efficiencies for all 13.5k molecules.   
+We compare the Common Proportion, Proportion of Information Unique (PIU) and Fragment Efficiency (FragEff) statistics for the NCATS R-group tool (method ``B'') with both the Frameworks (method ``A'') and the Complete Linkage Clusters (method ``D'') for all the 13.5k compounds in TCAMS in \fref{statcompare}.  This figure has the PIU of these methods on the axes, and is sized by the ratio of their Fragment Efficiencies for all 13.5k molecules.   
 
 
 
 \begin{figure}
-\includegraphics[width=6in]{fig/statcompare_frames_RGtool_transparent_density.png}
-\caption{Comparison of the Common Proportion, PIU and FragEff statistics (described in the text) between Frameworks (method ``{\bf A}'') and NCATS R-group Tool (``{\bf B}'') for all molecules in TCAMS. PIU of A and B are on the X and Y axes, and the points are colored by the log ratio of FragEff(B) to FragEff(A) and sized by Common Proportion.}
+(a)\includegraphics[width=3in]{fig/statcompare_frames_RGtool_transparent_density_v2.png}
+(b)\includegraphics[width=2.75in]{fig/statcompare_CLink_RGtool_transparent_density.png}
+  \caption{Comparison of the Common Proportion, PIU and FragEff statistics (described in the text) between the NCATS R-group Tool (``{\bf B}''),
+    PIU on Y axis,
+    and (a) Frameworks (method ``{\bf A}'')
+    or (b) Complete Linkage Clustering (method ``{\bf D}'').
+    PIU for the methods being compared are on X and Y axes, and points are 
+    colored by the log ratio of Fragment Efficiencies between the two methods being compared and sized by their Common Proportion.}
 \label{fig:statcompare}
 \end{figure}
- 
-We can make a few observations from this data and plot:
-\begin{enumerate} 
-\item The two methods allow one to access different sets of molecules starting from any molecule in TCAMS - the average overlap in their coverage ($CP$) is 40\%, seen in Row 3 of \fref{statcomparetable}(a).  The distribution of $CP$ seen in  \fref{statcomparetable}(b) is bimodal with peaks at 0 and 55\%. The few molecules with almost complete overlap in coverage have high Common Proportion, low $PIU$ for both methods $A$ and $B$, and hence are represented by the large squares towards the bottom left of \fref{statcompare}. 
-\item On the average, frameworks connected to a compound add more unique information than NCATS scaffolds connected to the same compound - this is seen in the higher density near the X-axis in \fref{statcompare}, and higher numbers for $PIU_A$ than $PIU_B$ in  \fref{statcomparetable}.   
+
+We can make a few observations from this data and these plots:
+\begin{enumerate}
+\item {\bf Clustering (method $D$) is able to access significantly fewer molecules} as structurally related analogs for most molecules in TCAMS, compared to the overlapping scaffold-based methods $A$ and $B$ (which were comparable). Most molecules have a low Common Proportion between clustering and the scaffold-based method, shown in \fref{statcompare}(d). Almost all the information (PIU) is contributed by the scaffold method ($B$) for most molecules, not surprising when we recall the high singleton rate from \fref{platypus} where the clustering contributes no information. Even allowing for fewer (one) fragments per molecule, the partitioning cluster method still had a lower Fragment Efficiency than any scaffold-based method.  
+\item The two scaffold-based methods ($A$: Frameworks and $B$: NCATS R-Group Tool) allow one to access different sets of molecules starting from any molecule in TCAMS - the average overlap in their coverage ($CP$) is 40\%, seen in Row 3 of \fref{statcomparetable}(a).  The distribution of $CP$ seen in  \fref{statcomparetable}(c) is bimodal with peaks at 0 and 55\%. The few molecules with almost complete overlap in coverage have high Common Proportion, low $PIU$ for both methods $A$ and $B$, and hence are represented by the large squares towards the bottom left of \fref{statcompare}(a). 
+\item On the average, frameworks connected to a compound add more unique information than NCATS scaffolds connected to the same compound - this is seen in the higher density near the X-axis in \fref{statcompare}(a), and higher numbers for $PIU_A$ than $PIU_B$ in  \fref{statcomparetable}.   
 \item On the average, one can link to about twice as many molecules with the frameworks, as seen by comparing $C_A$ to $C_B$ in \fref{statcomparetable}(a); however, this is because on the average there are 6 times more frameworks ($Frag_A$) than NCATS scaffolds ($Frag_B$). %, \ie NCATS scaffolds are three times more fragment-efficient for this dataset.  %, so the fragment efficiency is actually 3 times greater for NCATS scaffolds. %One could also argue that many of the framework-only links (\eg variously decorated benzene rings) are not useful.
-\item The outliers are interesting. At one end, compounds in a rare tautomer are unified with the dominant one by the NCATS tool (high fragment efficiency), but left as singletons by the frameworks (low fragment efficiency). And compounds whose only link with other molecules would be a benzene ring or similar low complexity scaffold remain singletons with the R-group tool (lower fragment efficiency).
+\item The outliers in \fref{statcompare}(a) are interesting. At one end, compounds in a rare tautomer are unified with the dominant one by the NCATS tool (high fragment efficiency), but left as singletons by the frameworks (low fragment efficiency). And compounds whose only link with other molecules would be a benzene ring or similar low complexity scaffold remain singletons with the R-group tool (lower fragment efficiency).
+\item Singleton clusters are outliers in \fref{statcompare}(b), connected to other molecules via scaffolds but not clusters. And a minority of molecules are connected to others via clusters only, mostly those with low complexity linear scaffolds whose benzene rings were excluded from scaffold but not cluster analysis.    
 \end{enumerate}
 
 \subsection{Statistical Basis of Structure-Activity Relationships (SAR)}\label{sec:statSAR}
