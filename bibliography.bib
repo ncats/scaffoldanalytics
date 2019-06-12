@@ -3,6 +3,36 @@
 
 %% Created for Guha, Rajarshi (NIH/NCATS) [C] at 2017-09-04 00:11:15 -0400 
 
+@article{GH2019GED,
+author = {Garcia-Hernandez, Carlos and FernÃ¡ndez, Alberto and Serratosa, Francesc},
+title = {Ligand-Based Virtual Screening Using Graph Edit Distance as Molecular Similarity Measure},
+journal = {Journal of Chemical Information and Modeling},
+volume = {59},
+number = {4},
+pages = {1410-1421},
+year = {2019},
+doi = {10.1021/acs.jcim.8b00820},
+    note ={PMID: 30920214},
+URL = {https://doi.org/10.1021/acs.jcim.8b00820
+},
+eprint = {https://doi.org/10.1021/acs.jcim.8b00820
+}
+,
+    abstract = { Extended reduced graphs provide summary representations of chemical structures using pharmacophore-type node descriptions to encode the relevant molecular properties. Commonly used similarity measures using reduced graphs convert these graphs into 2D vectors like fingerprints, before chemical comparisons are made. This study investigates the effectiveness of a graph-only driven molecular comparison by using extended reduced graphs along with graph edit distance methods for molecular similarity calculation as a tool for ligand-based virtual screening applications, which estimate the bioactivity of a chemical on the basis of the bioactivity of similar compounds. The results proved to be very stable and the graph editing distance method performed better than other methods previously used on reduced graphs. This is exemplified with six publicly available data sets: DUD-E, MUV, GLL\&GDD, CAPST, NRLiSt BDB, and ULS-UDS. The screening and statistical tools available on the ligand-based virtual screening benchmarking platform and the RDKit were also used. In the experiments, our method performed better than other molecular similarity methods which use array representations in most cases. Overall, it is shown that extended reduced graphs along with graph edit distance is a combination of methods that has numerous applications and can identify bioactivity similarities in a structurally diverse group of molecules. }
+}
+
+@Unpublished{SmallWorld,
+title={SmallWorld: Efficient maximum common subgraph searching of large databases},
+abstract = {We report a novel chemical database search method-based upon explicit representation of chemical space. A pre-computed index allows the exact size of the maximum common edge subgraph (MCES) between a query molecule and molecules in the index to be calculated rapidly. In practice, this allows the 100 nearest neighbors having the largest MCES to a query molecule to be determined in a few seconds even for target databases containing millions of molecules. This work builds upon the previous efforts of Wipke and Rogers in the late 1980s and of Messmer and Bunke in the 1990s, but takes advantage of the rapid advances in parallel processing power and storage technology now available to researchers. Data will be presented on the size of the index/chemical universe as a function heavy atom count and number of represented molecules.
+},
+author = {Roger Sayle and Jose Batista and Andrew Grant},
+affiliation = {NextMove Software LLC},
+details = {https://tpa.acs.org/session/244tNM/COMP/drug-discovery},
+location = {Philadelphia, Pennsylvania, USA},
+note = {244th American Chemistry Society National Meeting, Philadelphia, PA, August 19-23, 2012},
+year = {2012}
+}
+
 @Article{PPilot,
    Author="Hassan, M.  and Brown, R. D.  and Varma-O'brien, S.  and Rogers, D. ",
    Title="{{C}heminformatics analysis and learning in a data pipelining environment}",
@@ -56,7 +86,7 @@ title={{D}ynamic {SA}/reports: Analyzing current project and {HTS} data by inter
 abstract = {Diverse compound sets, such as high-throughput screening (HTS) hit sets containing an unknown number of chemotypes, have traditionally been analyzed by clustering, nearest neighbors, or other scaffold-agnostic methods rather than by rigorous R-group analysis. Here we describe how MOE SA/Report has been applied to analyze 2-4k compound subsets of the GSK screening collection having measured activity (percent inhibition or pIC50) against one or more screened targets. Since the default scaffold auto-detection within SA/Report is tuned for datasets with many exemplars of a few scaffolds as opposed to more diverse HTS hit sets, we use an interactive scaffold selection approach. The user is allowed to pick a scaffold from the highest ranked (most frequent and largest) fragments found in the data, and frequent fragments are then found in the remaining unmapped compounds. Both these steps continue iteratively until scaffold selection is complete. We also describe how MOE SA/Report has been integrated into project data delivery mechanisms at GSK, with reports being run automatically for several projects on their current set of compounds via custom KNIME workflows.},
 author = {Deepak Bandyopadhyay},
 affiliation = {GlaxoSmithKline},
-details = {http://acselb-529643017.us-west-2.elb.amazonaws.com/chem/244nm/program/view.php},
+details = {https://tpa.acs.org/session/244tNM/COMP/drug-discovery},
 location = {Philadelphia, Pennsylvania, USA},
 note = {244th American Chemistry Society National Meeting, Philadelphia, PA, August 19-23, 2012},
 year = {2012}
@@ -67,7 +97,17 @@ title={On the compound annotation and cleaning the {GSK} screening collection in
 abstract = {High throughput screening (HTS) constitutes a critical tool for the identification of lead molecules from primary screening assays for novel targets. GlaxoSmithKline (GSK) has continuously invested in the development and curation of its HTS collection to maximize the number of quality starting points for drug discovery and reduce the number of false positives from primary screens. An Inhibition Frequency Index (IFI) has been defined as a measure of promiscuity of individual compounds in HTS primary assays based upon activities tabulated over time in GSK's exhaustive screening assay tables. In this talk, we will present our analysis of the IFI profile across the GSK HTS collection. We will characterize the IFI profile with respect to desired physical properties, will discuss obvious substructures that may be less attractive as starting points, and will describe new classes of nuisance compounds revealed by our IFI analysis. In addition, we will examine the IFI of promiscuity filters described in the literature. There are many reasons why any particular molecule might display promiscuity: physical properties of the compound, properties of the target or target class, details of the assay and the assay technology and methodology. All of these factors must be considered when deciding whether to remove or retain a compound in a curated HTS collection.},
 author = {Subhas J Chakravorty and James A Chan and Juan Luengo and Nicole M Greenwood and Ioana Popa-Burke and Ricardo Macarron},
 affiliation = {GlaxoSmithKline},
-details = {http://acselb-529643017.us-west-2.elb.amazonaws.com/chem/245nm/program/view.php},
+details = {https://tpa.acs.org/session/245tNM/CINF/advances-in-visualizing-and-analyzing-biomolecular-screening-data},
+location = {New Orleans, Louisiana, USA},
+note = {245th American Chemistry Society National Meeting, New Orleans, LA, April 7-11, 2013},
+year = {2013}
+}
+
+@Unpublished{RGTool,
+title={From hits to leads: Data visualization of chemical scaffolds beyond traditional {SAR} exploration},
+author = {Tyler Peryea and John Braisted and Ajit Jadhav and Rajarshi Guha and Noel Southall and Dac-Trung Nguyen},
+affiliation = {NCATS},
+details = {https://tpa.acs.org/session/245tNM/CINF/advances-in-visualizing-and-analyzing-biomolecular-screening-data},
 location = {New Orleans, Louisiana, USA},
 note = {245th American Chemistry Society National Meeting, New Orleans, LA, April 7-11, 2013},
 year = {2013}

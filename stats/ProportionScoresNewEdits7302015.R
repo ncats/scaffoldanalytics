@@ -2,7 +2,8 @@
 #took about 10 minutes of computer time.
 
 #Set working directory to location of the data files
-setwd("C:\\Work\\Consulting\\MDR\\Other MDR Issues\\CSC\\FragmentOntologies")
+#setwd("C:\\Work\\Consulting\\MDR\\Other MDR Issues\\CSC\\FragmentOntologies")
+setwd("C:/Work/git/NIH/scaffoldanalytics/stats")
 #####################
 rm(list = ls()) #Erase anything in R's working memory
 

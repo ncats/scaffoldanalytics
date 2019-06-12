@@ -13,6 +13,10 @@
 \newcommand*\fref[1]{Figure~\ref{fig:#1}}
 \newcommand*\tref[1]{Table~\ref{table:#1}}
 \newcommand*\sref[1]{Section~\ref{sec:#1}}
+\newcommand*\eg{e.g.,~}
+% \newcommand*\ie{i.e.,~}
+\newcommand*\vs{vs.~}
+\newcommand*\viz{viz.~}
 
 % failed attempt to use \citet in SI - used successfully in main paper
 % will hard-code the 2 refs where needed
@@ -281,8 +285,55 @@ within Spotfire:
 %% outside Spotfire (\eg in a script that integrates the data); and using
 %% various add-ins for Spotfire such as the internally developed GSK SAR
 %% Toolkit and commercial tools from Discngine SA.
- 
+
 \newpage 
+
+\section{Qualitative Comparison of Scaffold-Generation Methods and Clustering}\label{sec:qualcomp}
+{\bf Complete-Linkage Clustering}: As shown in \fref{clusterlanes}, the defining feature of a partitioning clustering is that every molecule maps to one and only one cluster. Thus if a chemotype is broken up among two or more clusters, using the cluster ID to map Related Molecules can retrieve only neighbors from the same cluster, ignoring the other cluster. This is not ideal for purposes of the visualization and navigation method presented here, as arbitrary neighbors would be excluded depending on how the clustering is defined.  Thus we do not advocate the use of clustering, unless it is a fuzzy clustering where all meaningful class memberships a molecule might have are considered. 
+
+\begin{figure}
+\includegraphics[width=6in]{../fig/clusterlanes.png}
+\caption{Illustrating one problem with clustering: bifurcation of related molecules.  When two molecules of the same chemotype differing by a halogen are split across Complete Linkage Clusters, searches of cluster neighbors for one molecule do not find its analogs in the other cluster, \ie the two related clusters are not linked.}
+\label{fig:clusterlanes}
+\end{figure}
+
+
+
+{\bf NCATS R-group tool}: As opposed to the clustering method, 
+if any two molecules share a common substructure that meets the standards required of a scaffold by the NCATS method (\eg being bordered by rings on each end), then those molecules will be found to contain that shared substructure as a scaffold and their activities will be used to compute aggregate properties for it. 
+
+{\bf Other Scaffold Generation Methods}: Even though another scaffold generation method (represented here by molecular frameworks as implemented in \cite{Harper2004DDclus}) differed in its implementation details and produced different numbers of scaffolds for the same molecule, it was roughly equivalent in a qualitative sense with regard to the insights obtained during Scaffold Walking. Due to substantial overlap between sets of scaffolds, ring systems responsible for activity of a molecule were generally revealed by either method. However, there were cases where the Frameworks revealed negative information about a fragment being not important for activity that is also useful for a drug discovery scientist. For example, in \fref{frameswalk} a substructure is highlighted that is on the aggregate inactive and could be removed or substituted. This insight is not available from SSSR-based scaffolding methods such as the NCATS R-group tool since they don't define or find that fragment as a scaffold.
+
+\begin{figure}
+\includegraphics[width=5in]{../fig/mol1_frames_scafpie.png}
+\caption{Using Frameworks with the Scaffold Pies visualization. One framework is highlighted that has no equivalent in the NCATS scaffolds, but is shown to reduce activity as related molecules containing it are less active than the parent molecule.   The star symbol shows the location of the parent molecule in this Related Molecules plot, and the compass device at the origin shows the direction of favorable properties (+X and +Y axes).}      
+\label{fig:frameswalk}
+\end{figure}
+
+
+To summarize, both multiple-scaffold decomposition methods considered in this study, \ie NCATS R-group Tool and Frameworks give comparable insights when exploring the TCAMS dataset, with some differences stemming from individual substructures that are considered shared scaffolds or not by the individual methods.
+%We now explore these overlaps, similarities and differences in the aggregate using the statistical methods described earlier in \sref{statmethod}.
+
+\newpage
+\section{Statistical analysis: structure group concept illustrated}
+\label{sec:strucgroup}
+As an illustration, \fref{strucgroup} (a)-(c) shows the structure group of the compound $C$ with Compound ID 541564 (PubChem CID: 44531725). 
+\begin{figure}
+\centering
+  \begin{minipage}[b][0.2\textheight][s]{0.7\textwidth}
+  \centering
+  (a)\includegraphics[width=1.5in]{../fig/howmany_scaf.png}
+  (b)\includegraphics[width=1.5in]{../fig/tcam2_mol_541564.png}
+  \end{minipage}
+  (c)\includegraphics[width=2.5in]{../fig/structure_group_C.png}
+  \includegraphics[width=0.5in]{../fig/tcam2_541564_6scaf_col.png}
+  \caption{
+    (a) Distribution of number of fragments, out of nearly 6000 total, found in each molecule in the TCAMS dataset. (b) Compound $C$, chosen here as Molecule 2 (TCAMS Compound ID 541564, PubChem CID: 44531725) from previous figures in the manuscript.
+    (c) Compound $C$ has 6 fragments derived using the NCATS R-group tool, shown in legend at right. The scaffold pie plot shows the structure group of $C$, restricted for illustration to only the 80 compounds that share two or more fragments with $C$.} %This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.}
+    \label{fig:strucgroup}
+\end{figure}
+
+\newpage
 
 \section{Spotfire alternate visualizations and usability tips}
 \label{sec:spotviz-trick}
@@ -428,6 +479,25 @@ plot(FragA + FragB, CommonProp)
 detach(PropByCompound)
 
 \end{verbatim}
+
+\newpage 
+\section{Use Case: Scaffold Walking Further Examples}\label{sec:scafwalk_eg}
+
+\begin{figure}
+\includegraphics[width=6in]{../fig/mol2_RGtool_scafpie2.png}
+\caption{Related Molecules scaffold pies visualization for Molecule 3 (TCAMS Compound ID: 533945; PubChem CID: 44531163). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
+\label{fig:scafwalk2}
+\end{figure}
+
+Molecule 3 in \fref{scafwalk2} is another case where we might want to optimize the physical and chemical properties of the molecule without sacrificing activity or increasing promiscuity. Since solubility has been shown to decrease with number of aromatic rings independent of lipophilicity\cite{Hill2010}, walks that remove one or more of the three fused rings might be beneficial. By exploring the Related Molecules, we observe the SAR for three scaffolds: quinazolines (\#305, brown), indazoloquinazolines (\#574, blue) and indazoles (\#3822, pink). We observe from the plot a few more molecules containing all three scaffolds (tricolored pies, \ie exact analogs of the parent molecule); all of these are less active than the parent. The indazoles when they occur alone (pink circles) are far less active than the parent, suggesting they do not contribute significantly to activity and may be substituted. Lastly the quinazolines (brown) include several analogs that are more active and also less promiscuous than the parent. Drilling down into these structures, we observe several that contain only two aromatic rings (\ie no more are either fused or attached); these provide novel, active and ligand-efficient templates on which to build new analogs with enhanced solubility or other properties. Suggestions for which analogs to make can often be obtained by examining the SAR -- for example, disparate aliphatic and aromatic analogs at two adjacent positions on the quinazoline phenyl are active, which suggests hybridizing them or designing further analogs substituted at these positions.
+
+\begin{figure}
+\includegraphics[width=5.5in]{../fig/mol3_RGtool_scafpie_iter.png}
+\caption{Iterative Related Molecules scaffold pies visualization for Molecule 4 (TCAMS Compound ID: 541531, PubChem CID: 44531903), a scaffold hop from Molecule 3 shown in \fref{scafwalk2}. Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
+\label{fig:scafwalk3}
+\end{figure}
+
+Another intriguing result is seen by observing a new tricyclic series that shares the quinazoline but adds an indole instead of indazole as the third fused ring. This alternative tricyclic template, while it may not confer solubility advantages, opens up a new area of chemical space. By iteratively seeking the Related Molecules for this new hit as shown in \fref{scafwalk3}, we observed that most of the active quinazoline analogs have this new tricyclic scaffold (\#1824, tan wedges in tricolored pies) and relatively few contain only quinazolines (\#305, brown circles). Also, indoles by themselves (\#1188, blue circles) do not much better than indazoles, so this is a new synergistic effect discovered by scaffold walking from the original hit.            
 
 \newpage
 
