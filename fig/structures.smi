@@ -4,6 +4,7 @@ CC1(C)NC(N)=NC(=N)N1OCc1cccs1	Fig4a_mol_541127
 [$([#1,*])]C1=C([$([#1,*])])SC([$([#1,*])])=C1[$([#1,*])] |$_R1;;;_R4;;;_R3;;_R2$,c:1,6|	Fig4a_scaf_89
 [*]C1=C([*])SC([*])=C1[*]	Fig4b_scaf_89
 [*]C1([*])N=C([*])N=C([*])N1[*]	Fig4b_scaf_4719
+
 CC1(NC(=NC(=N)N1OCc2ccc(cc2)c3ccccc3)N)C	540655_ScafWalk_2467_bluepink
 CC(=O)OCCn1c(=O)c2ccc3c4c(ccc(c24)c1=O)c(=O)n(CCOC(C)=O)c3=O	535874_StatComp_PIUB_RG_high
 C[C@H](Cc1ccc(OCCCCCCCOc2ccc(C[C@@H](C)NC[C@H](O)c3cccc(Cl)c3)cc2)cc1)NC[C@H](O)c1cccc(Cl)c1	539523_StatComp_PIUD_CL_high
