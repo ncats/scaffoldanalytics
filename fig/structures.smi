@@ -5,7 +5,9 @@ CC1(C)NC(N)=NC(=N)N1OCc1cccs1	Fig4a_mol_541127
 [*]C1=C([*])SC([*])=C1[*]	Fig4b_scaf_89
 [*]C1([*])N=C([*])N=C([*])N1[*]	Fig4b_scaf_4719
 Cc1ccccc1Cn2ccc3c2ccc4c3c(nc(n4)N)N	Fig5a_mol_541564
-
+c1ncccc1-c2ccc3nc([*:1])n([*:2])c3c2	Fig7_central
+c1([*])n([*])c([*])c([*])c([*])c1-c2c([*])c([*])c([*])c([*])c2	Fig7_left
+c1([*])n([*])c2c([*])c([*])c([*])cc2n1([*])	Fig7_right
 CC1(NC(=NC(=N)N1OCc2ccc(cc2)c3ccccc3)N)C	540655_ScafWalk_2467_bluepink
 CC(=O)OCCn1c(=O)c2ccc3c4c(ccc(c24)c1=O)c(=O)n(CCOC(C)=O)c3=O	535874_StatComp_PIUB_RG_high
 C[C@H](Cc1ccc(OCCCCCCCOc2ccc(C[C@@H](C)NC[C@H](O)c3cccc(Cl)c3)cc2)cc1)NC[C@H](O)c1cccc(Cl)c1	539523_StatComp_PIUD_CL_high
