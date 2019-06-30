@@ -712,7 +712,7 @@ molecule's activity, and use this information to design or test
 further compounds.
 
 \begin{figure}
-  (a)\includegraphics[width=2in]{fig/tcam2_mol_541564.png}
+  (a)\includegraphics[width=2in]{fig/tcam2_mol_541564_v2.png}
   (b)\includegraphics[width=5in]{fig/RGT_aggr_prop3.png}
   \caption{(a) Molecule 2 (TCAMS Compound ID: 541564; PubChem CID: 44531725).
     (b) All \~5000 scaffolds from the TCAMS dataset ranked by
@@ -761,8 +761,9 @@ Two scaffolds with ID 1920 (pyridophenyl) and 3116 (benzimidazole) shown in a tr
 \label{sec:scafwalk}
 Scaffold Walking is our term for navigating from molecule(s) through scaffolds (implicitly) to Related Molecules. This contrasts with Scaffold Hopping, which is usually defined as a complete replacement of a scaffold by another 2D-dissimilar but 3D-similar or bioisosteric scaffold. Scaffold Walking is meant to be a gradual change to the molecule, at each step retaining at least one element of its maximal Murcko scaffold (\ie at least one among the multiple scaffolds it shares with other molecules in the dataset). The concept is similar to using Graph Edit Distance\cite{GH2019GED}. In the process the SAR gets deconvoluted in terms of these scaffolds, allowing us to determine visually both the most essential scaffolds in a molecule and the best Related Molecules containing them.       
 \begin{figure}
-\includegraphics[width=6in]{fig/mol1_RGtool_scafpie_v2.png}
-\caption{Related Molecules scaffold pies visualization for Molecule 1 (TCAMS Compound ID: 536182, PubChem CID 44522854). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
+  \includegraphics[width=6in]{fig/mol1_RGtool_scafpie_top_v4.png}
+  \includegraphics[width=6in]{fig/mol1_RGtool_scafpie_struc_v4.png}
+\caption{Related Molecules scaffold pies visualization for Molecule 1 (TCAMS Compound ID: 536182, PubChem CID 44522854). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the bottom part of the figure (showing structures) and also discussed in the text.}
 \label{fig:scafwalk1}
 \end{figure}
 
