@@ -1,0 +1,14 @@
+CCC(C)(CC)C(=O)n1ncc2c1ccc1nc(N)nc(N)c21	Scafwalk2_mol_533945
+Cc1c(F)cc(cc1-c1ccc2n(ncc2c1)S(=O)(=O)c1ccc(cc1)C#N)C(=O)NC1CC1	Scafwalk2_mol_531617_pink_scaf_3822
+CCCC(CC)n1ccc2c1ccc1nc(N)nc(N)c21	Scafwalk2_mol_541531_brown_scaf_305
+CCC(C)(C)c1ccc2nc(N)nc(N)c2c1C	Scafwalk2_mol_524705_brown_scaf_305
+[$([#1,*])]C1=[N]([$([#1,*])])C2=CC=C3N=C([$([#1,*])])NC([$([#1,*])])=C3C2=C1 |$_R1;;;_R4;;;;;;;_R2;;;_R3;;;$,c:1,13,17,t:4,6,8|	Scafwalk3_scaf_1824_tan
+CCC(CC)N1C(COC)=CC2=C1C=CC3=C2C(N)=NC(N)=N3	Scafwalk3_mol_531443_tan_scaf_1824
+Clc1ccc(\C=C\C(=O)NCCCCCN2CCC(CC2)c2c[nH]c3ccccc23)cc1	CLink3_Cl_exemplar_79271
+Clc1ccccc1\C=C\C(=O)NC1CCC(CN2CCC(CC2)c2c[nH]c3ccncc23)CC1	CLink3_hit_540816
+Clc1ccc(\C=C\C(=O)N2CCC(CN3CCC(CC3)c3c[nH]c4ccncc34)CC2)cc1Cl	CLink3_hit_528977
+Brc1ccc(\C=C\C(=O)NCCCCCN2CCC(CC2)c2c[nH]c3ccccc23)cc1	CLink10_Br_exemplar_79711
+FC(F)(F)c1ccc(\C=C\C(=O)NC2CCC(CN3CCC(CC3)c3c[nH]c4ccccc34)CC2)cc1	CLink10_hit_540640
+Oc1ccc(\C=C\C(=O)NC2CCC(CN3CCC(CC3)c3c[nH]c4ccccc34)CC2)cc1	CLink10_hit_528006
+
+

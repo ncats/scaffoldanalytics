@@ -190,7 +190,7 @@ Bemis-Murcko-like and Recap fragments can be built from datasets within the GSK 
     | awk '{print $2, $1}' | uniq -D -f 1
     > chemblntd_gsk2_spc_frames_shared.txt
   \end{verbatim}
-\item As an optional step we did not implement, a scoring function may be computed from the aggregate activity of a fragment and used to triage frameworks as was done for scaffolds from the NCATS R-group tool.   
+\item Optionally (not implemented) frameworks may be triaged by aggregate activity as was done for scaffolds from the NCATS R-group tool.   
     
 \end{itemize}
 
@@ -286,6 +286,44 @@ within Spotfire:
 %% various add-ins for Spotfire such as the internally developed GSK SAR
 %% Toolkit and commercial tools from Discngine SA.
 
+\newpage
+
+\section{Spotfire alternate visualizations and usability tips}
+\label{sec:spotviz-trick}
+The following additional visualizations have been considered and found useful for NCATS scaffolds and R-groups in analyzing data for GSK projects. They are briefly mentioned below:
+\begin{enumerate}
+\item {\bf Cross-tables} have been used to list scaffold IDs, compute statistics such as min, max and median activity for each, filter by maximum activity to remove wholly inactive scaffolds, and then prioritize the remaining by drilling down into individual properties
+\item {\bf Profile plots} are line graphs used as a visual drill-down mechanism to examine a suite of related assays across all compounds containing a scaffold.They typically have compounds on the X-axis, properties on the Y and are colored by assay name. Figure 6(b) in the main paper shows a profile plot on Kinase X data.
+\item {\bf Box plots} are used to visualize the distribution of values of an activity or property for separate scaffolds. Scaffold ID is typically on the X-axis and properties on the Y, allowing multiple scaffolds to be compared side-by-side at a deeper level than just their aggregate activities. 
+\end{enumerate}
+
+A few Spotfire techniques were employed to make the users' experience with our Spotfire files more friendly. These have all been tested in TIBCO Spotfire 7.0.2, the version installed at GSK when this work was being concluded.
+\begin{itemize}
+\item {\bf Structure Visualization:} GSK has a plugin from ChemAxon to visualize structures in tables, labels and tooltips in addition to a dedicated Structure Viewer window. Tooltips were widely employed as they are interactive and allow us to add multiple structure columns, typically a scaffold and the full structure. Labels were used to mark interesting compounds, and structures of cores, R-groups and full molecules depicted in tables helped us create SAR tables directly in Spotfire.
+\item {\bf Filtering between related tables:} In addition to creating Table Relations among the Molecules, Scaffolds and Related Molecules tables, we often want to display only scaffolds matching selected molecules of interest, or show only molecules that contain a selected set of scaffolds. This can be achieved by setting the ``Filtering on Related Data Tables'' to either Include Filtered Rows or Exclude Filtered Out Rows.
+\item {\bf Tagging:} Used to mark scaffolds selected by the user as being of interest, fulfilling various criteria verified by drilling down into the data behind those molecules.    
+\end{itemize}
+
+\newpage 
+\section{Use Case: Scaffold Walking Further Examples}\label{sec:scafwalk_eg}
+
+\begin{figure}
+\includegraphics[width=6in]{../fig/mol2_RGtool_scafpie2.png}
+\caption{Related Molecules scaffold pies visualization for Molecule 3 (TCAMS Compound ID: 533945; PubChem CID: 44531163). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
+\label{fig:scafwalk2}
+\end{figure}
+
+Molecule 3 in \fref{scafwalk2} is another case where we might want to optimize the physical and chemical properties of the molecule without sacrificing activity or increasing promiscuity. Since solubility has been shown to decrease with number of aromatic rings independent of lipophilicity\cite{Hill2010}, walks that remove one or more of the three fused rings might be beneficial. By exploring the Related Molecules, we observe the SAR for three scaffolds: quinazolines (\#305, brown), indazoloquinazolines (\#574, blue) and indazoles (\#3822, pink). We observe from the plot a few more molecules containing all three scaffolds (tricolored pies, \ie exact analogs of the parent molecule); all of these are less active than the parent. The indazoles when they occur alone (pink circles) are far less active than the parent, suggesting they do not contribute significantly to activity and may be substituted. Lastly the quinazolines (brown) include several analogs that are more active and also less promiscuous than the parent. Drilling down into these structures, we observe several that contain only two aromatic rings (\ie no more are either fused or attached); these provide novel, active and ligand-efficient templates on which to build new analogs with enhanced solubility or other properties. Suggestions for which analogs to make can often be obtained by examining the SAR -- for example, disparate aliphatic and aromatic analogs at two adjacent positions on the quinazoline phenyl are active, which suggests hybridizing them or designing further analogs substituted at these positions.
+
+\begin{figure}
+\includegraphics[width=5.5in]{../fig/mol3_RGtool_scafpie_iter.png}
+\caption{Iterative Related Molecules scaffold pies visualization for Molecule 4 (TCAMS Compound ID: 541531, PubChem CID: 44531903), a scaffold hop from Molecule 3 shown in \fref{scafwalk2}. Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
+\label{fig:scafwalk3}
+\end{figure}
+
+Another intriguing result is seen by observing a new tricyclic series that shares the quinazoline but adds an indole instead of indazole as the third fused ring. This alternative tricyclic template, while it may not confer solubility advantages, opens up a new area of chemical space. By iteratively seeking the Related Molecules for this new hit as shown in \fref{scafwalk3}, we observed that most of the active quinazoline analogs have this new tricyclic scaffold (\#1824, tan wedges in tricolored pies) and relatively few contain only quinazolines (\#305, brown circles). Also, indoles by themselves (\#1188, blue circles) do not much better than indazoles, so this is a new synergistic effect discovered by scaffold walking from the original hit.            
+
+
 \newpage 
 
 \section{Qualitative Comparison of Scaffold-Generation Methods and Clustering}\label{sec:qualcomp}
@@ -332,24 +370,6 @@ As an illustration, \fref{strucgroup} (a)-(c) shows the structure group of the c
     (c) Compound $C$ has 6 fragments derived using the NCATS R-group tool, shown in legend at right. The scaffold pie plot shows the structure group of $C$, restricted for illustration to only the 80 compounds that share two or more fragments with $C$.} %This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.}
     \label{fig:strucgroup}
 \end{figure}
-
-\newpage
-
-\section{Spotfire alternate visualizations and usability tips}
-\label{sec:spotviz-trick}
-The following additional visualizations have been considered and found useful for NCATS scaffolds and R-groups in analyzing data for GSK projects. They are briefly mentioned below:
-\begin{enumerate}
-\item {\bf Cross-tables} have been used to list scaffold IDs, compute statistics such as min, max and median activity for each, filter by maximum activity to remove wholly inactive scaffolds, and then prioritize the remaining by drilling down into individual properties
-\item {\bf Profile plots} are line graphs used as a visual drill-down mechanism to examine a suite of related assays across all compounds containing a scaffold.They typically have compounds on the X-axis, properties on the Y and are colored by assay name. Figure 6(b) in the main paper shows a profile plot on Kinase X data.
-\item {\bf Box plots} are used to visualize the distribution of values of an activity or property for separate scaffolds. Scaffold ID is typically on the X-axis and properties on the Y, allowing multiple scaffolds to be compared side-by-side at a deeper level than just their aggregate activities. 
-\end{enumerate}
-
-A few Spotfire techniques were employed to make the users' experience with our Spotfire files more friendly. These have all been tested in TIBCO Spotfire 7.0.2, the version installed at GSK when this work was being concluded.
-\begin{itemize}
-\item {\bf Structure Visualization:} GSK has a plugin from ChemAxon to visualize structures in tables, labels and tooltips in addition to a dedicated Structure Viewer window. Tooltips were widely employed as they are interactive and allow us to add multiple structure columns, typically a scaffold and the full structure. Labels were used to mark interesting compounds, and structures of cores, R-groups and full molecules depicted in tables helped us create SAR tables directly in Spotfire.
-\item {\bf Filtering between related tables:} In addition to creating Table Relations among the Molecules, Scaffolds and Related Molecules tables, we often want to display only scaffolds matching selected molecules of interest, or show only molecules that contain a selected set of scaffolds. This can be achieved by setting the ``Filtering on Related Data Tables'' to either Include Filtered Rows or Exclude Filtered Out Rows.
-\item {\bf Tagging:} Used to mark scaffolds selected by the user as being of interest, fulfilling various criteria verified by drilling down into the data behind those molecules.    
-\end{itemize}
 
 \newpage 
 
@@ -480,27 +500,7 @@ detach(PropByCompound)
 
 \end{verbatim}
 
-\newpage 
-\section{Use Case: Scaffold Walking Further Examples}\label{sec:scafwalk_eg}
-
-\begin{figure}
-\includegraphics[width=6in]{../fig/mol2_RGtool_scafpie2.png}
-\caption{Related Molecules scaffold pies visualization for Molecule 3 (TCAMS Compound ID: 533945; PubChem CID: 44531163). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
-\label{fig:scafwalk2}
-\end{figure}
-
-Molecule 3 in \fref{scafwalk2} is another case where we might want to optimize the physical and chemical properties of the molecule without sacrificing activity or increasing promiscuity. Since solubility has been shown to decrease with number of aromatic rings independent of lipophilicity\cite{Hill2010}, walks that remove one or more of the three fused rings might be beneficial. By exploring the Related Molecules, we observe the SAR for three scaffolds: quinazolines (\#305, brown), indazoloquinazolines (\#574, blue) and indazoles (\#3822, pink). We observe from the plot a few more molecules containing all three scaffolds (tricolored pies, \ie exact analogs of the parent molecule); all of these are less active than the parent. The indazoles when they occur alone (pink circles) are far less active than the parent, suggesting they do not contribute significantly to activity and may be substituted. Lastly the quinazolines (brown) include several analogs that are more active and also less promiscuous than the parent. Drilling down into these structures, we observe several that contain only two aromatic rings (\ie no more are either fused or attached); these provide novel, active and ligand-efficient templates on which to build new analogs with enhanced solubility or other properties. Suggestions for which analogs to make can often be obtained by examining the SAR -- for example, disparate aliphatic and aromatic analogs at two adjacent positions on the quinazoline phenyl are active, which suggests hybridizing them or designing further analogs substituted at these positions.
-
-\begin{figure}
-\includegraphics[width=5.5in]{../fig/mol3_RGtool_scafpie_iter.png}
-\caption{Iterative Related Molecules scaffold pies visualization for Molecule 4 (TCAMS Compound ID: 541531, PubChem CID: 44531903), a scaffold hop from Molecule 3 shown in \fref{scafwalk2}. Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
-\label{fig:scafwalk3}
-\end{figure}
-
-Another intriguing result is seen by observing a new tricyclic series that shares the quinazoline but adds an indole instead of indazole as the third fused ring. This alternative tricyclic template, while it may not confer solubility advantages, opens up a new area of chemical space. By iteratively seeking the Related Molecules for this new hit as shown in \fref{scafwalk3}, we observed that most of the active quinazoline analogs have this new tricyclic scaffold (\#1824, tan wedges in tricolored pies) and relatively few contain only quinazolines (\#305, brown circles). Also, indoles by themselves (\#1188, blue circles) do not much better than indazoles, so this is a new synergistic effect discovered by scaffold walking from the original hit.            
-
 \newpage
-
 
 \bibliographystyle{unsrt}
 \bibliography{bibliography}

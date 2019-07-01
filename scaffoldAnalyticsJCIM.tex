@@ -272,7 +272,7 @@ reduces repeatability.
 
 Assigning each molecule to a single cluster partitions the dataset into
 disparate, non-overlapping groups, also termed a hard clustering;
-agglomerative fingerprint-based clustering methods such as sphere exclusion, single and complete linkage clustering\cite{Downs2003} work this way. These methods tend to place structurally analogous molecules in different clusters where they would not be discovered as analogs of each other - see an example in Supplementary Material Section S6. 
+agglomerative fingerprint-based clustering methods such as sphere exclusion, single and complete linkage clustering\cite{Downs2003} work this way. These methods tend to place structurally analogous molecules in different clusters where they would not be discovered as analogs of each other - see an example in Supplementary Material Section S8. 
 
 On the other hand, a molecule could be assigned simultaneously to multiple clusters, depending on the structural features present. Traditional
 hard clustering methods will not allow this and will assign such molecules
@@ -597,7 +597,7 @@ following elements:
 \end{figure}
 
 Alternative visualizations are possible and we describe some of them
-in the Supplementary Material, Section S7. In addition, we discuss several
+in the Supplementary Material, Section S6. In addition, we discuss several
 Spotfire tricks that are instrumental in making our visualization
 useful to the chemist or biologist
 user. %\textbf{\textcolor{red}{TODO}}
@@ -609,7 +609,7 @@ scaffold generation methods in the context of annotating molecules in
 a screening dataset with multiple, possibly overlapping scaffolds -- a
 generalization of partitioning the set of molecules into non-overlapping
 categories, a.k.a. clustering. The code to implement these methods is released
-as part of the Supplementary Material in Section S8.
+as part of the Supplementary Material in Section S10.
 
 The similarities and differences between non-overlapping clusterings
 have been analyzed in the literature, and one example is the method of
@@ -769,11 +769,11 @@ Scaffold Walking is our term for navigating from molecule(s) through scaffolds (
 
 As an example, consider Molecule 1 (TCAMS Compound ID: 536182, PubChem CID 44522854) in \fref{scafwalk1}, as a hit that we want to explore SAR of and optimize. This molecule contains 5 scaffolds as determined by the NCATS R-group tool. Using the Scaffold Pie visualization, we observe that the naphthyl scaffold (\#978, yellow) is by itself only moderately active.  The dihydrotriazine (\#4719, blue) scaffold is observed to always occur where the dihydrotriazine-phenethyl-ether (\#2467, pink) one does, implying the substructure relationship between them visually even if one did not know it beforehand. Scaffold \#4719 also exists and is active without \#2467, implying that the phenethyl ether can be substituted and the dihydrotriazine may be sufficient for activity by itself.
 
-Further examples of the value of Scaffold Walking are in the Supplementary Material Section S9.
+Further examples of the value of Scaffold Walking are in the Supplementary Material, Section S7.
 
 \subsection{Statistical Comparison of Scaffold-Generation Methods and Clustering}\label{sec:statcomp}
 
-Recall the concepts of structure group and common proportion defined in \sref{statmethod}.  Let us now apply these to analyze and compare the scaffold generation methods Frameworks (denoted $A$ below) and NCATS R-group tool ($B$), and compare $B$ with clustering method Complete-Linkage clustering ($D$).
+Recall the concepts of structure group and common proportion defined in \sref{statmethod}, and illustrated with an example in Supplementary Material, Section S9.  Let us now apply these to analyze and compare the scaffold generation methods Frameworks (denoted $A$ below) and NCATS R-group tool ($B$), and compare $B$ with clustering method Complete-Linkage clustering ($D$).
 
 Comparing these methods for the TCAMS dataset, we show the aggregate statistics over the entire dataset in \fref{statcomparetable}.  
 
