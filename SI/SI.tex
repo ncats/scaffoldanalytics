@@ -343,7 +343,7 @@ if any two molecules share a common substructure that meets the standards requir
 {\bf Other Scaffold Generation Methods}: Even though another scaffold generation method (represented here by molecular frameworks as implemented in \cite{Harper2004DDclus}) differed in its implementation details and produced different numbers of scaffolds for the same molecule, it was roughly equivalent in a qualitative sense with regard to the insights obtained during Scaffold Walking. Due to substantial overlap between sets of scaffolds, ring systems responsible for activity of a molecule were generally revealed by either method. However, there were cases where the Frameworks revealed negative information about a fragment being not important for activity that is also useful for a drug discovery scientist. For example, in \fref{frameswalk} a substructure is highlighted that is on the aggregate inactive and could be removed or substituted. This insight is not available from SSSR-based scaffolding methods such as the NCATS R-group tool since they don't define or find that fragment as a scaffold.
 
 \begin{figure}
-\includegraphics[width=5in]{../fig/mol1_frames_scafpie.png}
+\includegraphics[width=5in]{../fig/mol1_frames_scafpie_v2.png}
 \caption{Using Frameworks with the Scaffold Pies visualization. One framework is highlighted that has no equivalent in the NCATS scaffolds, but is shown to reduce activity as related molecules containing it are less active than the parent molecule.   The star symbol shows the location of the parent molecule in this Related Molecules plot, and the compass device at the origin shows the direction of favorable properties (+X and +Y axes).}      
 \label{fig:frameswalk}
 \end{figure}
@@ -358,16 +358,17 @@ To summarize, both multiple-scaffold decomposition methods considered in this st
 As an illustration, \fref{strucgroup} (a)-(c) shows the structure group of the compound $C$ with Compound ID 541564 (PubChem CID: 44531725). 
 \begin{figure}
 \centering
-  \begin{minipage}[b][0.2\textheight][s]{0.7\textwidth}
-  \centering
+%  \begin{minipage}[b][0.2\textheight][s]{0.7\textwidth}
+%  \centering
   (a)\includegraphics[width=1.5in]{../fig/howmany_scaf.png}
-  (b)\includegraphics[width=1.5in]{../fig/tcam2_mol_541564.png}
-  \end{minipage}
-  (c)\includegraphics[width=2.5in]{../fig/structure_group_C.png}
-  \includegraphics[width=0.5in]{../fig/tcam2_541564_6scaf_col.png}
+(b)\includegraphics[width=2in]{../fig/tcam2_mol_541564_v2.png}\\
+\vspace{0.1in}
+%  \end{minipage}
+  (c)\includegraphics[width=4in]{../fig/structure_group_C_v2.png}\\
+  \includegraphics[width=4in]{../fig/tcam2_541564_6scaf_row_v2.png}
   \caption{
-    (a) Distribution of number of fragments, out of nearly 6000 total, found in each molecule in the TCAMS dataset. (b) Compound $C$, chosen here as Molecule 2 (TCAMS Compound ID 541564, PubChem CID: 44531725) from previous figures in the manuscript.
-    (c) Compound $C$ has 6 fragments derived using the NCATS R-group tool, shown in legend at right. The scaffold pie plot shows the structure group of $C$, restricted for illustration to only the 80 compounds that share two or more fragments with $C$.} %This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.}
+    (a) Distribution of number of scaffolds in TCAMS molecules. (b) Compound $C$, chosen as Molecule 2 (TCAMS Compound ID 541564, PubChem CID: 44531725) from previous figures in the manuscript.
+    (c) Compound $C$ has 6 fragments derived using the NCATS R-group tool, shown in bottom legend. The scaffold pie plot shows the structure group of $C$, restricted for illustration to only the 80 compounds that share two or more fragments with $C$.} %This ensures that all compounds sharing just a single heteroaromatic ring are not in the same group, as chemists expect, and also reduces the group size -- 80 related molecules for this particular compound $C$.}
     \label{fig:strucgroup}
 \end{figure}
 
