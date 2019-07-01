@@ -3,6 +3,13 @@
 \usepackage{ctable}
 
 \usepackage{etoolbox}
+\usepackage{listings}
+\lstset{ %
+language=R,           % choose the language of the code
+numbers=none,           % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+basicstyle=\tiny    % the size of the fonts that are used for the line-numbers
+}
 \makeatletter
 \patchcmd{\@verbatim}
   {\verbatim@font}
@@ -377,129 +384,167 @@ As an illustration, \fref{strucgroup} (a)-(c) shows the structure group of the c
 \section{R code for statistical comparison of scaffold generation methods}
 \label{sec:statcode-scafcomp}
 
-The code below expects two files, DDframes.txt (from framework clustering, Method A in the results) and RGD.txt (NCATS R-group tool decomposition, Method B). They both have a column named Compound\_ID. DDframes.txt has a column StrucUniqueID which is computed for example using the DenseRank function in Spotfire, assigning a unique numerical ID to each fragment having different Canonical SMILES.  RGD.txt has a column SCAFFOLD\_ID that is already numerically distinct for each separate scaffold. The code can be generalized for any pair of methods as long as the map from numerical compound IDs to scaffold IDs exists in the input data. 
+The code below expects three files, DDframes.txt (from framework clustering, Method $A$ in the results), RGD.txt (NCATS R-group tool decomposition, Method $B$), and CLinkClusters.txt (Complete Linkage Clustering, Method $D$). All three files have a column named Compound\_ID. DDframes.txt has a column StrucUniqueID which is computed for example using the DenseRank function in Spotfire, assigning a unique numerical ID to each fragment having different Canonical SMILES.  RGD.txt has a column SCAFFOLD\_ID that is already numerically distinct for each separate scaffold. And CLinkClusters.txt contains the Cluster number for each compound in column CLink. The computation, summarization and graphing of our statistics is parameterized into functions to allow Methods $A$ and $D$ to be compared in turns to Method $B$. The code can be generalized to compare any pair of methods as long as the map from numerical compound IDs to scaffold IDs exists in the input data. 
 
-\begin{verbatim}
+% \begin{verbatim}
+{\tiny
+\begin{lstlisting}
 #Note: To do the calculations comparing 2 fragmentation methods
 #took about 10 minutes of computer time.
 
 #Set working directory to location of the data files
-setwd("C:\\Work\\Consulting\\MDR\\Other MDR Issues\\CSC\\FragmentOntologies")
+#setwd("C:\\Work\\Consulting\\MDR\\Other MDR Issues\\CSC\\FragmentOntologies") # Joe's folder
+setwd("C:/Work/git/NIH/scaffoldanalytics/stats") # Deepak's folder
 #####################
 rm(list = ls()) #Erase anything in R's working memory
 
 DDData <- read.table("DDframes.txt", header = T, sep = "\t")
 RGData <- read.table("RGD.txt", header = T, sep = "\t")
+CLData <- read.table("CLinkClusters.txt", header = T, sep = "\t") 
 
 #Create a list of compounds shared between two datasets.
 #Scores will not make sense if we include non-common compounds
 
 DDCompounds <- unique(DDData$COMPOUND_ID)
 RGCompounds <- unique(RGData$COMPOUND_ID)
+CLCompounds <- unique(CLData$COMPOUND_ID)  
 
-Compounds <- intersect(DDCompounds, RGCompounds)
+# Compounds <- intersect(DDCompounds, RGCompounds)
+# if comparing 3 methods pairwise, make sure we use the same set of compounds 
+Compounds <- intersect(intersect(RGCompounds, DDCompounds), CLCompounds)
+
 # Compounds <- as.numeric(as.character(intersect(DDCompounds, RGCompounds)))
 N <- length(Compounds)
 
 #Calculate PI's and common proportions for each compound
   
 #Proportions by compound
+statcompare <- function(ScafSetA, ScafSetB,
+                        	        ScafColA="StrucUniqueID", ScafColB="SCAFFOLD_ID", 
+			        CompoundSet) {
+  N <- length(CompoundSet)
+  
+  PropByCompound <- data.frame(CompoundID = rep(NA, N),
+                               FragA = rep(NA, N), FragB = rep(NA, N),
+  			       Ca = rep(NA, N), Cb = rep(NA, N),
+  			       IntAB = rep(NA, N), UnionAB = rep(NA, N),
+  			       CommonProp = rep(NA, N),
+  			       PIa = rep(NA, N), PIb = rep(NA, N),
+  			       PIaU = rep(NA, N), PIbU = rep(NA, N),
+  			       FragEffA = rep(NA, N), FragEffB = rep(NA, N))
 
-PropByCompound <- data.frame(CompoundID = rep(NA, N),
-			     FragA = rep(NA, N),
-			     FragB = rep(NA, N),
-                             Ca = rep(NA, N),
-                             Cb = rep(NA, N),
-                             IntAB = rep(NA, N),
-                             UnionAB = rep(NA, N),
-                             CommonProp = rep(NA, N),
-                             PIa = rep(NA, N),
-                             PIb = rep(NA, N),
-                             PIaU = rep(NA, N),
-                             PIbU = rep(NA, N),
-                            FragEffA = rep(NA, N),
-                            FragEffB = rep(NA, N))
-
-for (index in 1:N){
+  for (index in 1:N){
   
-  PropByCompound$CompoundID[index] <- Compounds[index]
+    PropByCompound$CompoundID[index] <- CompoundSet[index]
   
-  MethodABelongsTo <- DDData[DDData$COMPOUND_ID == Compounds[index],
-                            "StrucUniqueID"]
-  MethodBBelongsTo <- RGData[RGData$COMPOUND_ID == Compounds[index],
-                            "SCAFFOLD_ID"]
-							
-  PropByCompound$FragA[index] <- length(unique(MethodABelongsTo))
-  PropByCompound$FragB[index] <- length(unique(MethodBBelongsTo))
+    MethodABelongsTo <- ScafSetA[ScafSetA$COMPOUND_ID == Compounds[index],
+                                ScafColA] # StrucUniqueID or CLink
+    
+    MethodBBelongsTo <- ScafSetB[ScafSetB$COMPOUND_ID == Compounds[index],
+                                 ScafColB]   # SCAFFOLD_ID
+    
+    PropByCompound$FragA[index] <- length(unique(MethodABelongsTo))
+    PropByCompound$FragB[index] <- length(unique(MethodBBelongsTo))
+    
+    MethodACompoundCluster <- unique(ScafSetA[ScafSetA[,ScafColA] %in% MethodABelongsTo,
+                                              "COMPOUND_ID"])
   
-  MethodACompoundCluster <- unique(DDData[DDData$StrucUniqueID %in% MethodABelongsTo,
-                                   "COMPOUND_ID"])
-  MethodBCompoundCluster <- unique(RGData[RGData$SCAFFOLD_ID %in% MethodBBelongsTo,
-                                   "COMPOUND_ID"])
-  
-  PropByCompound$Ca[index] <- length(MethodACompoundCluster)
-  PropByCompound$Cb[index] <- length(MethodBCompoundCluster)
-  PropByCompound$IntAB[index] <- length(intersect(MethodACompoundCluster,
-                                                  MethodBCompoundCluster))
-  PropByCompound$UnionAB[index] <- length(union(MethodACompoundCluster,
+    MethodBCompoundCluster <- unique(ScafSetB[ScafSetB[,ScafColB] %in% MethodBBelongsTo,
+                                              "COMPOUND_ID"])
+    
+    PropByCompound$Ca[index] <- length(MethodACompoundCluster)
+    PropByCompound$Cb[index] <- length(MethodBCompoundCluster)
+    PropByCompound$IntAB[index] <- length(intersect(MethodACompoundCluster,
                                                     MethodBCompoundCluster))
-  PropByCompound$CommonProp[index] <- PropByCompound$IntAB[index]/
-                                      PropByCompound$UnionAB[index]
-  PropByCompound$PIa[index] <- PropByCompound$Ca[index]/PropByCompound$UnionAB[index]
-  PropByCompound$PIb[index] <- PropByCompound$Cb[index]/PropByCompound$UnionAB[index]
-  PropByCompound$PIaU[index] <- 1 - PropByCompound$Cb[index]/PropByCompound$UnionAB[index]
-  PropByCompound$PIbU[index] <- 1 - PropByCompound$Ca[index]/PropByCompound$UnionAB[index]
-  PropByCompound$FragEffA[index] <- PropByCompound$Ca[index]/PropByCompound$FragA[index]
-  PropByCompound$FragEffB[index] <- PropByCompound$Cb[index]/PropByCompound$FragB[index]
-  
-}
+    PropByCompound$UnionAB[index] <- length(union(MethodACompoundCluster,
+                                                  MethodBCompoundCluster))
+    PropByCompound$CommonProp[index] <- PropByCompound$IntAB[index]/PropByCompound$UnionAB[index]
+    PropByCompound$PIa[index] <- PropByCompound$Ca[index]/PropByCompound$UnionAB[index]
+    PropByCompound$PIb[index] <- PropByCompound$Cb[index]/PropByCompound$UnionAB[index]
+    PropByCompound$PIaU[index] <- 1 - PropByCompound$Cb[index]/PropByCompound$UnionAB[index]
+    PropByCompound$PIbU[index] <- 1 - PropByCompound$Ca[index]/PropByCompound$UnionAB[index]
+    PropByCompound$FragEffA[index] <- PropByCompound$Ca[index]/PropByCompound$FragA[index]
+    PropByCompound$FragEffB[index] <- PropByCompound$Cb[index]/PropByCompound$FragB[index]
+  } # for index
+  return(PropByCompound) 
+} # function statcompare
+
+# call function - A is FW, B is RGT, D is CLink
+PropByCompound_AB <- statcompare(ScafSetA = DDData , ScafSetB = RGData, 
+                                 ScafColA="StrucUniqueID", ScafColB="SCAFFOLD_ID", 
+                                 CompoundSet = Compounds)
+PropByCompound_DB <- statcompare(ScafSetA = CLData , ScafSetB = RGData, 
+                                 ScafColA="CLink", ScafColB="SCAFFOLD_ID", 
+                                 CompoundSet = Compounds)
 
 #Create output -- averages, quantiles, and histograms
+summarize_prop <- function(PropByCompound) {
+  ACP <- mean(PropByCompound$CommonProp, na.rm = T)
+  APIa <- mean(PropByCompound$PIa, na.rm = T)
+  APIb <- mean(PropByCompound$PIb, na.rm = T)
+  APIaU <- mean(PropByCompound$PIaU, na.rm = T)
+  APIbU <- mean(PropByCompound$PIbU, na.rm = T)
+  AFragA <- mean(PropByCompound$FragA, na.rm = T)
+  AFragB <- mean(PropByCompound$FragB, na.rm = T)
+  AFragEffA <- mean(PropByCompound$FragEffA, na.rm = T)
+  AFragEffB <- mean(PropByCompound$FragEffB, na.rm = T)
+  ACa <- mean(PropByCompound$Ca, na.rm = T)
+  ACb <- mean(PropByCompound$Cb, na.rm = T)
 
-ACP <- mean(PropByCompound$CommonProp, na.rm = T)
-APIaU <- mean(PropByCompound$PIaU, na.rm = T)
-APIbU <- mean(PropByCompound$PIbU, na.rm = T)
-AFragEffA <- mean(PropByCompound$FragEffA, na.rm = T)
-AFragEffB <- mean(PropByCompound$FragEffB, na.rm = T)
+  CP90 <- quantile(PropByCompound$CommonProp, c(0.1,0.5,0.9))
+  PIa90 <- quantile(PropByCompound$PIa, na.rm = T , c(0.1,0.5,0.9))
+  PIb90 <-  quantile(PropByCompound$PIb, na.rm = T , c(0.1,0.5,0.9)) 
+  PIaU90 <- quantile(PropByCompound$PIaU, na.rm = T , c(0.1,0.5,0.9))
+  PIbU90 <- quantile(PropByCompound$PIbU, na.rm = T, c(0.1,0.5,0.9))
+  FragA90 <- quantile(PropByCompound$FragA, na.rm = T, c(0.1,0.5,0.9))
+  FragB90 <- quantile(PropByCompound$FragB, na.rm = T, c(0.1,0.5,0.9))
+  FragEffA90 <- quantile(PropByCompound$FragEffA, na.rm = T, c(0.1,0.5,0.9))
+  FragEffB90 <- quantile(PropByCompound$FragEffB, na.rm = T, c(0.1,0.5,0.9))
+  Ca90 <- quantile(PropByCompound$Ca, na.rm = T, c(0.1,0.5,0.9))
+  Cb90 <- quantile(PropByCompound$Cb, na.rm = T, c(0.1,0.5,0.9))
 
-CP95 <- quantile(PropByCompound$CommonProp, c(0.05,0.25,0.5,0.75, 0.95))
-PIaU95 <- quantile(PropByCompound$PIaU, na.rm = T, c(0.05,0.25,0.5,0.75, 0.95))
-PIbU95 <- quantile(PropByCompound$PIbU, na.rm = T, c(0.05,0.25,0.5,0.75, 0.95))
-FragEffA95 <- quantile(PropByCompound$FragEffA, na.rm = T, c(0.05,0.25,0.5,0.75, 0.95))
-FragEffB95 <- quantile(PropByCompound$FragEffB, na.rm = T, c(0.05,0.25,0.5,0.75, 0.95))
+  ret <- list(ACP=ACP, CP90=CP90, 
+              APIa=APIa, PIa90=PIa90, APIb=APIb, PIb90=PIb90, 
+              APIaU=APIaU, PIaU90=PIaU90, APIbU=APIbU, PIbU90=PIbU90, 
+              AFragA=AFragA, FragA90=FragA90, AFragB=AFragB, FragB90=FragB90, 
+              AFragEffA=AFragEffA, FragEffA90=FragEffA90, AFragEffB=AFragEffB, FragEffB90=FragEffB90, 
+              ACa=ACa, Ca90=Ca90, ACb=ACb, Cb90=Cb90)
 
-ACP
-APIaU
-APIbU
-AFragEffA
-AFragEffB
+return(ret)
+}
 
-CP95
-PIaU95
-PIbU95
-AFragEffA95
-AFragEffB95
+######### create summaries #######
+SumProp_AB <- summarize_prop(PropByCompound_AB)
+SumProp_DB <- summarize_prop(PropByCompound_DB)
 
-write.table(PropByCompound,"PropByCompound.txt",sep="\t",row.name=F,col.name=T)
+# write output to CSV
+write.table(PropByCompound_AB,"PropByCompound_FW_RGD.txt",sep="\t",row.name=F,col.name=T)
+write.table(PropByCompound_DB,"PropByCompound_Cluster_RGD.txt",sep="\t",row.name=F,col.name=T)
 #########################################################################################
 
 ################# Plot #####################
-attach(PropByCompound)
+createPlots <- function(PropByCompound) {
+  attach(PropByCompound)
+  
+  hist(FragA,main="FragA")
+  hist(FragB,main="FragB")
+  hist(CommonProp,main="CommonProp")
+  
+  plot(CommonProp~UnionAB)
+  plot(CommonProp~IntAB)
+  plot(Ca~Cb)
+  
+  plot(UnionAB, IntAB)
+  plot(FragA + FragB, CommonProp)
+  
+  detach(PropByCompound)
+}
 
-hist(FragA,main="FragA")
-hist(FragB,main="FragB")
-hist(CommonProp,main="CommonProp")
-
-plot(CommonProp~UnionAB)
-plot(CommonProp~IntAB)
-plot(Ca~Cb)
-
-plot(UnionAB, IntAB)
-plot(FragA + FragB, CommonProp)
-
-detach(PropByCompound)
-
-\end{verbatim}
+createPlots(PropByCompound_AB)
+createPlots(PropByCompound_DB)
+\end{lstlisting}
+}
+%\end{verbatim}
 
 \newpage
 
