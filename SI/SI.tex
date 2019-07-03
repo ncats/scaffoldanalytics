@@ -315,7 +315,10 @@ A few Spotfire techniques were employed to make the users' experience with our S
 \section{Use Case: Scaffold Walking Further Examples}\label{sec:scafwalk_eg}
 
 \begin{figure}
-\includegraphics[width=6in]{../fig/mol2_RGtool_scafpie2.png}
+  \centering
+  \includegraphics[width=6in]{../fig/mol2_RGtool_scafpie_plot_v4.png}\\
+    \vspace{0.1in}
+    \includegraphics[width=5.5in]{../fig/mol2_RGtool_scafpie_struc_v2.png}\\
 \caption{Related Molecules scaffold pies visualization for Molecule 3 (TCAMS Compound ID: 533945; PubChem CID: 44531163). Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
 \label{fig:scafwalk2}
 \end{figure}
@@ -323,7 +326,10 @@ A few Spotfire techniques were employed to make the users' experience with our S
 Molecule 3 in \fref{scafwalk2} is another case where we might want to optimize the physical and chemical properties of the molecule without sacrificing activity or increasing promiscuity. Since solubility has been shown to decrease with number of aromatic rings independent of lipophilicity\cite{Hill2010}, walks that remove one or more of the three fused rings might be beneficial. By exploring the Related Molecules, we observe the SAR for three scaffolds: quinazolines (\#305, brown), indazoloquinazolines (\#574, blue) and indazoles (\#3822, pink). We observe from the plot a few more molecules containing all three scaffolds (tricolored pies, \ie exact analogs of the parent molecule); all of these are less active than the parent. The indazoles when they occur alone (pink circles) are far less active than the parent, suggesting they do not contribute significantly to activity and may be substituted. Lastly the quinazolines (brown) include several analogs that are more active and also less promiscuous than the parent. Drilling down into these structures, we observe several that contain only two aromatic rings (\ie no more are either fused or attached); these provide novel, active and ligand-efficient templates on which to build new analogs with enhanced solubility or other properties. Suggestions for which analogs to make can often be obtained by examining the SAR -- for example, disparate aliphatic and aromatic analogs at two adjacent positions on the quinazoline phenyl are active, which suggests hybridizing them or designing further analogs substituted at these positions.
 
 \begin{figure}
-\includegraphics[width=5.5in]{../fig/mol3_RGtool_scafpie_iter.png}
+  \centering
+  \includegraphics[width=5.5in]{../fig/mol3_RGtool_scafpie_iter_plot_v2.png}\\
+  \vspace{0.1in}
+  \includegraphics[width=5in]{../fig/mol3_RGtool_scafpie_iter_struc_v2.png}
 \caption{Iterative Related Molecules scaffold pies visualization for Molecule 4 (TCAMS Compound ID: 541531, PubChem CID: 44531903), a scaffold hop from Molecule 3 shown in \fref{scafwalk2}. Each pie here is one related molecule, and each pie sector and color is a scaffold that it shares with the parent molecule. The star symbol is added to show the location of the parent molecule in this plot, and the compass device at the origin shows the direction of favorable properties (in this case towards the +X and -Y axes). Insights derived from the plot are highlighted in the figure and also discussed in the text.}
 \label{fig:scafwalk3}
 \end{figure}
@@ -337,8 +343,8 @@ Another intriguing result is seen by observing a new tricyclic series that share
 {\bf Complete-Linkage Clustering}: As shown in \fref{clusterlanes}, the defining feature of a partitioning clustering is that every molecule maps to one and only one cluster. Thus if a chemotype is broken up among two or more clusters, using the cluster ID to map Related Molecules can retrieve only neighbors from the same cluster, ignoring the other cluster. This is not ideal for purposes of the visualization and navigation method presented here, as arbitrary neighbors would be excluded depending on how the clustering is defined.  Thus we do not advocate the use of clustering, unless it is a fuzzy clustering where all meaningful class memberships a molecule might have are considered. 
 
 \begin{figure}
-\includegraphics[width=6in]{../fig/clusterlanes.png}
-\caption{Illustrating one problem with clustering: bifurcation of related molecules.  When two molecules of the same chemotype differing by a halogen are split across Complete Linkage Clusters, searches of cluster neighbors for one molecule do not find its analogs in the other cluster, \ie the two related clusters are not linked.}
+\includegraphics[width=6in]{../fig/clusterlanes_v3.png}
+\caption{Illustrating one problem with clustering: bifurcation of related molecules.  When two molecules of the same chemotype differing by a halogen (TCAMS IDs: 79271 and 79711) are split across Complete Linkage Clusters, searches of cluster neighbors for one molecule (\eg IDs and shown within Cluster 3) do not find its analogs in the other cluster (\eg and ), \ie the two related clusters are not linked.}
 \label{fig:clusterlanes}
 \end{figure}
 
