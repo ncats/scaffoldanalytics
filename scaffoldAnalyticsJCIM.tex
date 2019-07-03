@@ -886,9 +886,10 @@ Among these compounds there are some that have over 40 times as much overlap bet
 
 On the other hand, there are also some compounds, highlighted on the left side of \fref{NormCP}(b) and in \fref{NormCP}(d--e), that though they are among the top 200 by activity, have NormCP much less than 1, \ie much less overlap between structure and activity than would be expected by chance.  This would imply that structural neighbors of these compounds are largely less active that the original compound, no matter which of the overlapping scaffolds within the molecule we use to define those structural neighbors!  This gives us a way to quantify flagpoles or false positive hits, which may not be worth following up.
 
-\section{Discussion}
+\section{Discussion and Conclusions}
 \label{sec:discussion}
 
+{\bf Objectively find and prioritize scaffolds:}\\
 While threshold-based hit selection is a prevalent approach in the
 analysis of high throughput screening datasets, it
 ignores the extra information encoded in chemical structure. Thus,
@@ -909,8 +910,9 @@ exclusive clusters, which affects partitioning-based methods such as
 complete-linkage clustering.% as shown in \fref{clusterlanes}.
 Instead, using overlapping scaffolds ensures that
 molecules that differ only in decorations off a shared scaffold
-will be considered within the same group.
+will be considered within the same group.\\
 
+{\bf Choose overlapping scaffolds over partitioning clusters:}
 Given the different ways to generate scaffolds and to compute
 overlapping scaffolds, a quantitative approach to characterizing
 differences in these approaches is necessary. The use of common
@@ -918,39 +920,31 @@ proportion ($\textrm{CP}$), fragment efficiency ($\textrm{FragEff}$)
 and proportion of information unique to a method ($\textrm{PIU}$) 
 places such differences within a sound statistical framework, allowing
 for an objective comparison of fragmentation methods for a given
-screen. They also extend the applicability of
-methods to compare the output of different partitioning clustering
-methods such as \citet{Torres2009}, allowing them to be used for
-non-overlapping fuzzy clusters. Furthermore quantifying
+screen. These methods were used to compare a partitioning clustering technique (complete-linkage clustering) to an overlapping scaffold technique (NCATS R-Group Tool) and statistically prove inferior coverage by the former, quantifying the intuition behind choosing the latter for hit triage. They were also used to compare the two overlapping scaffold-based techniques we considered (Molecular Frameworks and NCATS R-Group Tool), showing their general equivalence and highlighting differences for some molecules.  We generalize the method of \citet{Torres2009} to compare overlapping fuzzy clusterings in addition to partitioning ones.  Furthermore quantifying
 structure-activity overlap using $\textrm{NormCP}$ is a novel
-contribution, though similar in spirit and purpose to local hit rate
-calculations that have been proposed for HTS triage\cite{Posner2009},
-with a comprehensive structural neighbor metric based on overlapping
-scaffolds.
+contribution -- similar in spirit and purpose to local hit rate
+calculations proposed for HTS triage\cite{Posner2009},
+but with a comprehensive structural neighbor metric derived from overlapping
+scaffolds.\\
 
+{\bf Intuitive visual navigation of overlapping scaffolds:}\\ 
 We observe that the approach applied to triage the kinase ``X'' dataset
 can be a powerful tool to identify promising hits.  The Spotfire workflow
 is simple to implement and allows interactive drill-down from
 aggregate properties to individual compounds. In essence,
-the workflow described here enables decisions on individual compounds
-using the aggregated data as a filter. Another advantage of this
-workflow is that it supports the inclusion of ``virtual
-datasets'' where there is no measured activity, as highlighted in the
-data fusion use case.  Inclusion of such datasets can be useful as
-they provide an opportunity to directly highlight untested regions of
-chemical space. When multiple datasets are included in the data fusion, 
-some with more accurately measured activities, it increases
-confidence in noisy data by merging data for scaffolds across the
-datasets.
+the workflow described in this paper enables decisions on individual compounds
+using the aggregated data as a filter. Another advantage is the inclusion of ``virtual
+datasets'' with no measured activity in decision making, as highlighted in the dataset fusion use case.  Inclusion of such datasets provides an opportunity to directly highlight untested regions of
+chemical space. When multiple datasets are fused, some with more accurately measured activities, it increases confidence in noisy data by merging data for scaffolds across the
+datasets.\\
 
-In summary, the combination of anecdotal and statistical methods to
-compare scaffold schemes and the resultant analysis of HTS datasets
-highlights the fact that no single fuzzy clustering method is optimal,
-and the most appropriate approach should be selected based on the
-types of analyses described here. Screening scientists have traditionally
-used ``chemical intuition'' to select and examine scaffolds, which can 
-lead to biased selections of scaffolds and subsequently of
-leads. Our Scaffold-Based Analytics approach described in this study
+{\bf Conclusion:}\\
+In summary, by combining anecdotal and statistical methods to
+compare partitioning and fuzzy clustering methods and their application to analysis of HTS datasets, we found that fuzzy clustering provides much better coverage of these datasets, and that different fuzzy clustering methods are comparable.
+Screening scientists have traditionally
+used ``chemical intuition'' to select and examine scaffolds,
+which can lead to biased scaffold selection and
+subsequently biased lead optimization. Our Scaffold-Based Analytics approach described in this study
 combines data and intuitive visualizations to help scientists combat such biases. 
 
 
