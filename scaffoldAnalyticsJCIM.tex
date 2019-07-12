@@ -14,12 +14,12 @@
 %% servers.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%\usepackage[version=3]{mhchem} % Formula subscripts using \ce{}
-\usepackage{mciteplus}
+%%\usepackage{mciteplus}
 \usepackage[T1]{fontenc}       % Use modern font encodings
 \usepackage{hyperref}
 
 \usepackage{xcolor}
-\usepackage{ulem}
+%%\usepackage{ulem}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% If issues arise when submitting your manuscript, you may want to
@@ -36,7 +36,7 @@
 \newcommand*\mycommand[1]{\texttt{\emph{#1}}}
 \newcommand*\fref[1]{Figure~\ref{fig:#1}}
 \newcommand*\tref[1]{Table~\ref{table:#1}}
-\newcommand*\sref[1]{Section~\ref{sec:#1}}
+%\newcommand*\sref[1]{Section~\ref{sec:#1}}
 \newcommand*\eg{e.g.,~}
 \newcommand*\ie{i.e.,~}
 \newcommand*\vs{vs.~}
@@ -417,10 +417,12 @@ then it has been extended to support scaffold hopping as well as
 providing contextual data (\eg literature references, activity
 summaries) and network visualizations of scaffold relationships. All
 results from this study were generated in version 8 of the R-group tool,
-~\url{http://tripod.nih.gov/ws/rgroupbeta/rgrouptool8.jar}). The
-latest version available at time of writing is
-~\url{http://tripod.nih.gov/ws/rgroupbeta/rgrouptool11.jar}), which has been
-tested and produces substantially similar output.
+~\url{http://tripod.nih.gov/ws/rgroupbeta/rgrouptool8.jar}). This tool
+has been superceded by the ScaffoldHopper tool, available from \url{https://spotlite.nih.gov/ncats/scaffold-hopper}.
+
+% latest version available at time of writing is
+% ~\url{http://tripod.nih.gov/ws/rgroupbeta/rgrouptool11.jar}), which has been
+% tested and produces substantially similar output.
 
 When running from the command-line, ensuring 16G of memory (via
 \texttt{-Xmx16G}) enables datasets of up to ~40k compounds with a
@@ -544,7 +546,9 @@ following elements:
   highlighted on the X, Y, shape, size and color axes on a scatter  plot.
   This view is depicted in compressed form in the top half of \fref{spotviz}(a).
 \item {\bf Related Molecules Tab}: The purpose of this tab is to explore the
-  set of Related Molecules to molecule(s) of interest, and thus implement the Scaffold Walking navigation briefly later in \sref{scafwalk}.
+  set of Related Molecules to molecule(s) of interest, and thus
+  implement the Scaffold Walking navigation briefly described in the
+  use case on navigating screening datasets.
   The setup is described for the NCATS R-group Tool decomposition,
   though this tab applies to and can be set up analogously for any
   other decomposition. The tab consists of two visualizations,
@@ -675,8 +679,11 @@ FragEff_A(C) = \| C_A \| / \| frag_A(C) \|
 \end{equation}
 
 
-The distribution of these statistical measures for our dataset is
-used to compare the overlapping clustering methods (NCATS RG-Decomposition and Molecular Frameworks) and a partitioning clustering method (Complete linkage) in \sref{statcomp}.
+The distribution of these statistical measures for our dataset is used
+to compare the overlapping clustering methods (NCATS RG-Decomposition
+and Molecular Frameworks) and a partitioning clustering method
+(Complete linkage).
+
 %complete-
 %can be averaged over all compounds in a dataset to
 %yield the Average Common Proportion (ACP), Average Proportion of
@@ -774,9 +781,22 @@ Further examples of the value of Scaffold Walking are in the Supplementary Mater
 
 \subsection{Statistical Comparison of Scaffold-Generation Methods and Clustering}\label{sec:statcomp}
 
-Recall the concepts of structure group and common proportion defined in \sref{statmethod}, and illustrated with an example in Supplementary Material, Section S9.  Let us now apply these to analyze and compare the scaffold generation methods Frameworks (denoted $A$ below) and NCATS R-group tool ($B$), and compare $B$ with clustering method Complete-Linkage clustering ($D$).
+Recall the concepts of structure group and common proportion defined
+previously, and illustrated with an example in Supplementary Material,
+Section S9.  Let us now apply these to analyze and compare the
+scaffold generation methods Frameworks (denoted $A$ below) and NCATS
+R-group tool ($B$), and compare $B$ with clustering method
+Complete-Linkage clustering ($D$).
 
-Comparing these methods for the TCAMS dataset, we show the aggregate statistics over the entire dataset in \fref{statcomparetable}.  We compare the Common Proportion, Proportion of Information Unique (PIU) and Fragment Efficiency (FragEff) statistics for the NCATS R-group tool (method ``B'') with both the Frameworks (method ``A'') and the Complete Linkage Clusters (method ``D'') for all the 13.5k compounds in TCAMS in \fref{statcompare}.  This figure has the PIU of these methods on the axes, and is sized by the ratio of their Fragment Efficiencies for all 13.5k molecules.  
+Comparing these methods for the TCAMS dataset, we show the aggregate
+statistics over the entire dataset in \fref{statcomparetable}.  We
+compare the Common Proportion, Proportion of Information Unique (PIU)
+and Fragment Efficiency (FragEff) statistics for the NCATS R-group
+tool (method ``B'') with both the Frameworks (method ``A'') and the
+Complete Linkage Clusters (method ``D'') for all the 13.5k compounds
+in TCAMS in \fref{statcompare}.  This figure has the PIU of these
+methods on the axes, and is sized by the ratio of their Fragment
+Efficiencies for all 13.5k molecules.
 
 \begin{figure}
   \begin{minipage}[c]{\linewidth}
@@ -943,19 +963,33 @@ scaffolds.\\
 
 
 {\bf Conclusion:}\\
-In summary, by combining anecdotal and statistical methods to
-compare partitioning and fuzzy clustering methods and their application to analysis of HTS datasets, we found that fuzzy clustering provides much better coverage of these datasets, and that different fuzzy clustering methods are comparable. Screening scientists have traditionally used ``chemical intuition'' 
-to select and examine scaffolds, which can lead to biased scaffold selection and
-subsequently biased lead optimization. Our Scaffold-Based Analytics approach described in this study
-combines data and intuitive visualizations to help scientists combat such biases. 
+In summary, by combining anecdotal and statistical methods to compare
+partitioning and fuzzy clustering methods and their application to
+analysis of HTS datasets, we found that fuzzy clustering provides much
+better coverage of these datasets, and that different fuzzy clustering
+methods are comparable. Screening scientists have traditionally used
+``chemical intuition'' to select and examine scaffolds, which can lead
+to biased scaffold selection and subsequently biased lead
+optimization. Our Scaffold-Based Analytics approach described in this
+study combines data and intuitive visualizations to help scientists
+combat such biases.
 
 
 \begin{acknowledgement}
-  The GSK authors thank Subhas Chakravorty, Neysa Nevins, Ami Lakdawala Shah,
-  Eric Manas, Todd Graybill, Stan Martens, Mike Ouellette, Tony Jurewicz, Rob
-  Young, Ken Lind and Jeff Messer for valuable feedback and suggestions while developing the method and visualizations. We dedicate this work to the memory of Christopher Louer, our colleague and cheminformatics wizard at GSK who always encouraged us to innovate in order to help chemists.
+  The GSK authors thank Subhas Chakravorty, Neysa Nevins, Ami
+  Lakdawala Shah, Eric Manas, Todd Graybill, Stan Martens, Mike
+  Ouellette, Tony Jurewicz, Rob Young, Ken Lind and Jeff Messer for
+  valuable feedback and suggestions while developing the method and
+  visualizations. We dedicate this work to the memory of Christopher
+  Louer, our colleague and cheminformatics wizard at GSK who always
+  encouraged us to innovate in order to help chemists.
 
-The authors declare the following sources of funding: author DB was funded by GSK while undertaking this work and by Janssen Pharmaceuticals in the later stages of writing it up. Authors CK, PB, JB, ZH and GS were funded by GSK. Authors TP, DTN and AJ were funded by NIH. Author RG was funded by NIH while undertaking this work and by Vertex Pharmaceuticals in the later stages of writing it up.      
+  The authors declare the following sources of funding: author DB was
+  funded by GSK while undertaking this work and by Janssen
+  Pharmaceuticals in the later stages of writing it up. Authors CK,
+  PB, JB, ZH and GS were funded by GSK. Authors RG, TP, DTN and AJ
+  were funded by the Intramural Research Program, NCATS.
+     
 \end{acknowledgement}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -971,7 +1005,7 @@ Supplementary material is available online for this article.
 %% Notice that the class file automatically sets \bibliographystyle
 %% and also names the section correctly.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%\bibliographystyle{achemso}
+%%\bibliographystyle{plainnat}
 \bibliography{bibliography}
 \newpage
 %% w=3.25in, h=1.75in, scaled 1.5x: 3.25+1.625, 1.75+0.875: w=4.875, h=2.625 

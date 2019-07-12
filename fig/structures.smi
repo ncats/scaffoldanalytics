@@ -1,25 +1,25 @@
-CC1(N=C(N=C(N1OCc2ccc3ccccc3c2)N)NC(=O)c4ccc(cc4)N(=O)=O)C	536182_mol1_Fig2a_scafDD
-CC1(C)NC(N)=NC(=N)N1OCc1cccs1	Fig4a_mol_541127
-[$([#1,*])]C1([$([#1,*])])N=C([$([#1,*])])N=C([$([#1,*])])N1[$([#1,*])] |$_R1;;_R2;;;_R5;;;_R4;;_R3$,t:3,6|	Fig4a_scaf_4719
-[$([#1,*])]C1=C([$([#1,*])])SC([$([#1,*])])=C1[$([#1,*])] |$_R1;;;_R4;;;_R3;;_R2$,c:1,6|	Fig4a_scaf_89
-[*]C1=C([*])SC([*])=C1[*]	Fig4b_scaf_89
-[*]C1([*])N=C([*])N=C([*])N1[*]	Fig4b_scaf_4719
-Cc1ccccc1Cn2ccc3c2ccc4c3c(nc(n4)N)N	Fig5a_mol_541564
-c1ncccc1-c2ccc3nc([*:1])n([*:2])c3c2	Fig7_central
-c1([*])n([*])c([*])c([*])c([*])c1-c2c([*])c([*])c([*])c([*])c2	Fig7_left
-c1([*])n([*])c2c([*])c([*])c([*])cc2n1([*])	Fig7_right
-CC1(C)N=C(NC(=O)C2=CC=C(C=C2)[N+]([O-])=O)N=C(N)N1OCC3=CC4=C(C=CC=C4)C=C3	Fig8_mol_536182_top_ScafWalk
-CC1(NC(=NC(=N)N1OCc2ccc(cc2)c3ccccc3)N)C	Fig8_mol_540655_bluepink_scaf_2467
-[$([#1,*])]C(ON1C([$([#1,*])])=NC([$([#1,*])])=NC1([$([#1,*])])[$([#1,*])])C2=C([$([#1,*])])C([$([#1,*])])=C([$([#1,*])])C([$([#1,*])])=C2[$([#1,*])] |$_R1;;;;;_R5;;;_R4;;;_R2;_R3;;;_R10;;_R9;;_R8;;_R7;;_R6$,c:5,8,14,22,t:18|	Fig8_scaf_2467_pink
-[$([#1,*])]C1([$([#1,*])])N=C([$([#1,*])])N=C([$([#1,*])])N1[$([#1,*])] |$_R1;;_R2;;;_R5;;;_R4;;_R3$,t:3,6|	Fig8_scaf_4719_blue
-CC1(C)N=C(N)N=C(N)N1C2=CC(Cl)=C(Cl)C(Cl)=C2	Fig8_mol_525631_blue_scaf_4719
-[$([#1,*])]C1=C([$([#1,*])])C2=C(C([$([#1,*])])=C1[$([#1,*])])C([$([#1,*])])=C([$([#1,*])])C=C2[$([#1,*])] |$_R1;;;_R7;;;;_R3;;_R2;;_R4;;_R5;;;_R6$,c:1,4,7,15,t:12|	Fig8_scaf_978_yellow
-OCCN1CCN(CC1)C2=CC=C(NC3=C4C=C5C=CC=CC5=CC4=NC=C3)C=C2	Fig8_mol_529200_yellow_scaf_978
-NC(=N)c1ccc(cc1)-c1cc(on1)-c1cccc(c1)C(N)=N	Fig10a_542503_grey_CP0.99
-CN(C)CCn1c2ccccc2n(CC(O)c2ccc(Cl)c(Cl)c2)c1=N	Fig10a_525973_orange_PIUB_RG_high
-C(SC1=NNC(S1)c1ccccn1)c1ccccc1	Fig10a_541131_purple_PIUA_FW_high
-CC(=O)OCCn1c(=O)c2ccc3c4c(ccc(c24)c1=O)c(=O)n(CCOC(C)=O)c3=O	Fig10b_535874_orange_PIUB_RG_high
-C[C@H](Cc1ccc(OCCCCCCCOc2ccc(C[C@@H](C)NC[C@H](O)c3cccc(Cl)c3)cc2)cc1)NC[C@H](O)c1cccc(Cl)c1	Fig10b_539523_purple_PIUD_CL_high
-CC1(NC(=NC(=N)N1OCCCc2ccc(cc2Cl)Cl)N)C	Fig11c_524739
-CCN(CC)CCN(Cc1ccc(cc1)c2ccc(cc2)C#N)C(=O)Cn3c4ccccc4c(=O)nc3CCc5cccc(c5F)F	Fig11d_541941
-CN(C)CCCNCc1ccc(cc1)c2ccc(cc2)CNCCOc3ccccc3	Fig11e_531249
+CC1(N=C(N=C(N1OCc2ccc3ccccc3c2)N)NC(=O)c4ccc(cc4)N(=O)=O)C 536182_mol1_Fig2a_scafDD
+CC1(C)NC(N)=NC(=N)N1OCc1cccs1 Fig4a_mol_541127
+[$([#1,*])]C1([$([#1,*])])N=C([$([#1,*])])N=C([$([#1,*])])N1[$([#1,*])] |$_R1;;_R2;;;_R5;;;_R4;;_R3$,t:3,6| Fig4a_scaf_4719
+[$([#1,*])]C1=C([$([#1,*])])SC([$([#1,*])])=C1[$([#1,*])] |$_R1;;;_R4;;;_R3;;_R2$,c:1,6| Fig4a_scaf_89
+[*]C1=C([*])SC([*])=C1[*] Fig4b_scaf_89
+[*]C1([*])N=C([*])N=C([*])N1[*] Fig4b_scaf_4719
+Cc1ccccc1Cn2ccc3c2ccc4c3c(nc(n4)N)N Fig5a_mol_541564
+c1ncccc1-c2ccc3nc([*:1])n([*:2])c3c2 Fig7_central
+c1([*])n([*])c([*])c([*])c([*])c1-c2c([*])c([*])c([*])c([*])c2 Fig7_left
+c1([*])n([*])c2c([*])c([*])c([*])cc2n1([*]) Fig7_right
+CC1(C)N=C(NC(=O)C2=CC=C(C=C2)[N+]([O-])=O)N=C(N)N1OCC3=CC4=C(C=CC=C4)C=C3 Fig8_mol_536182_top_ScafWalk
+CC1(NC(=NC(=N)N1OCc2ccc(cc2)c3ccccc3)N)C Fig8_mol_540655_bluepink_scaf_2467
+[$([#1,*])]C(ON1C([$([#1,*])])=NC([$([#1,*])])=NC1([$([#1,*])])[$([#1,*])])C2=C([$([#1,*])])C([$([#1,*])])=C([$([#1,*])])C([$([#1,*])])=C2[$([#1,*])] |$_R1;;;;;_R5;;;_R4;;;_R2;_R3;;;_R10;;_R9;;_R8;;_R7;;_R6$,c:5,8,14,22,t:18| Fig8_scaf_2467_pink
+[$([#1,*])]C1([$([#1,*])])N=C([$([#1,*])])N=C([$([#1,*])])N1[$([#1,*])] |$_R1;;_R2;;;_R5;;;_R4;;_R3$,t:3,6| Fig8_scaf_4719_blue
+CC1(C)N=C(N)N=C(N)N1C2=CC(Cl)=C(Cl)C(Cl)=C2 Fig8_mol_525631_blue_scaf_4719
+[$([#1,*])]C1=C([$([#1,*])])C2=C(C([$([#1,*])])=C1[$([#1,*])])C([$([#1,*])])=C([$([#1,*])])C=C2[$([#1,*])] |$_R1;;;_R7;;;;_R3;;_R2;;_R4;;_R5;;;_R6$,c:1,4,7,15,t:12| Fig8_scaf_978_yellow
+OCCN1CCN(CC1)C2=CC=C(NC3=C4C=C5C=CC=CC5=CC4=NC=C3)C=C2 Fig8_mol_529200_yellow_scaf_978
+NC(=N)c1ccc(cc1)-c1cc(on1)-c1cccc(c1)C(N)=N Fig10a_542503_grey_CP0.99
+CN(C)CCn1c2ccccc2n(CC(O)c2ccc(Cl)c(Cl)c2)c1=N Fig10a_525973_orange_PIUB_RG_high
+C(SC1=NNC(S1)c1ccccn1)c1ccccc1 Fig10a_541131_purple_PIUA_FW_high
+CC(=O)OCCn1c(=O)c2ccc3c4c(ccc(c24)c1=O)c(=O)n(CCOC(C)=O)c3=O Fig10b_535874_orange_PIUB_RG_high
+C[C@H](Cc1ccc(OCCCCCCCOc2ccc(C[C@@H](C)NC[C@H](O)c3cccc(Cl)c3)cc2)cc1)NC[C@H](O)c1cccc(Cl)c1 Fig10b_539523_purple_PIUD_CL_high
+CC1(NC(=NC(=N)N1OCCCc2ccc(cc2Cl)Cl)N)C Fig11c_524739
+CCN(CC)CCN(Cc1ccc(cc1)c2ccc(cc2)C#N)C(=O)Cn3c4ccccc4c(=O)nc3CCc5cccc(c5F)F Fig11d_541941
+CN(C)CCCNCc1ccc(cc1)c2ccc(cc2)CNCCOc3ccccc3 Fig11e_531249
