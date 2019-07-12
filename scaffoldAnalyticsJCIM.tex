@@ -138,7 +138,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
   We present a method for visualizing and navigating large screening
-  datasets, taking into account their activities and properties. Our
+  datasets while also taking into account their activities and properties. Our
   approach is to annotate the data with all possible scaffolds
   contained within each molecule.  We have developed a Spotfire
   visualization, coupled to a fuzzy clustering approach based on the
@@ -214,8 +214,9 @@ scaffolds.
 
 \subsection{Related Work}
 While there are many ways to generate a set of scaffolds from a
-compound collection, a key step is to identify a relevant subset or else aggregate them in a way that leads to a {\it useful} clustering
-of active and inactive compounds. While the term ``useful'' is rather
+compound collection, a key step is to identify a relevant subset or else 
+aggregate them in a way that leads to clustering of active and inactive 
+compounds that is {\it useful} in a drug discovery context. While the term ``useful'' is rather
 subjective, it is easy to identify cases that are not actionable by chemistry teams.
 For example, 5- or 6-member undecorated rings are likely not useful since they will
 occur in the majority of compounds in a screening collection. At the
@@ -264,12 +265,6 @@ each molecule, based on the order they are selected by the user from a
 prioritized list.  The user interaction in this analysis introduces subjectivity and
 reduces repeatability.
 
-\begin{figure}
-\includegraphics[width=5.5in]{fig/singletons.png}
-\caption{Singletons in a complete-linkage clustering of the TCAMS dataset.}
-\label{fig:platypus}
-\end{figure}
-
 Assigning each molecule to a single cluster partitions the dataset into
 disparate, non-overlapping groups, also termed a hard clustering;
 agglomerative fingerprint-based clustering methods such as sphere exclusion, single and complete linkage clustering\cite{Downs2003} work this way. These methods tend to place structurally analogous molecules in different clusters where they would not be discovered as analogs of each other - see an example in Supplementary Material Section S8. 
@@ -281,6 +276,12 @@ as singletons.  Such a result can be observed in real chemical datasets
 as well -- for example, the complete-linkage clustering of the TCAMS
 dataset\cite{Gamo2010,Calderon2011} has nearly 25\% of the 2000
 clusters identified with just one compound, as shown in \fref{platypus}.
+
+\begin{figure}
+\includegraphics[width=5.5in]{fig/singletons.png}
+\caption{Singletons in a complete-linkage clustering of the TCAMS dataset.}
+\label{fig:platypus}
+\end{figure}
 
 
 In contrast to hard clustering, the methods described
@@ -318,7 +319,7 @@ assays:
 \item A {\it top-up HTS} run in 2014 with {\bf 3613} {pIC50s} from screening 350,000 compounds.
 \end{itemize}
 A fourth dataset comprises {\bf 824} so-called virtual compounds whose activity was inferred from {\it ELT}, a DNA Encoded Library screen\cite{ELT} of 130
-combinatorial libraries comprising billions of potential molecules. Triaged ELT compounds are synthesized off-DNA to check if they are indeed active. 
+combinatorial libraries comprising billions of potential molecules. Triaged ELT compounds are synthesized off-DNA to verify their activity. 
 
 The GSK Kinase dataset also contains physico-chemical properties of interest for
 developability, notably the Property Forecast Index (PFI\cite{Young2011}). 
@@ -353,7 +354,7 @@ via standard cheminformatics toolkits such as JChem\cite{JChem} or RDKit\cite{RD
 SDF conversion, activity or property columns that are not to be
 aggregated at the scaffold level should be deleted from the CSV file,
 to accelerate analysis and aggregation.  Further quirks specific to one of the methods, the NCATS R-group tool,
-will be described in the Supplementary Material in section S3.
+are described in the Supplementary Material in section S3.
 
 \subsection{Partitioning Method: Complete Linkage Clustering}
 For comparison purposes, we include the default method used at GSK to visualize groups of
@@ -422,7 +423,7 @@ latest version available at time of writing is
 tested and produces substantially similar output.
 
 When running from the command-line, ensuring 16G of memory (via
-\texttt{-Xmx16G}) enables datasets of upto ~40k compounds with a
+\texttt{-Xmx16G}) enables datasets of up to ~40k compounds with a
 handful of numeric activity columns to be analyzed without running out
 of memory. The scaffolds along with R-group tables for each scaffold
 can be exported in a set of TSV files or a single JSON file. In the
@@ -503,7 +504,7 @@ the frameworks code are provided in the Supplementary Material Section S4.
 
 Next, we describe how tabular scaffold output generated using the
 NCATS R-group tool and other comparable methods is integrated into
-Spotfire, a visualization tool of choice at many companies. 
+Spotfire, the visualization tool of choice at many companies. 
 
 \subsection{Data Table Generation and Linking}
 
@@ -512,7 +513,7 @@ Spotfire, a visualization tool of choice at many companies.
 \includegraphics[width=6in]{fig/details_all3_noSNG.png}
 \caption{Detailed schematic on how the output from clustering and
   fragmentation methods are set up as data tables and linked together
-  with the main dataset in Spofire. Right inset: schematic color-coded
+  with the main dataset in Spotfire. Right inset: schematic color-coded
   view of the scaffold-walking navigation that is loosely followed in
   this diagram.}
 \label{fig:detaildevil}
@@ -654,7 +655,7 @@ $B$ that would be reachable from $A$ alone:
 PI_A(C) = \| C_A \| / \| C_A \cup C_B \|
 \end{equation}
 
-In constrast, the Proportion of Information Unique to $A, PIU_A$ uses the set difference between $C_A$ and $C_B$ to get at the question: if I have $B$, do I still need $A$? 
+In contrast, the Proportion of Information Unique to $A, PIU_A$ uses the set difference between $C_A$ and $C_B$ to get at the question: if I have $B$, do I still need $A$? 
 
 \begin{equation}
  PIU_A(C) = \| C_A \setminus C_B \| / \| C_A \cup C_B \| = 1 - PI_B(C)
@@ -775,7 +776,7 @@ Further examples of the value of Scaffold Walking are in the Supplementary Mater
 
 Recall the concepts of structure group and common proportion defined in \sref{statmethod}, and illustrated with an example in Supplementary Material, Section S9.  Let us now apply these to analyze and compare the scaffold generation methods Frameworks (denoted $A$ below) and NCATS R-group tool ($B$), and compare $B$ with clustering method Complete-Linkage clustering ($D$).
 
-Comparing these methods for the TCAMS dataset, we show the aggregate statistics over the entire dataset in \fref{statcomparetable}.  
+Comparing these methods for the TCAMS dataset, we show the aggregate statistics over the entire dataset in \fref{statcomparetable}.  We compare the Common Proportion, Proportion of Information Unique (PIU) and Fragment Efficiency (FragEff) statistics for the NCATS R-group tool (method ``B'') with both the Frameworks (method ``A'') and the Complete Linkage Clusters (method ``D'') for all the 13.5k compounds in TCAMS in \fref{statcompare}.  This figure has the PIU of these methods on the axes, and is sized by the ratio of their Fragment Efficiencies for all 13.5k molecules.  
 
 \begin{figure}
   \begin{minipage}[c]{\linewidth}
@@ -829,13 +830,10 @@ Comparing these methods for the TCAMS dataset, we show the aggregate statistics 
 \end{figure}
 
 
-We compare the Common Proportion, Proportion of Information Unique (PIU) and Fragment Efficiency (FragEff) statistics for the NCATS R-group tool (method ``B'') with both the Frameworks (method ``A'') and the Complete Linkage Clusters (method ``D'') for all the 13.5k compounds in TCAMS in \fref{statcompare}.  This figure has the PIU of these methods on the axes, and is sized by the ratio of their Fragment Efficiencies for all 13.5k molecules.   
-
-
 
 \begin{figure}
-(a)\includegraphics[width=3.25in]{fig/statcompare_frames_RGtool_transparent_density_v3.png}
-(b)\includegraphics[width=2.5in]{fig/statcompare_CLink_RGtool_transparent_density_v2.png}
+(a)\includegraphics[width=5.25in]{fig/statcompare_frames_RGtool_transparent_density_v4.png}
+(b)\includegraphics[width=4.25in]{fig/statcompare_CLink_RGtool_transparent_density_v3.png}
   \caption{Comparison of the Common Proportion, PIU and FragEff statistics (described in the text) between the NCATS R-group Tool (``{\bf B}''),
     PIU on Y axis,
     and (a) Frameworks (method ``{\bf A}'')
@@ -847,11 +845,11 @@ We compare the Common Proportion, Proportion of Information Unique (PIU) and Fra
 
 We can make a few observations from this data and these plots:
 \begin{enumerate}
-\item {\bf Clustering (method $D$) is able to access significantly fewer molecules} as structurally related analogs for most molecules in TCAMS, compared to the overlapping scaffold-based methods $A$ and $B$ (which were comparable). Most molecules have a low Common Proportion between clustering and the scaffold-based method, shown in \fref{statcompare}(d). Almost all the information (PIU) is contributed by the scaffold method ($B$) for most molecules, not surprising when we recall the high singleton rate from \fref{platypus} where the clustering contributes no information. Even allowing for fewer (one) fragments per molecule, the partitioning cluster method still had a lower Fragment Efficiency than any scaffold-based method.  
+\item {\bf Clustering (method $D$) is able to access significantly fewer molecules} as structurally related analogs for most molecules in TCAMS, compared to the overlapping scaffold-based methods $A$ and $B$ (which were comparable). Most molecules have a low Common Proportion between clustering and the scaffold-based method, shown in \fref{statcomparetable}(d). Almost all the information (PIU) is contributed by the scaffold method ($B$) for most molecules, not surprising when we recall the high singleton rate from \fref{platypus} where the clustering contributes no information. Even allowing for fewer (one) fragments per molecule, the partitioning cluster method still had a lower Fragment Efficiency than any scaffold-based method.  
 \item The two scaffold-based methods ($A$: Frameworks and $B$: NCATS R-Group Tool) allow one to access different sets of molecules starting from any molecule in TCAMS - the average overlap in their coverage ($CP$) is 40\%, seen in Row 3 of \fref{statcomparetable}(a).  The distribution of $CP$ seen in  \fref{statcomparetable}(c) is bimodal with peaks at 0 and 55\%. The few molecules with almost complete overlap in coverage have high Common Proportion, low $PIU$ for both methods $A$ and $B$, and hence are represented by the large squares towards the bottom left of \fref{statcompare}(a). 
 \item On the average, frameworks connected to a compound add more unique information than NCATS scaffolds connected to the same compound - this is seen in the higher density near the X-axis in \fref{statcompare}(a), and higher numbers for $PIU_A$ than $PIU_B$ in  \fref{statcomparetable}.   
 \item On the average, one can link to about twice as many molecules with the frameworks, as seen by comparing $C_A$ to $C_B$ in \fref{statcomparetable}(a); however, this is because on the average there are 6 times more frameworks ($Frag_A$) than NCATS scaffolds ($Frag_B$). %, \ie NCATS scaffolds are three times more fragment-efficient for this dataset.  %, so the fragment efficiency is actually 3 times greater for NCATS scaffolds. %One could also argue that many of the framework-only links (\eg variously decorated benzene rings) are not useful.
-\item The outliers in \fref{statcompare}(a) are interesting. At one end, compounds in a rare tautomer are unified with the dominant one by the NCATS tool (high fragment efficiency), but left as singletons by the frameworks (low fragment efficiency). And compounds whose only link with other molecules would be a benzene ring or similar low complexity scaffold remain singletons with the R-group tool (lower fragment efficiency).
+\item The outliers in \fref{statcompare}(a) are interesting. At one end, compounds in a rare tautomer are unified with the dominant one by the NCATS tool (high fragment efficiency), but left as singletons by the frameworks (low fragment efficiency). In contrast, compounds whose only link with other molecules would be a benzene ring or similar low complexity scaffold remain singletons with the R-group tool (lower fragment efficiency).
 \item Singleton clusters are outliers in \fref{statcompare}(b), connected to other molecules via scaffolds but not clusters. And a minority of molecules are connected to others via clusters only, mostly those with low complexity linear scaffolds whose benzene rings were excluded from scaffold but not cluster analysis.    
 \end{enumerate}
 
@@ -875,7 +873,7 @@ We computed this NormCP measure for all compounds, which fit a normal distributi
 \begin{figure}
   (a)\includegraphics[width=4.5in]{fig/NormCP_all.png}\\
   (b)\includegraphics[width=4.5in]{fig/NormCP_top200.png}\\
-  (c)\includegraphics[width=1.8in]{fig/NormCP=42_5_pIC50=8_49_CID524739_v2.png}
+  (c)\includegraphics[width=1.7in]{fig/NormCP=42_5_pIC50=8_49_CID524739_v2.png}
   (d)\includegraphics[width=1.3in]{fig/NormCP=0_17_pIC50=8_22_CID541941_v2.png}
   (e)\includegraphics[width=1.9in]{fig/NormCP=0_16_pIC50=7_73_CID531249_v2.png}  
   \caption{(a) Normalized common proportion scores between structure (data-driven frameworks) and activity ($pIC50_{3D7}$) for all 13.5k molecules in TCAMS.  The histogram has 1000 bins and a log scale on the X-axis. The top 200 most active compounds ($pIC50_{3D7}$ > 7.6) are marked in red, and occupy many of the outlier bars with high NormCP > 10. (b) Making the distribution of the top 200 active compounds clearer by giving them a separate scale, at the RHS. (c) One of the 23 compounds with NormCP = 42.5, Compound ID 524739. (d)--(e) two active compounds with low NormCP in the 0.16-0.17 range: (d) Compound ID 541941 and (e) Compound ID 531249. For both compounds, they alone are highly active among a structure group of 96 compounds, raising the probability that these compounds are flagpoles and not worth following up as hits.}
@@ -896,7 +894,7 @@ ignores the extra information encoded in chemical structure. Thus,
 scaffold based analysis of high throughput screening datasets
 represents a truly data-driven approach to hit triage that attempts to
 make use of \emph{all} the data collected from a high throughput
-screen. Ranking scaffolds is a key step in prioritizing hits in a
+screen simultaneously. Ranking scaffolds is a key step in prioritizing hits in a
 scaffold-based approach, and while there are many ways to generate a
 ranking, it is not obvious that there is a single, optimal method.
 
@@ -907,12 +905,27 @@ for the comparison of different scaffold-based analysis schemes.
 Also, the overlapping scaffold approach described here
 avoids the phenomenon of similar molecules being arbitrarily assigned to
 exclusive clusters, which affects partitioning-based methods such as
-complete-linkage clustering.% as shown in \fref{clusterlanes}.
+complete-linkage clustering.  
+% as shown in \fref{clusterlanes}.
 Instead, using overlapping scaffolds ensures that
 molecules that differ only in decorations off a shared scaffold
 will be considered within the same group.\\
 
-{\bf Choose overlapping scaffolds over partitioning clusters:}
+{\bf Intuitive visual navigation of overlapping scaffolds:}\\ 
+We observe that the data-driven approach applied to triage the kinase ``X'' dataset
+can be a powerful tool to identify promising hits.  The Spotfire workflow
+is simple to implement and allows interactive drill-down from
+aggregate properties to individual compounds. In essence,
+the workflow described in this paper enables decisions on individual compounds
+using the aggregated data as a filter. Another advantage is that this 
+approach allows for the inclusion of ``virtual
+datasets'' with no measured activity in decision making, as highlighted in the dataset fusion use case.  Inclusion of such datasets provides an opportunity to directly highlight untested regions of
+chemical space. When multiple datasets are fused, some with more accurately measured activities, it increases confidence in noisy data by merging data for scaffolds across the
+datasets.  Furthermore, our observation has been that the interactive nature 
+of the Spotfire workflow allows project teams to collaboratively triage complex 
+datasets in a facile manner.\\
+
+{\bf Choose overlapping scaffolds over partitioning clusters:}\\
 Given the different ways to generate scaffolds and to compute
 overlapping scaffolds, a quantitative approach to characterizing
 differences in these approaches is necessary. The use of common
@@ -927,23 +940,12 @@ calculations proposed for HTS triage\cite{Posner2009},
 but with a comprehensive structural neighbor metric derived from overlapping
 scaffolds.\\
 
-{\bf Intuitive visual navigation of overlapping scaffolds:}\\ 
-We observe that the approach applied to triage the kinase ``X'' dataset
-can be a powerful tool to identify promising hits.  The Spotfire workflow
-is simple to implement and allows interactive drill-down from
-aggregate properties to individual compounds. In essence,
-the workflow described in this paper enables decisions on individual compounds
-using the aggregated data as a filter. Another advantage is the inclusion of ``virtual
-datasets'' with no measured activity in decision making, as highlighted in the dataset fusion use case.  Inclusion of such datasets provides an opportunity to directly highlight untested regions of
-chemical space. When multiple datasets are fused, some with more accurately measured activities, it increases confidence in noisy data by merging data for scaffolds across the
-datasets.\\
+
 
 {\bf Conclusion:}\\
 In summary, by combining anecdotal and statistical methods to
-compare partitioning and fuzzy clustering methods and their application to analysis of HTS datasets, we found that fuzzy clustering provides much better coverage of these datasets, and that different fuzzy clustering methods are comparable.
-Screening scientists have traditionally
-used ``chemical intuition'' to select and examine scaffolds,
-which can lead to biased scaffold selection and
+compare partitioning and fuzzy clustering methods and their application to analysis of HTS datasets, we found that fuzzy clustering provides much better coverage of these datasets, and that different fuzzy clustering methods are comparable. Screening scientists have traditionally used ``chemical intuition'' 
+to select and examine scaffolds, which can lead to biased scaffold selection and
 subsequently biased lead optimization. Our Scaffold-Based Analytics approach described in this study
 combines data and intuitive visualizations to help scientists combat such biases. 
 
