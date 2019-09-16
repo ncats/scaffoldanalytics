@@ -3,8 +3,139 @@
 
 %% Created for Guha, Rajarshi (NIH/NCATS) [C] at 2017-09-04 00:11:15 -0400 
 
+@article{GH2019GED,
+author = {Garcia-Hernandez, Carlos and FernÃ¡ndez, Alberto and Serratosa, Francesc},
+title = {Ligand-Based Virtual Screening Using Graph Edit Distance as Molecular Similarity Measure},
+journal = {Journal of Chemical Information and Modeling},
+volume = {59},
+number = {4},
+pages = {1410-1421},
+year = {2019},
+doi = {10.1021/acs.jcim.8b00820},
+    note ={PMID: 30920214},
+URL = {https://doi.org/10.1021/acs.jcim.8b00820
+},
+eprint = {https://doi.org/10.1021/acs.jcim.8b00820
+}
+,
+    abstract = { Extended reduced graphs provide summary representations of chemical structures using pharmacophore-type node descriptions to encode the relevant molecular properties. Commonly used similarity measures using reduced graphs convert these graphs into 2D vectors like fingerprints, before chemical comparisons are made. This study investigates the effectiveness of a graph-only driven molecular comparison by using extended reduced graphs along with graph edit distance methods for molecular similarity calculation as a tool for ligand-based virtual screening applications, which estimate the bioactivity of a chemical on the basis of the bioactivity of similar compounds. The results proved to be very stable and the graph editing distance method performed better than other methods previously used on reduced graphs. This is exemplified with six publicly available data sets: DUD-E, MUV, GLL\&GDD, CAPST, NRLiSt BDB, and ULS-UDS. The screening and statistical tools available on the ligand-based virtual screening benchmarking platform and the RDKit were also used. In the experiments, our method performed better than other molecular similarity methods which use array representations in most cases. Overall, it is shown that extended reduced graphs along with graph edit distance is a combination of methods that has numerous applications and can identify bioactivity similarities in a structurally diverse group of molecules. }
+}
+
+@Unpublished{SmallWorld,
+title={SmallWorld: Efficient maximum common subgraph searching of large databases},
+abstract = {We report a novel chemical database search method-based upon explicit representation of chemical space. A pre-computed index allows the exact size of the maximum common edge subgraph (MCES) between a query molecule and molecules in the index to be calculated rapidly. In practice, this allows the 100 nearest neighbors having the largest MCES to a query molecule to be determined in a few seconds even for target databases containing millions of molecules. This work builds upon the previous efforts of Wipke and Rogers in the late 1980s and of Messmer and Bunke in the 1990s, but takes advantage of the rapid advances in parallel processing power and storage technology now available to researchers. Data will be presented on the size of the index/chemical universe as a function heavy atom count and number of represented molecules.
+},
+author = {Roger Sayle and Jose Batista and Andrew Grant},
+affiliation = {NextMove Software LLC},
+details = {https://tpa.acs.org/session/244tNM/COMP/drug-discovery},
+location = {Philadelphia, Pennsylvania, USA},
+note = {244th American Chemistry Society National Meeting, Philadelphia, PA, August 19-23, 2012},
+year = {2012}
+}
+
+@Article{PPilot,
+   Author="Hassan, M.  and Brown, R. D.  and Varma-O'brien, S.  and Rogers, D. ",
+   Title="{{C}heminformatics analysis and learning in a data pipelining environment}",
+   Journal="Mol. Divers.",
+   Year="2006",
+   Volume="10",
+   Number="3",
+   Pages="283--299",
+   Month="Aug"
+}
+
+@MISC{ChEMBLNTD,
+  title = {Ch{EMBL} Neglected Tropical Disease datasets},
+  howpublished = {\url{https://chembl.gitbook.io/chembl-ntd}},
+  note = {[Dataset 1 -- compound IDs differ from {ChEMBL} and PubChem {ID}s]},
+  key = {ChEMBLNTD, online}
+}
+
+@MISC{RDKit,
+  title = {{RDK}it: Open-source cheminformatics},
+  howpublished = {\url{http://www.rdkit.org}},
+  note = {[Online; accessed 11-April-2013]},
+  key = {RDKit, online}
+}
+
+@Article{JChem,
+   Author="Csizmadia, F. ",
+   Title="{{J}{C}hem: {J}ava applets and modules supporting chemical database handling from web browsers}",
+   Journal="J Chem Inf Comput Sci",
+   Year="2000",
+   Volume="40",
+   Number="2",
+   Pages="323--324",
+   Month="Mar"
+}
+
+@Article{ELT,
+   Author="Clark, M. A.  and Acharya, R. A.  and Arico-Muendel, C. C.  and Belyanskaya, S. L.  and Benjamin, D. R.  and Carlson, N. R.  and Centrella, P. A.  and Chiu, C. H.  and Creaser, S. P.  and Cuozzo, J. W.  and Davie, C. P.  and Ding, Y.  and Franklin, G. J.  and Franzen, K. D.  and Gefter, M. L.  and Hale, S. P.  and Hansen, N. J.  and Israel, D. I.  and Jiang, J.  and Kavarana, M. J.  and Kelley, M. S.  and Kollmann, C. S.  and Li, F.  and Lind, K.  and Mataruse, S.  and Medeiros, P. F.  and Messer, J. A.  and Myers, P.  and O'Keefe, H.  and Oliff, M. C.  and Rise, C. E.  and Satz, A. L.  and Skinner, S. R.  and Svendsen, J. L.  and Tang, L.  and van Vloten, K.  and Wagner, R. W.  and Yao, G.  and Zhao, B.  and Morgan, B. A. ",
+   Title="{{D}esign, synthesis and selection of {D}{N}{A}-encoded small-molecule libraries}",
+   Journal="Nat. Chem. Biol.",
+   Year="2009",
+   Volume="5",
+   Number="9",
+   Pages="647--654",
+   Month="Sep"
+}
 
 %% Saved with string encoding Unicode (UTF-8) 
+@Unpublished{Bandyopadhyay2012ACS,
+title={{D}ynamic {SA}/reports: Analyzing current project and {HTS} data by interactive selection of frequently-occurring scaffolds},
+abstract = {Diverse compound sets, such as high-throughput screening (HTS) hit sets containing an unknown number of chemotypes, have traditionally been analyzed by clustering, nearest neighbors, or other scaffold-agnostic methods rather than by rigorous R-group analysis. Here we describe how MOE SA/Report has been applied to analyze 2-4k compound subsets of the GSK screening collection having measured activity (percent inhibition or pIC50) against one or more screened targets. Since the default scaffold auto-detection within SA/Report is tuned for datasets with many exemplars of a few scaffolds as opposed to more diverse HTS hit sets, we use an interactive scaffold selection approach. The user is allowed to pick a scaffold from the highest ranked (most frequent and largest) fragments found in the data, and frequent fragments are then found in the remaining unmapped compounds. Both these steps continue iteratively until scaffold selection is complete. We also describe how MOE SA/Report has been integrated into project data delivery mechanisms at GSK, with reports being run automatically for several projects on their current set of compounds via custom KNIME workflows.},
+author = {Deepak Bandyopadhyay},
+affiliation = {GlaxoSmithKline},
+details = {https://tpa.acs.org/session/244tNM/COMP/drug-discovery},
+location = {Philadelphia, Pennsylvania, USA},
+note = {244th American Chemistry Society National Meeting, Philadelphia, PA, August 19-23, 2012},
+year = {2012}
+}
+
+@Unpublished{Chakravorty2013IFI,
+title={On the compound annotation and cleaning the {GSK} screening collection initiative: The utility of an {I}nhibition {F}requency {I}ndex ({IFI})},
+abstract = {High throughput screening (HTS) constitutes a critical tool for the identification of lead molecules from primary screening assays for novel targets. GlaxoSmithKline (GSK) has continuously invested in the development and curation of its HTS collection to maximize the number of quality starting points for drug discovery and reduce the number of false positives from primary screens. An Inhibition Frequency Index (IFI) has been defined as a measure of promiscuity of individual compounds in HTS primary assays based upon activities tabulated over time in GSK's exhaustive screening assay tables. In this talk, we will present our analysis of the IFI profile across the GSK HTS collection. We will characterize the IFI profile with respect to desired physical properties, will discuss obvious substructures that may be less attractive as starting points, and will describe new classes of nuisance compounds revealed by our IFI analysis. In addition, we will examine the IFI of promiscuity filters described in the literature. There are many reasons why any particular molecule might display promiscuity: physical properties of the compound, properties of the target or target class, details of the assay and the assay technology and methodology. All of these factors must be considered when deciding whether to remove or retain a compound in a curated HTS collection.},
+author = {Subhas J Chakravorty and James A Chan and Juan Luengo and Nicole M Greenwood and Ioana Popa-Burke and Ricardo Macarron},
+affiliation = {GlaxoSmithKline},
+details = {https://tpa.acs.org/session/245tNM/CINF/advances-in-visualizing-and-analyzing-biomolecular-screening-data},
+location = {New Orleans, Louisiana, USA},
+note = {245th American Chemistry Society National Meeting, New Orleans, LA, April 7-11, 2013},
+year = {2013}
+}
+
+@Unpublished{RGTool,
+title={From hits to leads: Data visualization of chemical scaffolds beyond traditional {SAR} exploration},
+author = {Tyler Peryea and John Braisted and Ajit Jadhav and Rajarshi Guha and Noel Southall and Dac-Trung Nguyen},
+affiliation = {NCATS},
+details = {https://tpa.acs.org/session/245tNM/CINF/advances-in-visualizing-and-analyzing-biomolecular-screening-data},
+location = {New Orleans, Louisiana, USA},
+note = {245th American Chemistry Society National Meeting, New Orleans, LA, April 7-11, 2013},
+year = {2013}
+}
+
+@Unpublished{Richmond2013Galois,
+title={Hierarchical Fuzzy Clustering with a {G}alois Lattice},
+abstract = {A Galois lattice is a formal ontology derived from a collection of objects and their attributes. A node of the lattice corresponds to a subset of the objects sharing the same subset of the attributes and two nodes are connected if the object set of one node is a subset of the object set of the other node. This approach to structuring data has been widely used in a number of information related fields such as data mining, text mining, machine learning and knowledge management and more recently in the area of market basket analysis, where retailers seek to understand the purchasing behaviour of their customers to aid with store design and sales promotions amongst others. As an example, given a data set of consumers (object) and their transactions (attributes), a retailer can learn, via the lattice, that shampoo and conditioner are frequently bought together, so placing both products on promotion at the same time would not necessarily have a positive impact on profit.
+
+The use of Galois lattices also extends to bioinformatics but the use of these lattices in the field of chemoinformatics has been limited to the identification of privileged fragments. Here we describe an algorithm where the lattice itself, as opposed to the association rules it generates, is exploited to provide a hierarchical, fuzzy clustering that has a number of applications in chemoinformatics.
+
+In our scenario, the objects of our data set correspond to molecules and the attributes correspond to the set of all possible fragments of these molecules. A node in the Galois lattice of this data then corresponds to a set of molecules sharing a set of common fragments. The bottom of the lattice contains single molecules and all their possible fragments and each node along an upward path contains a bigger superset of molecules, clustered together on smaller subsets of common fragments.
+
+In general, Galois lattices can become large enough that the problem of mining the data becomes one of mining the lattice. To reduce the size and complexity of the lattice, we can stipulate a lower bound on the generated fragment atom count, thus reducing the number of lattice nodes and, at the same time, providing more chemically meaningful clusters. A further reduction in nodes can also be achieved by applying a minimum bound of the number of shared attributes.
+
+There are two applications we focus on, one is the generation of a hierarchical clustering that can be visually inspected and interrogated within Cytoscape, the other is the automated R-group analysis of a SAR data set. We compare the application of Galois lattices to these problems with existing methodologies. 
+
+Typically, the computational chemist will manually fragment a SAR data set using a series of substructures searches. This process can be time consuming due to the number of repeats often required to achieve the desired fragmentation. This lattice based approach provides an automated fragmentation and hierarchy, and by incorporating experimental activity data, a lattice node can be assigned an average activity. Thus when walking up the lattice, the addition of a molecule and the subsequent loss of fragments can modify the average activity of the lattice node. These changes are easily identified and can provide valuable insight to the medicinal chemist.},
+author = {Nicola Richmond},
+affiliation = {GlaxoSmithKline},
+details = {http://cisrg.shef.ac.uk/shef2013/showabstract.php?id=55},
+location = {Sheffield, UK},
+note = {6th Joint Sheffield Conference on Chemoinformatics, Sheffield, UK, July 22-24, 2013},
+year = {2013}
+}
+
+
+
 @article{Posner2009,
 abstract = {The postprocessing of high-throughput screening (HTS) results is complicated by the occurrence of false positives (inactive compounds misidentified as active by the primary screen) and false negatives (active compounds misidentified as inactive by the primary screen). An activity cutoff is frequently used to select "active" compounds from HTS data; however, this approach is insensitive to both false positives and false negatives. An alternative method that can minimize the occurrence of these artifacts will increase the efficiency of hit selection and therefore lead discovery. In this work, rather than merely using the activity of a given compound, we look at the presence and absence of activity among all compounds in its "chemical space neighborhood" to give a degree of confidence in its activity. We demonstrate that this local hit rate (LHR) analysis method outperforms hit selection based on ranking by primary screen activity values across ten diverse high throughput screens, spanning both cell-based and biochemical assay formats of varying biology and robustness. On average, the local hit rate analysis method was approximately 2.3-fold and approximately 1.3-fold more effective in identifying active compounds and active chemical series, respectively, than selection based on primary activity alone. Moreover, when applied to finding false negatives, this method was 2.3-fold better than ranking by primary activity alone. In most cases, novel hit series were identified that would have otherwise been missed. Additional uses of and observations regarding this HTS analysis approach are also discussed.},
 author = {Posner, Bruce A. and Xi, Hualin and Mills, James E J},
@@ -99,6 +230,17 @@ CONCLUSIONS: Currently used lead libraries make little use of the metabolites an
 	Year = {2013},
 	Bdsk-Url-1 = {http://dx.doi.org/10.1007/s10822-013-9641-y}}
 
+@Article{Mulrooney2013JCAMD,
+   Author="Mulrooney, C. A.  and Lahr, D. L.  and Quintin, M. J.  and Youngsaye, W.  and Moccia, D.  and Asiedu, J. K.  and Mulligan, E. L.  and Akella, L. B.  and Marcaurelle, L. A.  and Montgomery, P.  and Bittker, J. A.  and Clemons, P. A.  and Brudz, S.  and Dandapani, S.  and Duvall, J. R.  and Tolliday, N. J.  and De Souza, A. ",
+   Title="{{A}n informatic pipeline for managing high-throughput screening experiments and analyzing data from stereochemically diverse libraries}",
+   Journal="J. Comput. Aided Mol. Des.",
+   Year="2013",
+   Volume="27",
+   Number="5",
+   Pages="455--468",
+   Month="May"
+}
+
 @article{Torres2009,
 	Author = {Guadalupe J. Torres and Ram B. Basnet and Andrew H. Sung and Srinivas Mukkamala and Bernardete M},
 	Journal = {Int J Electr Comput Syst Eng},
@@ -155,7 +297,7 @@ CONCLUSIONS: Currently used lead libraries make little use of the metabolites an
 	Number = {15-16},
 	Pages = {648--655},
 	Pmid = {20570751},
-	Title = {{Getting physical in drug discovery: A contemporary perspective on solubility and hydrophobicity}},
+	Title = {{Getting Physical in Drug Discovery: A Contemporary Perspective on Solubility and Hydrophobicity}},
 	Url = {http://dx.doi.org/10.1016/j.drudis.2010.05.016},
 	Volume = {15},
 	Year = {2010},
@@ -565,7 +707,6 @@ EXPERT OPINION: The privileged scaffolds as described by the original definition
 	Date-Modified = {2016-01-05 17:13:46 +0000},
 	Journal = {Drug Discov.~Today},
 	Month = {Aug},
-	Note = {[DOI:\href{http://dx.doi.org/10.1016/j.drudis.2010.06.004}{10.1016/j.drudis.2010.06.004}] [PubMed:\href{http://www.ncbi.nlm.nih.gov/pubmed/20547243}{20547243}]},
 	Number = {15-16},
 	Pages = {630--639},
 	Title = {{{D}ata structures and computational tools for the extraction of {S}{A}{R} information from large compound sets}},
@@ -1064,7 +1205,7 @@ EXPERT OPINION: The privileged scaffolds as described by the original definition
 	Journal = {J Chem Inf Comput Sci},
 	Number = {6},
 	Pages = {2145--2156},
-	Title = {{{T}he reduced graph descriptor in virtual screening and data-driven clustering of high-throughput screening data}},
+	Title = {{{T}he {R}educed {G}raph {D}escriptor in {V}irtual {S}creening and {D}ata-driven {C}lustering of {H}igh-throughput {S}creening {D}ata}},
 	Volume = {44},
 	Year = {2004}}
 
@@ -1095,7 +1236,7 @@ EXPERT OPINION: The privileged scaffolds as described by the original definition
 
 
 @article{Barone2001,
-author = {Barone, René and Chanon, Michel},
+author = {Barone, RenÃ© and Chanon, Michel},
 title = {A New and Simple Approach to Chemical Complexity. Application to the Synthesis of Natural Products},
 journal = {J.~Chem.~Inf.~Comput.~Sci.},
 volume = {41},
@@ -1104,4 +1245,24 @@ pages = {269-272},
 year = {2001},
 doi = {10.1021/ci000145p}}
 
+
+@InBook{FBDD,
+  author = 	 {Erlanson, D.A.},
+  editor = 	 {Davies, T. and Hyv\"{o}nen, M.},
+  title = 	 {Fragment-Based Drug Discovery and X-Ray Crystallography},
+  chapter = 	 {Introduction to Fragment-Based Drug Discovery},
+  publisher = 	 {Springer},
+  year = 	 {2011},
+  OPTkey = 	 {},
+  OPTvolume = 	 {},
+  OPTnumber = 	 {},
+  series = 	 {Topics in Current Chemistry},
+  OPTtype = 	 {},
+  address = 	 {Berlin},
+  OPTedition = 	 {},
+  OPTmonth = 	 {},
+  OPTpages = 	 {},
+  OPTnote = 	 {},
+  OPTannote = 	 {}
+}
 
